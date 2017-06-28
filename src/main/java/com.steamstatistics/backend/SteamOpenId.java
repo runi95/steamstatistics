@@ -1,0 +1,68 @@
+package com.steamstatistics.backend;
+
+import org.openid4java.association.AssociationException;
+import org.openid4java.consumer.ConsumerException;
+import org.openid4java.consumer.ConsumerManager;
+import org.openid4java.consumer.VerificationResult;
+import org.openid4java.discovery.DiscoveryException;
+import org.openid4java.discovery.DiscoveryInformation;
+import org.openid4java.discovery.Identifier;
+import org.openid4java.message.AuthRequest;
+import org.openid4java.message.MessageException;
+import org.openid4java.message.ParameterList;
+
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class SteamOpenId {
+    private static final String OPENID_PROVIDER = "http://steamcommunity.com/openid";
+    private final ConsumerManager manager;
+    private final Pattern REGEX_PATTERN = Pattern.compile("(\\d+)");
+    private DiscoveryInformation discoveryInformation = null;
+
+    public SteamOpenId() {
+        this.manager = new ConsumerManager();
+        manager.setMaxAssocAttempts(0);
+        try {
+            this.discoveryInformation = manager.associate(manager.discover(OPENID_PROVIDER));
+        } catch (DiscoveryException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String login(String callbackUrl) {
+        if (this.discoveryInformation == null)
+            return null;
+
+        try {
+            AuthRequest authReq = manager.authenticate(discoveryInformation, callbackUrl);
+            return authReq.getDestinationUrl(true);
+        } catch (MessageException | ConsumerException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public String verify(String url, Map responseMap) {
+        if (discoveryInformation == null)
+            return null;
+
+        ParameterList responseList = new ParameterList(responseMap);
+        try {
+            VerificationResult verification = manager.verify(url, responseList, discoveryInformation);
+            Identifier verifiedId = verification.getVerifiedId();
+            if (verifiedId != null) {
+                String id = verifiedId.getIdentifier();
+                Matcher matcher = REGEX_PATTERN.matcher(id);
+                if (matcher.find()) {
+                    return matcher.group(1);
+                }
+            }
+        } catch (MessageException | DiscoveryException | AssociationException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
