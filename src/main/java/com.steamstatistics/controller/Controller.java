@@ -25,4 +25,9 @@ public class Controller {
     public String getTrade() {
         return "redirect:" + steamOpenId.login("http://192.168.1.174:8080/auth");
     }
+
+    @GetMapping(value="/login")
+    public String getLogin() {
+        return "login";
+    }
 }
