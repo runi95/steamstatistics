@@ -10,25 +10,25 @@ import org.openid4java.discovery.Identifier;
 import org.openid4java.message.AuthRequest;
 import org.openid4java.message.MessageException;
 import org.openid4java.message.ParameterList;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class SteamOpenId {
+
     private static final String OPENID_PROVIDER = "http://steamcommunity.com/openid";
-    private final ConsumerManager manager;
+    private final ConsumerManager manager = new ConsumerManager();
     private final Pattern REGEX_PATTERN = Pattern.compile("(\\d+)");
     private DiscoveryInformation discoveryInformation = null;
 
-    public SteamOpenId() {
-        this.manager = new ConsumerManager();
+    @PostConstruct
+    public void initializeDiscoveryInformation() throws DiscoveryException {
         manager.setMaxAssocAttempts(0);
-        try {
-            this.discoveryInformation = manager.associate(manager.discover(OPENID_PROVIDER));
-        } catch (DiscoveryException e) {
-            e.printStackTrace();
-        }
+        discoveryInformation = manager.associate(manager.discover(OPENID_PROVIDER));
     }
 
     public String login(String callbackUrl) {

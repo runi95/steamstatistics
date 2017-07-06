@@ -49,7 +49,7 @@
             </#if>
             Steam name: ${steamprofile.steamName}
         <#else>
-            <a href="/trade">
+            <a href="/auth/login">
                 <img src="/css/img/sits_02.png" alt="Steam Login">
             </a>
         </#if>
