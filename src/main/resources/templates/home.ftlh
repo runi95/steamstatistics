@@ -6,9 +6,13 @@
         <h1 class="text-danger">Welcome</h1>
     </div>
     <div class="row">
-        <a href="/trade">
-          <img src="/css/img/sits_02.png" alt="Steam Login">
-        </a>
+        <#if steamprofile ??>
+            Steam name: ${steamprofile.steamName}
+        <#else>
+            <a href="/trade">
+                <img src="/css/img/sits_02.png" alt="Steam Login">
+            </a>
+        </#if>
     </div>
 </div>
 
