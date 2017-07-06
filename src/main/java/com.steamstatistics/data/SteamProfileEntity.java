@@ -11,9 +11,6 @@ public class SteamProfileEntity {
     @Column(name = "steamid", nullable = false, updatable = true, unique = true)
     private long steamid;
 
-    @Column(name = "steamurl", nullable = false, updatable = true, unique = true)
-    private String steamurl;
-
     @ElementCollection
     @CollectionTable(name = "friends", joinColumns = @JoinColumn(name = "steamid"))
     private Set<SteamFriendEntity> steamfriends = new HashSet<>();
@@ -24,14 +21,6 @@ public class SteamProfileEntity {
 
     public void setSteamid(long steamid) {
         this.steamid = steamid;
-    }
-
-    public String getSteamurl() {
-        return steamurl;
-    }
-
-    public void setSteamurl(String steamurl) {
-        this.steamurl = steamurl;
     }
 
     public Set<SteamFriendEntity> getSteamfriends() {

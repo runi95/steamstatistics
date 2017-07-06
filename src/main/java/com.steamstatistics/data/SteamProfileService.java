@@ -20,8 +20,4 @@ public class SteamProfileService {
     public Iterable<SteamProfileEntity> getAll() {
         return steamProfileRepository.findAll();
     }
-
-    public SteamProfileEntity findBySteamurl(String steamurl) {
-        return steamProfileRepository.findBySteamurl(steamurl).orElseThrow(() -> new IllegalArgumentException());
-    }
 }
