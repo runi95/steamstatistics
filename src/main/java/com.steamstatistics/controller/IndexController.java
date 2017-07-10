@@ -41,8 +41,6 @@ public class IndexController {
             }
         }
 
-        System.out.println("steamid: " + steamid);
-        System.out.println("principal: " + principal);
         System.out.println("openIdSession: " + openIdSession.getSteamId());
 
         model.addAttribute("steamprofile", steamProfileModel);
