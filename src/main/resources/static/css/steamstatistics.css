@@ -93,6 +93,7 @@ a.profile {
 }
 
 .profileAvatar.profileHeader .playerAvatarAutoSizeInner img {
+    float: left;
     background: none;
     filter: none;
     display: block;
