@@ -48,9 +48,28 @@
             </#if>
             <#if steamprofile.privacyState != "public">
                 <div>
-                    <span class="text-warning">Warning</span>: Your account is not set to public, some functions on this website may not work!
+                    <span class="text-warning">Warning</span>: Your account is not set to public, some functions on this
+                    website may not work!
                 </div>
             </#if>
+
+            <div class="row">
+                <div class="col-xs-6 col-xs-offset-3">
+                    <div class="profileHeaderText">
+                        <span><h3>${steamprofile.steamName}</h3></span>
+                    </div>
+                    <div>
+                        ${steamprofile.onlineState}
+                        <br>
+                        ${steamprofile.stateMessage}
+                    </div>
+                    <div class="profileAvatar profileHeader ${steamprofile.onlineState}">
+                        <div class="playerAvatarAutoSizeInner">
+                            <img src="${steamprofile.avatarFull}">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="profile persona ${steamprofile.onlineState}" href="/profile">
                 <a class="profileLink" href="/profile"></a>
