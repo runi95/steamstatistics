@@ -10,7 +10,6 @@ import org.openid4java.discovery.Identifier;
 import org.openid4java.message.AuthRequest;
 import org.openid4java.message.MessageException;
 import org.openid4java.message.ParameterList;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -32,13 +31,14 @@ public class SteamOpenId {
         discoveryInformation = manager.associate(manager.discover(OPENID_PROVIDER));
     }
 
-    public String login(String callbackUrl) {
+    public AuthRequest login(String callbackUrl) {
         if (this.discoveryInformation == null)
             return null;
 
         try {
             AuthRequest authReq = manager.authenticate(discoveryInformation, callbackUrl);
-            return authReq.getDestinationUrl(true);
+
+            return authReq;
         } catch (MessageException | ConsumerException e) {
             e.printStackTrace();
         }

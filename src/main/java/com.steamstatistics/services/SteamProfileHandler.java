@@ -1,9 +1,10 @@
 package com.steamstatistics.services;
 
-import com.steamstatistics.data.SteamProfileEntity;
 import com.steamstatistics.data.SteamProfileModel;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -27,15 +28,29 @@ public class SteamProfileHandler {
         if(nodeList.item(0).getNodeName().equals("error"))
             return null;
 
-        String steamName = nodeList.item(1).getTextContent();
-        String privacyState = nodeList.item(4).getTextContent();
-        String visibilityState = nodeList.item(5).getTextContent();
-        String avatarFull = nodeList.item(8).getTextContent();
+        String steamName = nodeList.item(3).getTextContent();
+        String onlineState = nodeList.item(5).getTextContent();
+        String stateMessage = nodeList.item(7).getTextContent();
+        String privacyState = nodeList.item(9).getTextContent();
+        String visibilityState = nodeList.item(11).getTextContent();
+        String avatarIcon = nodeList.item(13).getTextContent();
+        String avatarMedium = nodeList.item(15).getTextContent();
+        String avatarFull = nodeList.item(17).getTextContent();
 
-        steamProfileEntity.setSteamid(steamid);
+        /*
+        for(int i = 0; i < nodeList.getLength(); i++) {
+            System.out.println("(" + i + "): " + nodeList.item(i).getNodeName() + " = " + nodeList.item(i).getTextContent());
+        }
+        */
+
+        steamProfileEntity.setSteamId(steamid);
         steamProfileEntity.setSteamName(steamName);
+        steamProfileEntity.setOnlineState(onlineState);
+        steamProfileEntity.setStateMessage(stateMessage);
         steamProfileEntity.setPrivacyState(privacyState);
         steamProfileEntity.setVisibilityState(visibilityState);
+        steamProfileEntity.setAvatarIcon(avatarIcon);
+        steamProfileEntity.setAvatarMedium(avatarMedium);
         steamProfileEntity.setAvatarFull(avatarFull);
 
         return steamProfileEntity;

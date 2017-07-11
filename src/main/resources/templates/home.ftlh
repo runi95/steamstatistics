@@ -1,6 +1,5 @@
 <#import "master.ftlh" as m/>
 <@m.master>
-
 <div class="container">
     <div class="row">
         <h1 class="text-danger">Welcome</h1>
@@ -24,7 +23,7 @@
 
                             <!-- Modal Body -->
                             <div class="modal-body">
-                                ${useragreement}
+                            ${useragreement}
                             </div>
 
                             <!-- Modal Footer -->
@@ -47,9 +46,31 @@
                 <!-- Modal End -->
 
             </#if>
-            Steam name: ${steamprofile.steamName}
+            <#if steamprofile.privacyState != "public">
+                <div>
+                    <span class="text-warning">Warning</span>: Your account is not set to public, some functions on this website may not work!
+                </div>
+            </#if>
+
+            <div class="profile persona ${steamprofile.onlineState}" href="/profile">
+                <a class="profileLink" href="/profile"></a>
+
+                <div class="profileAvatar ${steamprofile.onlineState}">
+                    <img src="${steamprofile.avatarIcon}">
+                </div>
+                <div>
+                ${steamprofile.steamName}
+                    <br>
+                    <span>
+                            <span>
+                                ${steamprofile.stateMessage}
+                                    <br>
+                            </span>
+                        </span>
+                </div>
+            </div>
         <#else>
-            <a href="/auth/login">
+            <a href="/login">
                 <img src="/css/img/sits_02.png" alt="Steam Login">
             </a>
         </#if>

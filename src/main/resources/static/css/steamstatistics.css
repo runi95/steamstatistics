@@ -2,14 +2,142 @@
     background-color: #4b4b4b;
 }
 
+.profile .profileAvatar {
+    float: left;
+    margin-right: 7px;
+}
+
+
+.profile {
+    text-align: left;
+    height: 42px;
+    padding: 4px 0 4px 4px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    line-height: 13px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: relative;
+    background-color: rgba( 84, 133, 183, 0.2);
+}
+
+a.profile {
+    display: block;
+}
+
+.profileLink {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+}
+
+.profile a.profileInnerLink {
+    position: relative;
+    z-index: 3;
+    color: #ffffff;
+}
+
+.profile:hover {
+    cursor: pointer;
+    background-color: rgba( 117, 204, 255, 0.3);
+}
+
+.profile .profileAvatar {
+    float: left;
+    margin-right: 7px;
+}
+
+.profile .profileContent {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.profile .playerLevel {
+    float: right;
+    margin: 4px 4px 0 0;
+}
+
+.profileAvatar {
+    width: 34px;
+    height: 34px;
+    position: relative;
+    border-radius: 0;
+    padding: 1px;
+
+}
+
+.profileAvatar.offline {
+    background: -webkit-linear-gradient( top, rgba(106,106,106,1) 5%, rgba(85,85,85,1) 95%);background: linear-gradient( to bottom, rgba(106,106,106,1) 5%, rgba(85,85,85,1) 95%);
+    filter: none;
+}
+
+.profileAvatar.offline img {
+    background: -webkit-linear-gradient( top, #515151 5%, #474747 95%);background: linear-gradient( to bottom, #515151 5%, #474747 95%);
+}
+
+.profileAvatar.online {
+    background-color: #57cbde;
+    background: -webkit-linear-gradient( top, rgba(83,164,196,1) 5%, rgba(69,128,151,1) 95%);background: linear-gradient( to bottom, rgba(83,164,196,1) 5%, rgba(69,128,151,1) 95%);
+    filter: none;
+}
+
+.profileAvatar.online img {
+    background: -webkit-linear-gradient( top, #41778f 5%, #3d697b 95%);background: linear-gradient( to bottom, #41778f 5%, #3d697b 95%);
+}
+
+.profileAvatar.in-game {
+    background-color: #90ba3c;
+    background: -webkit-linear-gradient( top, rgba(143,185,59,1) 5%, rgba(110,140,49,1) 95%);background: linear-gradient( to bottom, rgba(143,185,59,1) 5%, rgba(110,140,49,1) 95%);
+    filter: none;
+}
+
+.profileAvatar.in-game img {
+    background: -webkit-linear-gradient( top, #66812e 5%, #59702b 95%);background: linear-gradient( to bottom, #66812e 5%, #59702b 95%);
+}
+
+
+.profileAvatar.golden {
+    background-color: #e4ca63;
+    background: -webkit-linear-gradient( 145deg, #d5bf6a 10%,#ffe2a9 40%,#ba995c 52%,#ba995c 61%,#d5bf6a 85%);background: linear-gradient( 145deg, #d5bf6a 10%,#ffe2a9 40%,#ba995c 52%,#ba995c 61%,#d5bf6a 85%);
+}
+
+.profileAvatar img {
+    width: 32px;
+    height: 32px;
+    padding: 1px;
+    border-radius: 0;
+    border: none;
+}
+
+.persona, a.persona, .persona a {
+    color: #898989;
+}
+
+.persona.online, a.persona.online, .persona.online a {
+    color: #57cbde;
+}
+
+.persona.in-game, a.persona.in-game, .persona.in-game a {
+    color: #90ba3c;
+}
+
+.persona.golden, a.persona.golden, .persona.golden a {
+    color: #e4ca63;
+}
+
 html,
 body {
   height: 100%;
-  background-color: #373737;
+  background-color: #1B2838;
 }
 
 body {
-  color: #fff;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }

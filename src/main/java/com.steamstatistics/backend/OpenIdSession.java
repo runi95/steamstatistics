@@ -11,9 +11,9 @@ import java.io.Serializable;
 public class OpenIdSession implements Serializable {
     private static final long serialVersionUID = 3512561414553425L;
 
-    private String steamId;
+    private String userToken;
 
-    public String getSteamId() { return steamId; }
-    public void setSteamId(String steamId) { this.steamId = steamId; }
+    public String getUserToken() { return userToken; }
+    public void setUserToken(String userToken) { this.userToken = userToken; }
 
 }
