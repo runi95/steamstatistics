@@ -2,6 +2,62 @@
     background-color: #4b4b4b;
 }
 
+.profileHeaderBackground {
+    max-width: 976px;
+    min-height: 224px;
+    margin: 0 auto;
+    background-color: #283242;
+    /* rgb(26, 27, 31) rgb(30, 31, 38) rgb(40, 50, 66) rgb(30, 31, 38) rgb(26, 27, 31)*/
+    background: -webkit-linear-gradient( 145deg, #1a1b1f 10%,#1a1b1f 40%,#1e1f26 52%,#1a1b1f 61%,#1a1b1f 85%);
+    background: linear-gradient( 145deg, #1a1b1f 10%,#1a1b1f 40%,#1e1f26 52%,#1a1b1f 61%,#1a1b1f 85%);
+}
+
+.profileHeader {
+    position: relative;
+    max-width: 926px;
+    margin: 0 auto;
+    padding-top: 24px;
+}
+
+.profileAvatar.profileHeaderSize {
+    position: relative;
+    width: 166px;
+    height: 166px;
+}
+
+.profileHeaderContent {
+    position: relative;
+    padding-top: 8px;
+    color: #898989;
+    font-size: 13px;
+}
+
+.profileHeader .profileHeaderCenteredPersona {
+    position: absolute;
+    left: 186px;
+    right: 268px;
+    white-space: nowrap;
+}
+
+.profileHeader .personaName {
+    line-height: 40px;
+    font-size: 24px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    font-family: "Motiva Sans", Sans-serif;
+    font-weight: 200; /* thin */
+
+}
+
+.profileAvatar.profileHeader {
+    position: relative;
+    width: 166px;
+    height: 166px;
+}
+
 .profile .profileAvatar {
     float: left;
     margin-right: 7px;
@@ -39,12 +95,6 @@ a.profile {
     z-index: 2;
 }
 
-.profile a.profileInnerLink {
-    position: relative;
-    z-index: 3;
-    color: #ffffff;
-}
-
 .profile:hover {
     cursor: pointer;
     background-color: rgba( 117, 204, 255, 0.3);
@@ -72,9 +122,11 @@ a.profile {
     position: relative;
     border-radius: 0;
     padding: 1px;
+
 }
 
-.profileAvatar.profileHeader {
+.profileAvatar.profileHeader
+.playerAvatarAutoSizeInner {
     top: 2px;
     right: 2px;
     bottom: 2px;
@@ -92,12 +144,12 @@ a.profile {
     white-space: nowrap;
 }
 
-.profileAvatar.profileHeader .playerAvatarAutoSizeInner img {
+.profileAvatar.profileHeaderSize .playerAvatarAutoSizeInner img {
     float: left;
     background: none;
     filter: none;
     display: block;
-    padding: 0;
+    padding: 1px;
     width: 100%;
     height: 100%;
 }
