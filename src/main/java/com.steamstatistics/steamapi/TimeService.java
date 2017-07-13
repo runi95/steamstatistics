@@ -1,6 +1,8 @@
 package com.steamstatistics.steamapi;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -9,8 +11,8 @@ public class TimeService {
     public static void main(String[] args) {
         TimeService timeService = new TimeService();
         System.out.println(timeService.getCurrentUnixTime());
-        System.out.println(timeService.getLastMonthUnixTime());
-        System.out.println(timeService.getLastWeekUnixTime());
+        System.out.println("Last Month in calendar: " + timeService.getLastMonthUnixTime());
+        System.out.println("Last Wweek in calendar: " + timeService.getLastWeekUnixTime());
     }
 
     public static final int dayInSeconds = 86400;
@@ -20,18 +22,16 @@ public class TimeService {
     }
 
     public long getLastMonthUnixTime() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -1);
-        Date lastMonth = calendar.getTime();
+        LocalDateTime localDateTime = LocalDateTime.now(ZoneOffset.UTC).minusMonths(1);
+        localDateTime.toEpochSecond(ZoneOffset.UTC);
 
-        return (lastMonth.getTime() / 1000);
+        return localDateTime.toEpochSecond(ZoneOffset.UTC);
     }
 
     public long getLastWeekUnixTime() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, -7);
-        Date lastWeek = calendar.getTime();
+        LocalDateTime localDateTime = LocalDateTime.now(ZoneOffset.UTC).minusWeeks(1);
+        localDateTime.toEpochSecond(ZoneOffset.UTC);
 
-        return (lastWeek.getTime() / 1000);
+        return localDateTime.toEpochSecond(ZoneOffset.UTC);
     }
 }
