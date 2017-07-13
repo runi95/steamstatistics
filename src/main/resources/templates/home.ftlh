@@ -8,10 +8,10 @@
         <#if steamprofile??>
             <#if !steamprofilestats??>
             </#if>
-            <#if steamprofile.privacyState != "public">
+            <#if steamprofile.privacyState != "1">
                 <div>
-                    <span class="text-warning">Warning</span>: Your account is not set to public, some functions on this
-                    website may not work!
+                    <dd><span class="text-danger">Warning</span>: Your account is not set to public, some functions on this
+                    website may not work!</dd>
                 </div>
             </#if>
             <div class="row">
@@ -22,10 +22,9 @@
                                 <div class="personaName">
                                     <span class="actualPersonaName" style="font-size: 24px;">${steamprofile.steamName}</span>
                                 </div>
+                                    <span>Friends Gained (this month): <span class="${steamfriends.monthIndex}">${steamfriends.friendsGainedLastMonth}</span></span>
                                     <br>
-                                    <span>${steamprofile.onlineState}</span>
-                                    <br>
-                                    <span>${steamprofile.stateMessage}</span>
+                                    <span>Friends Gained (this week): <span class="${steamfriends.weekIndex}">${steamfriends.friendsGainedLastWeek}</span></span>
                             </div>
                             <div class="profileAvatar profileHeaderSize ${steamprofile.onlineState}">
                                 <div class="playerAvatarAutoSizeInner">

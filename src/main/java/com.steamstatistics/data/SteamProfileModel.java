@@ -1,7 +1,7 @@
 package com.steamstatistics.data;
 
 public class SteamProfileModel {
-    private String steamId, steamName, onlineState, stateMessage, privacyState, visibilityState, avatarIcon, avatarMedium, avatarFull;
+    private String steamId, steamName, onlineState, privacyState, visibilityState, avatarIcon, avatarMedium, avatarFull;
 
     public String getSteamId() {
         return steamId;
@@ -26,10 +26,6 @@ public class SteamProfileModel {
     public void setOnlineState(String onlineState) {
         this.onlineState = onlineState;
     }
-
-    public String getStateMessage() { return stateMessage; }
-
-    public void setStateMessage(String stateMessage) { this.stateMessage = stateMessage; }
 
     public String getPrivacyState() {
         return privacyState;

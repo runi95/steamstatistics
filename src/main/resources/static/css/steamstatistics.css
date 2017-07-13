@@ -2,6 +2,18 @@
     background-color: #4b4b4b;
 }
 
+.positive {
+    color: #90ba3c;
+}
+
+.neutral {
+    color: #898989;
+}
+
+.negative {
+    color: #ba3c90;
+}
+
 .profileHeaderBackground {
     max-width: 976px;
     min-height: 224px;

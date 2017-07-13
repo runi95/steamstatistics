@@ -1,9 +1,13 @@
 package com.steamstatistics.controller;
 
+import com.steamstatistics.backend.SteamOpenIdConfig;
 import com.steamstatistics.data.SteamProfileEntity;
 import com.steamstatistics.data.SteamProfileModel;
 import com.steamstatistics.data.SteamProfileService;
-import com.steamstatistics.services.SteamProfileHandler;
+import com.steamstatistics.steamapi.SteamAPICaller;
+import com.steamstatistics.steamapi.SteamFriends;
+import com.steamstatistics.steamapi.SteamHandler;
+import com.steamstatistics.steamapi.TimeService;
 import com.steamstatistics.userauth.SteamUserDetailsService;
 import com.steamstatistics.userauth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
+import java.util.HashMap;
 
 @Controller
 public class IndexController {
@@ -23,7 +28,12 @@ public class IndexController {
     @Autowired
     SteamUserDetailsService steamUserDetailsService;
 
-    SteamProfileHandler steamProfileHandler = new SteamProfileHandler();
+    @Autowired
+    SteamOpenIdConfig steamOpenIdConfig;
+
+    SteamAPICaller steamAPICaller = new SteamAPICaller();
+
+    SteamHandler steamHandler = new SteamHandler();
 
     private final String userAgreement = "This website stores information about your steam profile and friends list to keep up to date, by clicking accept you agree to let us gather and store information from your steam profile. Users can delete the stored data at any given time by logging in through the Steam again and clicking the delete button. The information gathered will be public information from your steam profile which means this site can't function if your profile is on private. Click accept to continue";
 
@@ -39,6 +49,8 @@ public class IndexController {
 
         SteamProfileModel steamProfileModel = null;
         SteamProfileEntity steamProfileEntity = null;
+        SteamFriends steamFriends = null;
+        HashMap<String, SteamProfileModel> steamProfiles = null;
         if(steamid != null && !steamid.isEmpty()) {
 
             Long steamidlong = null;
@@ -52,10 +64,17 @@ public class IndexController {
                 steamProfileEntity = steamProfileService.get(steamidlong);
             }
 
-            steamProfileModel = steamProfileHandler.getProfile(steamid);
+            steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
+            steamProfiles = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsStringList()));
+            steamProfileModel = steamProfiles.get(steamid);
+            if(steamProfileModel != null) {
+                System.out.println(steamProfileModel.getPrivacyState());
+                System.out.println(steamProfileModel.getOnlineState());
+            }
         }
 
         model.addAttribute("steamprofile", steamProfileModel);
+        model.addAttribute("steamfriends", steamFriends);
         model.addAttribute("steamprofilestats", steamProfileEntity);
         model.addAttribute("useragreement", userAgreement);
 

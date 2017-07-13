@@ -42,7 +42,14 @@ public class SteamAPICaller {
             parsedSteamids += "," + steamids[i];
         }
 
-        String read = readUrl("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apikey + "&steamids=" + parsedSteamids);
+        return getPlayerSummaries(apikey, parsedSteamids);
+    }
+
+    public List<Map<String, Object>> getPlayerSummaries(String apikey, String steamid) {
+        if (steamid == null || steamid.isEmpty())
+            return null;
+
+        String read = readUrl("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apikey + "&steamids=" + steamid);
 
         Map<String, Object> json = parseJson(read);
         Map<String, Object> response = (Map) json.get("response");
