@@ -1,13 +1,12 @@
 package com.steamstatistics.data;
 
 import javax.persistence.Embeddable;
-import java.sql.Date;
 
 @Embeddable
 public class SteamFriendEntity {
 
     private String name, url, avatarurl;
-    private Date addDate, removeDate;
+    private long addDate, removeDate;
 
     public String getName() {
         return name;
@@ -33,19 +32,19 @@ public class SteamFriendEntity {
         this.avatarurl = avatarurl;
     }
 
-    public Date getAddDate() {
+    public long getAddDate() {
         return addDate;
     }
 
-    public void setAddDate(Date addDate) {
+    public void setAddDate(long addDate) {
         this.addDate = addDate;
     }
 
-    public Date getRemoveDate() {
+    public long getRemoveDate() {
         return removeDate;
     }
 
-    public void setRemoveDate(Date removeDate) {
+    public void setRemoveDate(long removeDate) {
         this.removeDate = removeDate;
     }
 }
