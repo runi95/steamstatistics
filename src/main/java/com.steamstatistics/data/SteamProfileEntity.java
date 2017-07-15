@@ -19,9 +19,16 @@ public class SteamProfileEntity {
     @Column(name = "updatedate", nullable = true, updatable = true)
     private Timestamp lastupdate;
 
+    @Column(name = "creationdate", nullable = false)
+    private Timestamp creationdate;
+
     @ElementCollection
     @CollectionTable(name = "friends", joinColumns = @JoinColumn(name = "steamid"))
     private Set<SteamFriendEntity> steamfriends = new HashSet<>();
+
+    public SteamProfileEntity(long creationdate) {
+        this.creationdate = new Timestamp(creationdate);
+    }
 
     public long getSteamid() {
         return steamid;
@@ -46,4 +53,6 @@ public class SteamProfileEntity {
     public Timestamp getLastupdate() { return lastupdate; }
 
     public void setLastupdate(Timestamp lastupdate) { this.lastupdate = lastupdate; }
+
+    public Timestamp getCreationdate() { return creationdate; }
 }
