@@ -1,6 +1,8 @@
 package com.steamstatistics.data;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +15,9 @@ public class SteamProfileEntity {
 
     @Column(name = "authtoken", nullable = false, updatable = true, unique = true)
     private String authtoken;
+
+    @Column(name = "updatedate", nullable = true, updatable = true)
+    private Timestamp lastupdate;
 
     @ElementCollection
     @CollectionTable(name = "friends", joinColumns = @JoinColumn(name = "steamid"))
@@ -37,4 +42,8 @@ public class SteamProfileEntity {
     public void setSteamfriends(Set<SteamFriendEntity> steamfriends) {
         this.steamfriends = steamfriends;
     }
+
+    public Timestamp getLastupdate() { return lastupdate; }
+
+    public void setLastupdate(Timestamp lastupdate) { this.lastupdate = lastupdate; }
 }
