@@ -5,31 +5,87 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class SteamFriendEntity {
 
-    private String name, url, avatarurl;
+    private String steamid, personaname, profileurl, avatar, avatarmedium, avatarfull, personastate, communityvisibilitystate, profilestate, lastlogoff;
     private long addDate, removeDate;
 
-    public String getName() {
-        return name;
+    public String getSteamid() {
+        return steamid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSteamid(String steamid) {
+        this.steamid = steamid;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPersonaname() {
+        return personaname;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPersonaname(String personaname) {
+        this.personaname = personaname;
     }
 
-    public String getAvatarurl() {
-        return avatarurl;
+    public String getProfileurl() {
+        return profileurl;
     }
 
-    public void setAvatarurl(String avatarurl) {
-        this.avatarurl = avatarurl;
+    public void setProfileurl(String profileurl) {
+        this.profileurl = profileurl;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAvatarmedium() {
+        return avatarmedium;
+    }
+
+    public void setAvatarmedium(String avatarmedium) {
+        this.avatarmedium = avatarmedium;
+    }
+
+    public String getAvatarfull() {
+        return avatarfull;
+    }
+
+    public void setAvatarfull(String avatarfull) {
+        this.avatarfull = avatarfull;
+    }
+
+    public String getPersonastate() {
+        return personastate;
+    }
+
+    public void setPersonastate(String personastate) {
+        this.personastate = personastate;
+    }
+
+    public String getCommunityvisibilitystate() {
+        return communityvisibilitystate;
+    }
+
+    public void setCommunityvisibilitystate(String communityvisibilitystate) {
+        this.communityvisibilitystate = communityvisibilitystate;
+    }
+
+    public String getProfilestate() {
+        return profilestate;
+    }
+
+    public void setProfilestate(String profilestate) {
+        this.profilestate = profilestate;
+    }
+
+    public String getLastlogoff() {
+        return lastlogoff;
+    }
+
+    public void setLastlogoff(String lastlogoff) {
+        this.lastlogoff = lastlogoff;
     }
 
     public long getAddDate() {
