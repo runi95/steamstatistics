@@ -3,7 +3,7 @@ package com.steamstatistics.steamapi;
 public class SteamFriends {
     private int friendsGainedLastMonth, friendsGainedLastWeek;
     private String monthIndex, weekIndex;
-    private String friendsStringList;
+    private String[] friendsList;
 
     public int getFriendsGainedLastMonth() {
         return friendsGainedLastMonth;
@@ -41,11 +41,11 @@ public class SteamFriends {
         return weekIndex;
     }
 
-    public String getFriendsStringList() {
-        return friendsStringList;
+    public String[] getFriendsList() {
+        return friendsList;
     }
 
-    public void setFriendsStringList(String friendsStringList) {
-        this.friendsStringList = friendsStringList;
+    public void setFriendsList(String[] friendsList) {
+        this.friendsList = friendsList;
     }
 }

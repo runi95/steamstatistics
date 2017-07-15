@@ -7,7 +7,6 @@ import com.steamstatistics.data.SteamProfileService;
 import com.steamstatistics.steamapi.SteamAPICaller;
 import com.steamstatistics.steamapi.SteamFriends;
 import com.steamstatistics.steamapi.SteamHandler;
-import com.steamstatistics.steamapi.TimeService;
 import com.steamstatistics.userauth.SteamUserDetailsService;
 import com.steamstatistics.userauth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,37 +36,37 @@ public class IndexController {
 
     private final String userAgreement = "This website stores information about your steam profile and friends list to keep up to date, by clicking accept you agree to let us gather and store information from your steam profile. Users can delete the stored data at any given time by logging in through the Steam again and clicking the delete button. The information gathered will be public information from your steam profile which means this site can't function if your profile is on private. Click accept to continue";
 
-    @GetMapping(value="/")
+    @GetMapping(value = "/")
     public String getHomepage(@CookieValue(value = "token", required = false) String token, Model model, Principal principal) {
         String steamid = null;
 
-        if(token != null && !token.isEmpty()) {
+        if (token != null && !token.isEmpty()) {
             steamid = steamUserDetailsService.loadUserByUsername(token).getSteamId();
-        } else if(principal != null) {
+        } else if (principal != null) {
             steamid = steamUserDetailsService.loadUserByUsername(principal.getName()).getSteamId();
         }
 
-        SteamProfileModel steamProfileModel = null;
         SteamProfileEntity steamProfileEntity = null;
+        SteamProfileModel steamProfileModel = null;
         SteamFriends steamFriends = null;
         HashMap<String, SteamProfileModel> steamProfiles = null;
-        if(steamid != null && !steamid.isEmpty()) {
+        if (steamid != null && !steamid.isEmpty()) {
 
             Long steamidlong = null;
-            try{
+            try {
                 steamidlong = Long.parseLong(steamid);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
 
-            if(steamidlong != null) {
+            if (steamidlong != null && steamProfileEntity == null) {
                 steamProfileEntity = steamProfileService.get(steamidlong);
             }
 
             steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
-            steamProfiles = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsStringList()));
+            steamProfiles = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()));
             steamProfileModel = steamProfiles.get(steamid);
-            if(steamProfileModel != null) {
+            if (steamProfileModel != null) {
                 System.out.println(steamProfileModel.getPrivacyState());
                 System.out.println(steamProfileModel.getOnlineState());
             }
@@ -81,9 +80,9 @@ public class IndexController {
         return "home";
     }
 
-    @GetMapping(value="/profile/accept")
+    @GetMapping(value = "/profile/accept")
     public String acceptTerms(Principal principal) {
-        if(principal != null) {
+        if (principal != null) {
             UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(principal.getName());
             SteamProfileEntity steamProfileEntity = new SteamProfileEntity();
             steamProfileEntity.setSteamid(Long.parseLong(userPrincipal.getSteamId()));
@@ -94,7 +93,7 @@ public class IndexController {
         return "test";
     }
 
-    @GetMapping(value="/test")
+    @GetMapping(value = "/test")
     public String getTestPage() {
         return "test";
     }

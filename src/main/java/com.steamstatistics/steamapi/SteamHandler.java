@@ -13,12 +13,11 @@ public class SteamHandler {
         SteamFriends steamFriends = new SteamFriends();
 
         long lastMonth = timeService.getLastMonthUnixTime(), lastWeek = timeService.getLastWeekUnixTime();
-        int gainedMonth = 0, gainedWeek = 0;
-        StringBuilder stringBuilder = new StringBuilder();
+        int gainedMonth = 0, gainedWeek = 0, index = 0;
+        String[] steamids = new String[friends.size() + 1];
 
         for (Map<String, Object> map : friends) {
-            stringBuilder.append((String) map.get("steamid"));
-            stringBuilder.append(",");
+            steamids[index++] = (String) map.get("steamid");
             int friendSince = (int) map.get("friend_since");
             if (friendSince > lastWeek) {
                 gainedWeek++;
@@ -27,9 +26,9 @@ public class SteamHandler {
                 gainedMonth++;
             }
         }
-        stringBuilder.append(steamid);
+        steamids[index] = steamid;
 
-        steamFriends.setFriendsStringList(stringBuilder.toString());
+        steamFriends.setFriendsList(steamids);
         steamFriends.setFriendsGainedLastMonth(gainedMonth);
         steamFriends.setFriendsGainedLastWeek(gainedWeek);
 
