@@ -1,9 +1,7 @@
 package com.steamstatistics.controller;
 
 import com.steamstatistics.backend.SteamOpenIdConfig;
-import com.steamstatistics.data.SteamProfileEntity;
-import com.steamstatistics.data.SteamProfileModel;
-import com.steamstatistics.data.SteamProfileService;
+import com.steamstatistics.data.*;
 import com.steamstatistics.steamapi.SteamAPICaller;
 import com.steamstatistics.steamapi.SteamFriends;
 import com.steamstatistics.steamapi.SteamHandler;
@@ -31,6 +29,9 @@ public class IndexController {
     @Autowired
     SteamOpenIdConfig steamOpenIdConfig;
 
+    @Autowired
+    SteamFriendService steamFriendService;
+
     SteamAPICaller steamAPICaller = new SteamAPICaller();
 
     SteamHandler steamHandler = new SteamHandler();
@@ -50,9 +51,8 @@ public class IndexController {
         }
 
         SteamProfileEntity steamProfileEntity = null;
-        SteamProfileModel steamProfileModel = null;
+        SteamFriendEntity steamFriendEntity = null;
         SteamFriends steamFriends = null;
-        HashMap<String, SteamProfileModel> steamProfiles = null;
         if (steamid != null && !steamid.isEmpty()) {
 
             Long steamidlong = null;
@@ -67,15 +67,21 @@ public class IndexController {
             }
 
             steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
-            steamProfiles = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()));
-            steamProfileModel = steamProfiles.get(steamid);
-            if (steamProfileModel != null) {
-                System.out.println(steamProfileModel.getPrivacyState());
-                System.out.println(steamProfileModel.getOnlineState());
+            steamHandler.processSteamProfiles(steamidlong, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()), steamFriends.getFriendsList());
+            steamFriendEntity = steamFriends.getFriendsList().get(steamid);
+            /*for(SteamFriendEntity steamFriend : steamFriends.getFriendsList().values()) {
+                System.out.println("friendsince: " + steamFriend.getFriendsince());
+            } */
+
+            steamFriendService.updateFriendsList(steamFriends.getFriendsList());
+
+            if (steamFriendEntity != null) {
+                System.out.println(steamFriendEntity.getProfilestate());
+                System.out.println(steamFriendEntity.getPersonastate());
             }
         }
 
-        model.addAttribute("steamprofile", steamProfileModel);
+        model.addAttribute("steamprofile", steamFriendEntity);
         model.addAttribute("steamfriends", steamFriends);
         model.addAttribute("steamprofilestats", steamProfileEntity);
         model.addAttribute("useragreement", userAgreement);

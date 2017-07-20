@@ -1,5 +1,6 @@
 package com.steamstatistics.steamapi;
 
+import com.steamstatistics.data.SteamFriendEntity;
 import org.springframework.boot.json.JacksonJsonParser;
 
 import java.io.BufferedReader;
@@ -7,9 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SteamAPICaller {
 
@@ -33,26 +32,27 @@ public class SteamAPICaller {
         return friends;
     }
 
-    public List<Map<String, Object>> getPlayerSummaries(String apikey, String[] steamids) {
-        if (steamids == null || steamids.length < 1)
+    public List<Map<String, Object>> getPlayerSummaries(String apikey, Map<Long, SteamFriendEntity> steamids) {
+        if (steamids == null || steamids.isEmpty())
             return null;
 
-        int index = 0;
         List<Map<String, Object>> friendsList = null;
+        Iterator<Long> iterator = steamids.keySet().iterator();
 
-        while(index < steamids.length) {
-            String parsedSteamids = steamids[index];
+        while(iterator.hasNext()) {
+            String parsedSteamids = Long.toString(iterator.next());
 
-            for (int i = 1 + index; i < steamids.length && i < 100 + index; i++) {
-                parsedSteamids += "," + steamids[i];
+            int i = 0;
+            while (iterator.hasNext() && i < 100) {
+                parsedSteamids += "," + Long.toString(iterator.next());
+                i++;
             }
+
             if(friendsList == null) {
                 friendsList = getPlayerSummaries(apikey, parsedSteamids);
             } else {
                 friendsList.addAll(getPlayerSummaries(apikey, parsedSteamids));
             }
-
-            index += 100;
         }
 
         return friendsList;

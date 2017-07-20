@@ -1,19 +1,68 @@
 package com.steamstatistics.data;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
-@Embeddable
+@Entity
+@Table(name="steamfriend")
+@IdClass(SteamFriendEntityKey.class)
 public class SteamFriendEntity {
 
-    private String steamid, personaname, profileurl, avatar, avatarmedium, avatarfull, personastate, communityvisibilitystate, profilestate, lastlogoff;
-    private long addDate, removeDate;
+    @Id
+    @Column(name="steamid", updatable = true, nullable = false)
+    private long steamid;
 
-    public String getSteamid() {
+    @Id
+    @Column(name="steamfriendid", updatable = true, unique = true, nullable = false)
+    private long steamfriendid;
+
+    @Column(name="personname")
+    private String personaname;
+
+    @Column(name="profileurl")
+    private String  profileurl;
+
+    @Column(name="avatar")
+    private String avatar;
+
+    @Column(name="avatarmedium")
+    private String avatarmedium;
+
+    @Column(name="avatarfull")
+    private String avatarfull;
+
+    @Column(name="personastate")
+    private String personastate;
+
+    @Column(name="communityvisibilitystate")
+    private String communityvisibilitystate;
+
+    @Column(name="profilestate")
+    private String profilestate;
+
+    @Column(name="lastlogoff")
+    private long lastlogoff;
+
+    @Transient
+    private long friendsince;
+
+    @Column(name="adddate")
+    private long addDate;
+
+    @Column(name="removedate")
+    private long removeDate;
+
+    public long getSteamid() {
         return steamid;
     }
 
-    public void setSteamid(String steamid) {
+    public void setSteamid(long steamid) {
         this.steamid = steamid;
+    }
+
+    public long getSteamfriendid() { return steamfriendid; }
+
+    public void setSteamfriendid(long steamfriendid) {
+        this.steamfriendid = steamfriendid;
     }
 
     public String getPersonaname() {
@@ -68,9 +117,7 @@ public class SteamFriendEntity {
         return communityvisibilitystate;
     }
 
-    public void setCommunityvisibilitystate(String communityvisibilitystate) {
-        this.communityvisibilitystate = communityvisibilitystate;
-    }
+    public void setCommunityvisibilitystate(String communityvisibilitystate) { this.communityvisibilitystate = communityvisibilitystate; }
 
     public String getProfilestate() {
         return profilestate;
@@ -80,13 +127,17 @@ public class SteamFriendEntity {
         this.profilestate = profilestate;
     }
 
-    public String getLastlogoff() {
+    public long getLastlogoff() {
         return lastlogoff;
     }
 
-    public void setLastlogoff(String lastlogoff) {
+    public void setLastlogoff(long lastlogoff) {
         this.lastlogoff = lastlogoff;
     }
+
+    public long getFriendsince() { return friendsince; }
+
+    public void setFriendsince(long friendsince) { this.friendsince = friendsince; }
 
     public long getAddDate() {
         return addDate;

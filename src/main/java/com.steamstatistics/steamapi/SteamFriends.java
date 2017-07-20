@@ -1,9 +1,13 @@
 package com.steamstatistics.steamapi;
 
+import com.steamstatistics.data.SteamFriendEntity;
+
+import java.util.Map;
+
 public class SteamFriends {
     private int friendsGainedLastMonth, friendsGainedLastWeek;
     private String monthIndex, weekIndex;
-    private String[] friendsList;
+    private Map<Long, SteamFriendEntity> friendsList;
 
     public int getFriendsGainedLastMonth() {
         return friendsGainedLastMonth;
@@ -41,11 +45,11 @@ public class SteamFriends {
         return weekIndex;
     }
 
-    public String[] getFriendsList() {
-        return friendsList;
-    }
+    public Map<Long, SteamFriendEntity> getFriendsList() { return friendsList; }
 
-    public void setFriendsList(String[] friendsList) {
+    public void setFriendsList(Map<Long, SteamFriendEntity> friendsList) {
         this.friendsList = friendsList;
     }
+
+    public void addToFriendsList(SteamFriendEntity steamFriendEntity) { friendsList.put(steamFriendEntity.getSteamfriendid(), steamFriendEntity); }
 }

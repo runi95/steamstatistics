@@ -1,5 +1,7 @@
 package com.steamstatistics.steamapi;
 
+import com.steamstatistics.data.SteamFriendEntity;
+import com.steamstatistics.data.SteamFriendService;
 import com.steamstatistics.data.SteamProfileModel;
 
 import java.util.HashMap;
@@ -14,11 +16,17 @@ public class SteamHandler {
 
         long lastMonth = timeService.getLastMonthUnixTime(), lastWeek = timeService.getLastWeekUnixTime();
         int gainedMonth = 0, gainedWeek = 0, index = 0;
-        String[] steamids = new String[friends.size() + 1];
+        HashMap<Long, SteamFriendEntity> steamFriendsList = new HashMap<>();
 
         for (Map<String, Object> map : friends) {
-            steamids[index++] = (String) map.get("steamid");
+            Long friendsteamid = Long.parseLong((String) map.get("steamid"));
             int friendSince = (int) map.get("friend_since");
+            SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
+            steamFriendEntity.setSteamfriendid(friendsteamid);
+            steamFriendEntity.setFriendsince(friendSince);
+
+            steamFriendsList.put(friendsteamid, steamFriendEntity);
+
             if (friendSince > lastWeek) {
                 gainedWeek++;
                 gainedMonth++;
@@ -26,36 +34,35 @@ public class SteamHandler {
                 gainedMonth++;
             }
         }
-        steamids[index] = steamid;
 
-        steamFriends.setFriendsList(steamids);
+        steamFriends.setFriendsList(steamFriendsList);
         steamFriends.setFriendsGainedLastMonth(gainedMonth);
         steamFriends.setFriendsGainedLastWeek(gainedWeek);
+        steamFriends.setFriendsList(steamFriendsList);
 
         return steamFriends;
     }
 
-    public HashMap<String, SteamProfileModel> processSteamProfiles(List<Map<String, Object>> profiles) {
-        HashMap<String, SteamProfileModel> hashMap = new HashMap<>();
-
+    public void processSteamProfiles(Long steamid, List<Map<String, Object>> profiles, Map<Long, SteamFriendEntity> friendsList) {
         for(Map<String, Object> map : profiles) {
-            SteamProfileModel steamProfileModel = processSteamProfile(map);
-            hashMap.put(steamProfileModel.getSteamId(), steamProfileModel);
+            processSteamProfile(steamid, map, friendsList);
         }
-
-        return hashMap;
     }
 
-    public SteamProfileModel processSteamProfile(Map<String, Object> profile) {
-        SteamProfileModel steamProfileModel = new SteamProfileModel();
+    public void processSteamProfile(Long steamid, Map<String, Object> profile, Map<Long, SteamFriendEntity> friendsList) {
+        Long steamFriendid = Long.parseLong((String) profile.get("steamid"));
+        SteamFriendEntity steamFriendEntity = friendsList.get(steamFriendid);
 
-        steamProfileModel.setSteamId((String) profile.get("steamid"));
-        steamProfileModel.setSteamName((String) profile.get("personaname"));
-        steamProfileModel.setAvatarIcon((String) profile.get("avatar"));
-        steamProfileModel.setAvatarMedium((String) profile.get("avatarmedium"));
-        steamProfileModel.setAvatarFull((String) profile.get("avatarfull"));
-        steamProfileModel.setVisibilityState(Integer.toString((int)profile.get("communityvisibilitystate")));
-        steamProfileModel.setPrivacyState(Integer.toString((int)profile.get("profilestate")));
+        steamFriendEntity.setSteamid(steamid);
+        steamFriendEntity.setSteamfriendid(steamFriendid);
+        steamFriendEntity.setPersonaname((String) profile.get("personaname"));
+        steamFriendEntity.setProfileurl((String) profile.get("profileurl"));
+        steamFriendEntity.setAvatar((String) profile.get("avatar"));
+        steamFriendEntity.setAvatarmedium((String) profile.get("avatarmedium"));
+        steamFriendEntity.setAvatarfull((String) profile.get("avatarfull"));
+        steamFriendEntity.setCommunityvisibilitystate(Integer.toString((int)profile.get("communityvisibilitystate")));
+        steamFriendEntity.setProfilestate(Integer.toString((int)profile.get("profilestate")));
+        steamFriendEntity.setLastlogoff((Integer) profile.get("lastlogoff"));
 
         String onlineState = null;
         switch((int)profile.get("personastate")) {
@@ -72,8 +79,6 @@ public class SteamHandler {
                 break;
         }
 
-        steamProfileModel.setOnlineState(onlineState);
-
-        return steamProfileModel;
+        steamFriendEntity.setPersonastate(onlineState);
     }
 }

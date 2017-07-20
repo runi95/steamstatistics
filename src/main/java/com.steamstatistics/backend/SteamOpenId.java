@@ -62,6 +62,7 @@ public class SteamOpenId {
                 }
             }
         } catch (MessageException | DiscoveryException | AssociationException e) {
+            //TODO: When steam servers are down this returns "org.openid4java.discovery.yadis.YadisException: 0x704: I/O transport error: Read timed out" on manager.verify
             e.printStackTrace();
         }
         return null;
