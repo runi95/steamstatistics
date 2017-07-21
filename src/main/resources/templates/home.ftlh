@@ -8,7 +8,7 @@
         <#if steamprofile??>
             <#if !steamprofilestats??>
             </#if>
-            <#if steamprofile.privacyState != "1">
+            <#if steamprofile.communityvisibilitystate != "3">
                 <div>
                     <dd><span class="text-danger">Warning</span>: Your account is not set to public, some functions on this
                     website may not work!</dd>
@@ -20,15 +20,15 @@
                         <div class="profileHeaderContent">
                             <div class="profileHeaderCenteredPersona" style="text-align: left;">
                                 <div class="personaName">
-                                    <span class="actualPersonaName" style="font-size: 24px;">${steamprofile.steamName}</span>
+                                    <span class="actualPersonaName" style="font-size: 24px;">${steamprofile.personaname}</span>
                                 </div>
                                     <span>Friends Gained (this month): <span class="${steamfriends.monthIndex}">${steamfriends.friendsGainedLastMonth}</span></span>
                                     <br>
                                     <span>Friends Gained (this week): <span class="${steamfriends.weekIndex}">${steamfriends.friendsGainedLastWeek}</span></span>
                             </div>
-                            <div class="profileAvatar profileHeaderSize ${steamprofile.onlineState}">
+                            <div class="profileAvatar profileHeaderSize ${steamprofile.profilestate}">
                                 <div class="playerAvatarAutoSizeInner">
-                                    <img src="${steamprofile.avatarFull}">
+                                    <img src="${steamprofile.avatarfull}">
                                 </div>
                             </div>
                         </div>

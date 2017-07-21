@@ -35,6 +35,12 @@ public class SteamHandler {
             }
         }
 
+        Long longsteamid = Long.parseLong(steamid);
+        SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
+        steamFriendEntity.setSteamfriendid(longsteamid);
+
+        steamFriendsList.put(longsteamid, steamFriendEntity);
+
         steamFriends.setFriendsList(steamFriendsList);
         steamFriends.setFriendsGainedLastMonth(gainedMonth);
         steamFriends.setFriendsGainedLastWeek(gainedWeek);

@@ -55,30 +55,25 @@ public class IndexController {
         SteamFriends steamFriends = null;
         if (steamid != null && !steamid.isEmpty()) {
 
-            Long steamidlong = null;
+            long steamidlong = 0;
             try {
                 steamidlong = Long.parseLong(steamid);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
 
-            if (steamidlong != null && steamProfileEntity == null) {
+            if (steamidlong != 0 && steamProfileEntity == null) {
                 steamProfileEntity = steamProfileService.get(steamidlong);
             }
 
             steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
             steamHandler.processSteamProfiles(steamidlong, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()), steamFriends.getFriendsList());
-            steamFriendEntity = steamFriends.getFriendsList().get(steamid);
+            steamFriendEntity = steamFriends.getFriendsList().get(steamidlong);
             /*for(SteamFriendEntity steamFriend : steamFriends.getFriendsList().values()) {
                 System.out.println("friendsince: " + steamFriend.getFriendsince());
             } */
 
-            steamFriendService.updateFriendsList(steamFriends.getFriendsList());
-
-            if (steamFriendEntity != null) {
-                System.out.println(steamFriendEntity.getProfilestate());
-                System.out.println(steamFriendEntity.getPersonastate());
-            }
+            steamFriendService.updateFriendsList(steamFriends.getFriendsList(), steamidlong);
         }
 
         model.addAttribute("steamprofile", steamFriendEntity);

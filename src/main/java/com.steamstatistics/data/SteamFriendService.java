@@ -27,8 +27,8 @@ public class SteamFriendService {
         return steamFriendRepository.findAll();
     }
 
-    public HashMap<Long, SteamFriendEntity> getAllMap() {
-        Iterable<SteamFriendEntity> all = steamFriendRepository.findAll();
+    public HashMap<Long, SteamFriendEntity> getAllMap(long steamid) {
+        Iterable<SteamFriendEntity> all = steamFriendRepository.findBySteamid(steamid);
 
         HashMap<Long, SteamFriendEntity> map = new HashMap<>();
         for(SteamFriendEntity steamFriendEntity : all) {
@@ -38,15 +38,16 @@ public class SteamFriendService {
         return map;
     }
 
-    public void updateFriendsList(Map<Long, SteamFriendEntity> updatedFriendsList) {
-        HashMap<Long, SteamFriendEntity> oldFriendsList = getAllMap();
+    public Map<Long, SteamFriendEntity>[] updateFriendsList(Map<Long, SteamFriendEntity> updatedFriendsList, long steamid) {
+        Map<Long, SteamFriendEntity>[] maps = new Map[]{new HashMap(), new HashMap()};
+        HashMap<Long, SteamFriendEntity> oldFriendsList = getAllMap(steamid);
 
         for(Long l : updatedFriendsList.keySet()) {
             if(!oldFriendsList.containsKey(l)) {
                 SteamFriendEntity addedFriend = updatedFriendsList.get(l);
                 addedFriend.setAddDate(addedFriend.getFriendsince());
+                maps[0].put(l, addedFriend);
 
-                System.out.println(addedFriend.getPersonaname() + " is a new friend!");
                 save(updatedFriendsList.get(l));
             }
         }
@@ -55,11 +56,12 @@ public class SteamFriendService {
             if(!updatedFriendsList.containsKey(l)) {
                 SteamFriendEntity removedFriend = oldFriendsList.get(l);
                 removedFriend.setRemoveDate(timeService.getCurrentUnixTime());
+                maps[1].put(l, removedFriend);
 
-                System.out.println(removedFriend.getPersonaname() + " has removed you!");
                 save(removedFriend);
             }
         }
 
+        return maps;
     }
 }
