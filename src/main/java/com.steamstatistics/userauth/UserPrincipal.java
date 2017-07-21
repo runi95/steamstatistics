@@ -27,9 +27,11 @@ public class UserPrincipal implements UserDetails {
         return user.getUserToken();
     }
 
-    public String getSteamId() {
+    public long getSteamId() {
         return user.getSteamId();
     }
+
+    // TODO: Have a look at the boolean checks
 
     public boolean isAccountNonExpired() {
         // Always true for now, might change in future updates!

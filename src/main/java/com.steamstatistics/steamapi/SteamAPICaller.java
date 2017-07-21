@@ -2,6 +2,7 @@ package com.steamstatistics.steamapi;
 
 import com.steamstatistics.data.SteamFriendEntity;
 import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,11 +11,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
+@Service
 public class SteamAPICaller {
 
     JacksonJsonParser jacksonJsonParser = new JacksonJsonParser();
 
-    public List<Map<String, Object>> getFriendList(String apikey, String steamid) {
+    public List<Map<String, Object>> getFriendList(String apikey, long steamid) {
         String read = readUrl("http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=" + apikey + "&steamid=" + steamid + "&relationship=all");
 
         Map<String, Object> json = parseJson(read);

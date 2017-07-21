@@ -3,15 +3,22 @@ package com.steamstatistics.steamapi;
 import com.steamstatistics.data.SteamFriendEntity;
 import com.steamstatistics.data.SteamFriendService;
 import com.steamstatistics.data.SteamProfileModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class SteamHandler {
-    TimeService timeService = new TimeService();
 
-    public SteamFriends processSteamFriends(List<Map<String, Object>> friends, String steamid) {
+    @Autowired
+    TimeService timeService;
+
+    @Cacheable("friends")
+    public SteamFriends processSteamFriends(List<Map<String, Object>> friends, long steamid) {
         SteamFriends steamFriends = new SteamFriends();
 
         long lastMonth = timeService.getLastMonthUnixTime(), lastWeek = timeService.getLastWeekUnixTime();
@@ -35,11 +42,10 @@ public class SteamHandler {
             }
         }
 
-        Long longsteamid = Long.parseLong(steamid);
         SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
-        steamFriendEntity.setSteamfriendid(longsteamid);
+        steamFriendEntity.setSteamfriendid(steamid);
 
-        steamFriendsList.put(longsteamid, steamFriendEntity);
+        steamFriendsList.put(steamid, steamFriendEntity);
 
         steamFriends.setFriendsList(steamFriendsList);
         steamFriends.setFriendsGainedLastMonth(gainedMonth);
@@ -49,6 +55,7 @@ public class SteamHandler {
         return steamFriends;
     }
 
+    @Cacheable("summaries")
     public void processSteamProfiles(Long steamid, List<Map<String, Object>> profiles, Map<Long, SteamFriendEntity> friendsList) {
         for(Map<String, Object> map : profiles) {
             processSteamProfile(steamid, map, friendsList);

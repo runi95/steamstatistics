@@ -34,3 +34,7 @@
     </div>
 </div>
 <!-- Modal End -->
+
+<script>
+    $('#useragreementmodal').modal('show');
+</script>

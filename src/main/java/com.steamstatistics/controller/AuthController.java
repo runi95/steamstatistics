@@ -45,7 +45,8 @@ public class AuthController {
 
     @GetMapping("/login/openid")
     public String getCallback(HttpServletRequest request, HttpServletResponse response) {
-        String steamid = steamOpenId.verify(steamOpenIdConfig.getClientId() + "/login/openid", request.getParameterMap());
+        String steamidString = steamOpenId.verify(steamOpenIdConfig.getClientId() + "/login/openid", request.getParameterMap());
+        Long steamid = Long.parseLong(steamidString);
 
         UserPrincipal userPrincipal = null;
         userPrincipal = steamUserDetailsService.findUserBySteamId(steamid);

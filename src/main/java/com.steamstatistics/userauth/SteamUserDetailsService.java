@@ -32,7 +32,7 @@ public class SteamUserDetailsService implements UserDetailsService {
         return new UserPrincipal(user);
     }
 
-    public UserPrincipal findUserBySteamId(String steamId) {
+    public UserPrincipal findUserBySteamId(long steamId) {
         User user = userRepository.findBySteamId(steamId).orElse(null);
         if(user == null)
             return null;

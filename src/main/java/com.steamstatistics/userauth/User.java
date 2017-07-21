@@ -12,7 +12,7 @@ public class User {
     private String userToken;
 
     @Column(nullable = false, unique = true)
-    private String steamId;
+    private long steamId;
 
     public String getUserToken() {
         return userToken;
@@ -22,11 +22,11 @@ public class User {
         this.userToken = userToken;
     }
 
-    public String getSteamId() {
+    public long getSteamId() {
         return steamId;
     }
 
-    public void setSteamId(String steamId) {
+    public void setSteamId(long steamId) {
         this.steamId = steamId;
     }
 }

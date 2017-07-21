@@ -10,8 +10,10 @@
             </#if>
             <#if steamprofile.communityvisibilitystate != "3">
                 <div>
-                    <dd><span class="text-danger">Warning</span>: Your account is not set to public, some functions on this
-                    website may not work!</dd>
+                    <dd><span class="text-danger">Warning</span>: Your account is not set to public, some functions on
+                        this
+                        website may not work!
+                    </dd>
                 </div>
             </#if>
             <div class="row">
@@ -20,11 +22,14 @@
                         <div class="profileHeaderContent">
                             <div class="profileHeaderCenteredPersona" style="text-align: left;">
                                 <div class="personaName">
-                                    <span class="actualPersonaName" style="font-size: 24px;">${steamprofile.personaname}</span>
+                                    <span class="actualPersonaName"
+                                          style="font-size: 24px;">${steamprofile.personaname}</span>
                                 </div>
-                                    <span>Friends Gained (this month): <span class="${steamfriends.monthIndex}">${steamfriends.friendsGainedLastMonth}</span></span>
-                                    <br>
-                                    <span>Friends Gained (this week): <span class="${steamfriends.weekIndex}">${steamfriends.friendsGainedLastWeek}</span></span>
+                                <span>Friends Gained (this month): <span
+                                        class="${steamfriends.monthIndex}">${steamfriends.friendsGainedLastMonth}</span></span>
+                                <br>
+                                <span>Friends Gained (this week): <span
+                                        class="${steamfriends.weekIndex}">${steamfriends.friendsGainedLastWeek}</span></span>
                             </div>
                             <div class="profileAvatar profileHeaderSize ${steamprofile.profilestate}">
                                 <div class="playerAvatarAutoSizeInner">
@@ -44,7 +49,41 @@
 </div>
 
 <script>
-    $('#useragreementmodal').modal('show');
+    function getProfile(message) {
+        console.log(message.friendsList);
+        console.log(typeof(message.friendsList));
+    }
+
+    function processRequest(data) {
+        switch (data.request) {
+            case "getprofile":
+                getProfile(data.message);
+                break;
+            case "":
+
+                break;
+        }
+    }
+
+    function processStatus(data) {
+        switch (data.status) {
+            case "200":
+                processRequest(data);
+                break;
+            case "400":
+
+                break;
+        }
+    }
+
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/getprofile",
+        success: function (data) {
+            processStatus(data);
+        }
+    });
 </script>
 
 </@m.master>
