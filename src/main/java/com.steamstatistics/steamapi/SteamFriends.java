@@ -1,13 +1,18 @@
 package com.steamstatistics.steamapi;
 
+import com.steamstatistics.backend.SteamFriendsSinceComparator;
 import com.steamstatistics.data.SteamFriendEntity;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
 public class SteamFriends {
     private int friendsGainedLastMonth, friendsGainedLastWeek;
     private String monthIndex, weekIndex;
-    private Map<Long, SteamFriendEntity> friendsList;
+    private Map<Long, SteamFriendEntity> friendsList = new HashMap<>();
+    private SteamFriendEntity steamProfile;
+    private TreeSet<SteamFriendEntity> sortedFriendsSet = new TreeSet<>(new SteamFriendsSinceComparator());
 
     public int getFriendsGainedLastMonth() {
         return friendsGainedLastMonth;
@@ -47,9 +52,21 @@ public class SteamFriends {
 
     public Map<Long, SteamFriendEntity> getFriendsList() { return friendsList; }
 
-    public void setFriendsList(Map<Long, SteamFriendEntity> friendsList) {
-        this.friendsList = friendsList;
+    public void addToFriendsList(SteamFriendEntity steamFriendEntity) { friendsList.put(steamFriendEntity.getSteamfriendid(), steamFriendEntity); }
+
+    public void addToSortedSet(SteamFriendEntity steamFriendEntity) { sortedFriendsSet.add(steamFriendEntity); }
+
+    public TreeSet<SteamFriendEntity> getSortedFriendsSet() { return sortedFriendsSet; }
+
+    public SteamFriendEntity getSteamProfile() { return steamProfile; }
+
+    public void setSteamProfile(SteamFriendEntity steamProfile) { this.steamProfile = steamProfile; }
+
+    public SteamFriendEntity getOldest() {
+        return sortedFriendsSet.last();
     }
 
-    public void addToFriendsList(SteamFriendEntity steamFriendEntity) { friendsList.put(steamFriendEntity.getSteamfriendid(), steamFriendEntity); }
+    public SteamFriendEntity getNewest() {
+        return sortedFriendsSet.first();
+    }
 }

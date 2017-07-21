@@ -2,6 +2,7 @@ package com.steamstatistics.steamapi;
 
 import com.steamstatistics.data.SteamFriendEntity;
 import com.steamstatistics.data.SteamFriendService;
+import com.steamstatistics.data.SteamProfileEntity;
 import com.steamstatistics.data.SteamProfileModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -22,17 +23,15 @@ public class SteamHandler {
         SteamFriends steamFriends = new SteamFriends();
 
         long lastMonth = timeService.getLastMonthUnixTime(), lastWeek = timeService.getLastWeekUnixTime();
-        int gainedMonth = 0, gainedWeek = 0, index = 0;
-        HashMap<Long, SteamFriendEntity> steamFriendsList = new HashMap<>();
+        int gainedMonth = 0, gainedWeek = 0;
 
         for (Map<String, Object> map : friends) {
-            Long friendsteamid = Long.parseLong((String) map.get("steamid"));
             int friendSince = (int) map.get("friend_since");
             SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
-            steamFriendEntity.setSteamfriendid(friendsteamid);
+            steamFriendEntity.setSteamfriendid(Long.parseLong((String) map.get("steamid")));
             steamFriendEntity.setFriendsince(friendSince);
-
-            steamFriendsList.put(friendsteamid, steamFriendEntity);
+            steamFriends.addToFriendsList(steamFriendEntity);
+            steamFriends.addToSortedSet(steamFriendEntity);
 
             if (friendSince > lastWeek) {
                 gainedWeek++;
@@ -43,14 +42,14 @@ public class SteamHandler {
         }
 
         SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
+        steamFriendEntity.setSteamid(steamid);
         steamFriendEntity.setSteamfriendid(steamid);
+        steamFriends.setSteamProfile(steamFriendEntity);
+        steamFriends.addToFriendsList(steamFriendEntity);
+        steamFriends.addToSortedSet(steamFriendEntity);
 
-        steamFriendsList.put(steamid, steamFriendEntity);
-
-        steamFriends.setFriendsList(steamFriendsList);
         steamFriends.setFriendsGainedLastMonth(gainedMonth);
         steamFriends.setFriendsGainedLastWeek(gainedWeek);
-        steamFriends.setFriendsList(steamFriendsList);
 
         return steamFriends;
     }

@@ -52,7 +52,7 @@ public class SteamRestController {
         } else if (principal != null) {
             steamid = steamUserDetailsService.loadUserByUsername(principal.getName()).getSteamId();
         } else {
-            return convertObjectToJson(new RestMessageModel("400", "getprofile"));
+            return convertObjectToJson(new RestMessageModel("200", "login"));
         }
 
         SteamFriends steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
@@ -71,9 +71,10 @@ public class SteamRestController {
             steamid = steamUserDetailsService.loadUserByUsername(principal.getName()).getSteamId();
         }
 
-        steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
+        SteamFriends steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
+        steamHandler.processSteamProfiles(steamid, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()), steamFriends.getFriendsList());
 
-        return "";
+        return convertObjectToJson(new RestMessageModel("200", "getfriends", steamFriends));
     }
 
     private static String convertObjectToJson(Object message) {
