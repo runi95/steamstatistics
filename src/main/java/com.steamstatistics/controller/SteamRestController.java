@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.steamstatistics.backend.SteamOpenIdConfig;
 import com.steamstatistics.data.RestMessageModel;
+import com.steamstatistics.data.SteamFriendEntity;
 import com.steamstatistics.data.SteamFriendService;
 import com.steamstatistics.data.SteamProfileService;
 import com.steamstatistics.steamapi.SteamAPICaller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.Map;
 
 @RestController
 public class SteamRestController {
@@ -45,24 +47,42 @@ public class SteamRestController {
 
     @RequestMapping("/getprofile")
     public String getProfile(@CookieValue(value = "token", required = false) String token, Principal principal) {
-        Long steamid = null;
+        Long steamid = getSteamid(token, principal);
 
-        if (token != null && !token.isEmpty()) {
-            steamid = steamUserDetailsService.loadUserByUsername(token).getSteamId();
-        } else if (principal != null) {
-            steamid = steamUserDetailsService.loadUserByUsername(principal.getName()).getSteamId();
-        } else {
+        if(steamid == null) {
             return convertObjectToJson(new RestMessageModel("200", "login"));
         }
 
         SteamFriends steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
         steamHandler.processSteamProfiles(steamid, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()), steamFriends.getFriendsList());
 
+        steamFriendService.updateFriendsList(steamFriends.getFriendsList(), steamid);
+
         return convertObjectToJson(new RestMessageModel("200", "getprofile", steamFriends));
+    }
+
+    @RequestMapping("/getremoved")
+    public String getRemoved(@CookieValue(value = "token", required = false) String token, Principal principal) {
+        Long steamid = getSteamid(token, principal);
+
+        if(steamid == null) {
+            return convertObjectToJson(new RestMessageModel("200", "login"));
+        }
+
+        return convertObjectToJson(new RestMessageModel("200", "getremoved", steamFriendService.getRemovedFriends(steamid)));
     }
 
     @RequestMapping("/getfriends")
     public String getFriends(@CookieValue(value = "token", required = false) String token, Principal principal) {
+        Long steamid = getSteamid(token, principal);
+
+        SteamFriends steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
+        steamHandler.processSteamProfiles(steamid, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()), steamFriends.getFriendsList());
+
+        return convertObjectToJson(new RestMessageModel("200", "getfriends", steamFriends));
+    }
+
+    private Long getSteamid(String token, Principal principal) {
         Long steamid = null;
 
         if (token != null && !token.isEmpty()) {
@@ -71,10 +91,7 @@ public class SteamRestController {
             steamid = steamUserDetailsService.loadUserByUsername(principal.getName()).getSteamId();
         }
 
-        SteamFriends steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
-        steamHandler.processSteamProfiles(steamid, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()), steamFriends.getFriendsList());
-
-        return convertObjectToJson(new RestMessageModel("200", "getfriends", steamFriends));
+        return steamid;
     }
 
     private static String convertObjectToJson(Object message) {

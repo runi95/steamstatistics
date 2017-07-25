@@ -4,6 +4,7 @@ import com.steamstatistics.backend.SteamFriendsSinceComparator;
 import com.steamstatistics.data.SteamFriendEntity;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -12,6 +13,7 @@ public class SteamFriends {
     private String monthIndex, weekIndex;
     private Map<Long, SteamFriendEntity> friendsList = new HashMap<>();
     private SteamFriendEntity steamProfile;
+    private SteamFriendEntity[] oldest, newest;
     private TreeSet<SteamFriendEntity> sortedFriendsSet = new TreeSet<>(new SteamFriendsSinceComparator());
 
     public int getFriendsGainedLastMonth() {
@@ -62,11 +64,39 @@ public class SteamFriends {
 
     public void setSteamProfile(SteamFriendEntity steamProfile) { this.steamProfile = steamProfile; }
 
-    public SteamFriendEntity getOldest() {
-        return sortedFriendsSet.last();
+    public SteamFriendEntity[] getOldest() {
+        if(oldest != null) {
+            return oldest;
+        } else {
+            Iterator<SteamFriendEntity> iterator = sortedFriendsSet.descendingIterator();
+
+            SteamFriendEntity[] steamFriendEntities = new SteamFriendEntity[3];
+            int i = 0;
+            while (i < 3 && iterator.hasNext()) {
+                steamFriendEntities[i++] = iterator.next();
+            }
+
+            return steamFriendEntities;
+        }
     }
 
-    public SteamFriendEntity getNewest() {
-        return sortedFriendsSet.first();
+    public SteamFriendEntity[] getNewest() {
+        if (newest != null) {
+            return newest;
+        } else {
+            Iterator<SteamFriendEntity> iterator = sortedFriendsSet.iterator();
+
+            SteamFriendEntity[] steamFriendEntities = new SteamFriendEntity[3];
+            int i = 0;
+            while (i < 3 && iterator.hasNext()) {
+                steamFriendEntities[i++] = iterator.next();
+            }
+
+            return steamFriendEntities;
+        }
     }
+
+    public void setOldest(SteamFriendEntity[] steamFriendEntity) { oldest = steamFriendEntity; }
+
+    public void setNewest(SteamFriendEntity[] steamFriendEntity) { newest = steamFriendEntity; }
 }

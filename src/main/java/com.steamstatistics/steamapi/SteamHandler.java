@@ -28,6 +28,7 @@ public class SteamHandler {
         for (Map<String, Object> map : friends) {
             int friendSince = (int) map.get("friend_since");
             SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
+            steamFriendEntity.setSteamid(steamid);
             steamFriendEntity.setSteamfriendid(Long.parseLong((String) map.get("steamid")));
             steamFriendEntity.setFriendsince(friendSince);
             steamFriends.addToFriendsList(steamFriendEntity);
@@ -46,10 +47,11 @@ public class SteamHandler {
         steamFriendEntity.setSteamfriendid(steamid);
         steamFriends.setSteamProfile(steamFriendEntity);
         steamFriends.addToFriendsList(steamFriendEntity);
-        steamFriends.addToSortedSet(steamFriendEntity);
 
         steamFriends.setFriendsGainedLastMonth(gainedMonth);
         steamFriends.setFriendsGainedLastWeek(gainedWeek);
+        steamFriends.setOldest(steamFriends.getOldest());
+        steamFriends.setNewest(steamFriends.getNewest());
 
         return steamFriends;
     }

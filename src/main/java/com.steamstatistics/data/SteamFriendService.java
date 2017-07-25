@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,20 +28,27 @@ public class SteamFriendService {
         return steamFriendRepository.findAll();
     }
 
-    public HashMap<Long, SteamFriendEntity> getAllMap(long steamid) {
+    public Map<Long, SteamFriendEntity> getAllMap(long steamid) {
         Iterable<SteamFriendEntity> all = steamFriendRepository.findBySteamid(steamid);
 
-        HashMap<Long, SteamFriendEntity> map = new HashMap<>();
-        for(SteamFriendEntity steamFriendEntity : all) {
-            map.put(steamFriendEntity.getSteamfriendid(), steamFriendEntity);
-        }
+        return convertToMap(all);
+    }
 
-        return map;
+    public Map<Long, SteamFriendEntity> getUnremovedMap(long steamid) {
+        Iterable<SteamFriendEntity> unremoved = steamFriendRepository.findAllUnremovedFriends(steamid);
+
+        return convertToMap(unremoved);
+    }
+
+    public List<SteamFriendEntity> getRemovedFriends(long steamid) {
+        List<SteamFriendEntity> steamFriendEntities = steamFriendRepository.findByRemoveDateNotNullAndSteamidOrderByRemoveDateDesc(steamid);
+
+        return steamFriendEntities;
     }
 
     public Map<Long, SteamFriendEntity>[] updateFriendsList(Map<Long, SteamFriendEntity> updatedFriendsList, long steamid) {
         Map<Long, SteamFriendEntity>[] maps = new Map[]{new HashMap(), new HashMap()};
-        HashMap<Long, SteamFriendEntity> oldFriendsList = getAllMap(steamid);
+        Map<Long, SteamFriendEntity> oldFriendsList = getUnremovedMap(steamid);
 
         for(Long l : updatedFriendsList.keySet()) {
             if(!oldFriendsList.containsKey(l)) {
@@ -63,5 +71,14 @@ public class SteamFriendService {
         }
 
         return maps;
+    }
+
+    private Map<Long, SteamFriendEntity> convertToMap(Iterable<SteamFriendEntity> list) {
+        HashMap<Long, SteamFriendEntity> map = new HashMap<>();
+        for(SteamFriendEntity steamFriendEntity : list) {
+            map.put(steamFriendEntity.getSteamfriendid(), steamFriendEntity);
+        }
+
+        return map;
     }
 }
