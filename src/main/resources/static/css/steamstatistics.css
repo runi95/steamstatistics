@@ -20,7 +20,7 @@
 }
 
 .negative {
-    color: #ba3c90;
+    color: #ba3c50;
 }
 
 .profileHeaderBackground {
@@ -217,6 +217,24 @@ a.profile {
     background: linear-gradient( 145deg, #d5bf6a 10%,#ffe2a9 40%,#ba995c 52%,#ba995c 61%,#d5bf6a 85%);
 }
 
+.profileAvatar.golden img {
+	background-color: #e4ca63;
+	background: -webkit-linear-gradient( 145deg, #d5bf6a 10%,#ffe2a9 40%,#ba995c 52%,#ba995c 61%,#d5bf6a 85%);
+    background: linear-gradient( 145deg, #d5bf6a 10%,#ffe2a9 40%,#ba995c 52%,#ba995c 61%,#d5bf6a 85%);
+}
+
+.profileAvatar.removed {
+    background-color: #de6969;
+    background: -webkit-linear-gradient( top, rgba(196,83,93,1) 5%, rgba(151,69,79,1) 95%);
+    background: linear-gradient( to bottom, rgba(196,83,94,1) 5%, rgba(151,69,79,1) 95%);
+    filter: none;
+}
+
+.profileAvatar.removed img {
+    background: -webkit-linear-gradient( top, #8f414b 5%, #7b3d47 95%);
+    background: linear-gradient( to bottom, #8f414b 5%, #7b3d47 95%);
+}
+
 .profileAvatar img {
     width: 32px;
     height: 32px;
@@ -239,6 +257,10 @@ a.profile {
 
 .persona.golden, a.persona.golden, .persona.golden a {
     color: #e4ca63;
+}
+
+.persona.removed, a.persona.removed, .persona.removed a {
+    color: #de6969;
 }
 
 @keyframes spin {

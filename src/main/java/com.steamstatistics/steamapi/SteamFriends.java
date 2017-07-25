@@ -70,9 +70,9 @@ public class SteamFriends {
         } else {
             Iterator<SteamFriendEntity> iterator = sortedFriendsSet.descendingIterator();
 
-            SteamFriendEntity[] steamFriendEntities = new SteamFriendEntity[3];
+            SteamFriendEntity[] steamFriendEntities = new SteamFriendEntity[5];
             int i = 0;
-            while (i < 3 && iterator.hasNext()) {
+            while (i < 5 && iterator.hasNext()) {
                 steamFriendEntities[i++] = iterator.next();
             }
 
@@ -86,9 +86,9 @@ public class SteamFriends {
         } else {
             Iterator<SteamFriendEntity> iterator = sortedFriendsSet.iterator();
 
-            SteamFriendEntity[] steamFriendEntities = new SteamFriendEntity[3];
+            SteamFriendEntity[] steamFriendEntities = new SteamFriendEntity[5];
             int i = 0;
-            while (i < 3 && iterator.hasNext()) {
+            while (i < 5 && iterator.hasNext()) {
                 steamFriendEntities[i++] = iterator.next();
             }
 

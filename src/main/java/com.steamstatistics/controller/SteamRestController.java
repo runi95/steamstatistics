@@ -69,7 +69,7 @@ public class SteamRestController {
             return convertObjectToJson(new RestMessageModel("200", "login"));
         }
 
-        return convertObjectToJson(new RestMessageModel("200", "getremoved", steamFriendService.getRemovedFriends(steamid)));
+        return convertObjectToJson(new RestMessageModel("200", "getremoved", steamFriendService.getRemovedSteamFriends(steamid)));
     }
 
     @RequestMapping("/getfriends")

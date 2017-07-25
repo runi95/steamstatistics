@@ -37,4 +37,10 @@ public class TimeService {
 
         return localDateTime.toEpochSecond(ZoneOffset.UTC);
     }
+
+    public LocalDateTime getLocalDateTimeFromUnix(long unix) {
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(unix), ZoneOffset.UTC);
+
+        return localDateTime;
+    }
 }

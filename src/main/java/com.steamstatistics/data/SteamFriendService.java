@@ -1,5 +1,8 @@
 package com.steamstatistics.data;
 
+import com.steamstatistics.backend.SteamFriendWithDateComparator;
+import com.steamstatistics.backend.SteamFriendsSinceComparator;
+import com.steamstatistics.steamapi.SteamRemovedFriends;
 import com.steamstatistics.steamapi.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 @Service
 public class SteamFriendService {
@@ -44,6 +48,38 @@ public class SteamFriendService {
         List<SteamFriendEntity> steamFriendEntities = steamFriendRepository.findByRemoveDateNotNullAndSteamidOrderByRemoveDateDesc(steamid);
 
         return steamFriendEntities;
+    }
+
+    public SteamRemovedFriends getRemovedSteamFriends(long steamid) {
+        List<SteamFriendEntity> list = getRemovedFriends(steamid);
+        SteamRemovedFriends steamRemovedFriends = new SteamRemovedFriends();
+
+        int monthIndex = 0, weekIndex = 0;
+        for(SteamFriendEntity steamFriendEntity : list) {
+            if(steamFriendEntity.getRemoveDate() > timeService.getLastWeekUnixTime()) {
+                weekIndex++;
+                monthIndex++;
+            } else if(steamFriendEntity.getRemoveDate() > timeService.getLastMonthUnixTime()) {
+                monthIndex++;
+            }
+
+            steamRemovedFriends.addSteamFriend(new SteamFriendWithDate(steamFriendEntity, steamFriendEntity.getRemoveDate(), timeService));
+        }
+        steamRemovedFriends.setFriendsLostLastMonth(monthIndex);
+        steamRemovedFriends.setFriendsLostLastWeek(weekIndex);
+
+        return steamRemovedFriends;
+    }
+
+    public TreeSet<SteamFriendWithDate> getRemovedFriendsSet(long steamid) {
+        List<SteamFriendEntity> list = getRemovedFriends(steamid);
+        TreeSet<SteamFriendWithDate> treeSet = new TreeSet<>(new SteamFriendWithDateComparator());
+
+        for(SteamFriendEntity steamFriendEntity : list) {
+            treeSet.add(new SteamFriendWithDate(steamFriendEntity, steamFriendEntity.getRemoveDate(), timeService));
+        }
+
+        return treeSet;
     }
 
     public Map<Long, SteamFriendEntity>[] updateFriendsList(Map<Long, SteamFriendEntity> updatedFriendsList, long steamid) {

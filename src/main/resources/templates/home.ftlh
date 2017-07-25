@@ -30,6 +30,10 @@
                                 <span>Friends Gained (this month): <span id="month"></span></span>
                                 <br>
                                 <span>Friends Gained (this week): <span id="week"></span></span>
+                                <br>
+                                <span>Friends Lost (this month): <span id="lmonth"></span></span>
+                                <br>
+                                <span>Friends Lost (this week): <span id="lweek"></span></span>
                             </div>
                         </div>
                         <div id="state" class="profileAvatar profileHeaderSize offline">
@@ -44,11 +48,11 @@
         </div>
         <div class="row col-md-offset-2" style="padding-top: 10px;">
             <div class="col-md-3" style="text-align: left;">
-                Top 3 oldest friends:
+                Top 5 oldest friends:
                 <div id="oldest"></div>
             </div>
             <div class="col-md-3 col-md-offset-4" style="text-align: left;">
-                Top 3 newest friends:
+                Top 5 newest friends:
                 <div id="newest"></div>
             </div>
         </div>
@@ -89,21 +93,19 @@
         }
 
         for(var i = 0; i < message.newest.length; i++) {
-            addFriend(message.newest[i], "newest");
+            addFriend(message.newest[i], message.newest[i].personastate, switchPersonastate(message.newest[i].personastate), "newest");
         }
 
         for(var i = 0; i < message.oldest.length; i++) {
-            addFriend(message.oldest[i], "oldest");
+            addFriend(message.oldest[i], message.oldest[i].personastate, switchPersonastate(message.oldest[i].personastate), "oldest");
         }
     }
 
-    function addFriend(profile, parentdiv) {
-        var personastate = "offline";
-        switch (profile.personastate) {
+    function switchPersonastate(state) {
+        switch (state) {
             case "offline":
             case "snooze":
-                personastate = "offline";
-                break;
+                return "offline";
             case "online":
             case "busy":
             case "away":
@@ -116,19 +118,22 @@
                     newestpersonastate = "online";
                 }
                 */
-                personastate = "online";
-                break;
+                return "online";
         }
 
+        return "offline";
+    }
+
+    function addFriend(profile, message, state, parentdiv) {
         var div = document.createElement("div");
-        div.setAttribute("class", "profile persona " + personastate);
+        div.setAttribute("class", "profile persona " + state);
         div.setAttribute("href", profile.profileurl);
         var a = document.createElement("a");
         a.setAttribute("class", "profileLink");
         a.setAttribute("href", profile.profileurl);
         div.appendChild(a);
         var avatar = document.createElement("div");
-        avatar.setAttribute("class", "profileAvatar " + personastate);
+        avatar.setAttribute("class", "profileAvatar " + state);
         var img = document.createElement("img");
         img.setAttribute("src", profile.avatar);
         avatar.appendChild(img);
@@ -138,7 +143,7 @@
         var namebr = document.createElement("br");
         name.appendChild(namebr);
         var span = document.createElement("span");
-        span.innerHTML = personastate;
+        span.innerHTML = message;
         name.appendChild(span);
         div.appendChild(name);
         document.getElementById(parentdiv).appendChild(div);
@@ -150,9 +155,17 @@
     }
 
     function getRemovedSuccessful(message) {
-        for(var i = 0; i < message.length; i++) {
-            addFriend(message[i], "removed");
+        for(var i = 0; i < message.sortedFriendsSet.length; i++) {
+            addFriend(message.sortedFriendsSet[i].steamFriendEntity, message.sortedFriendsSet[i].localDateTimeString, "removed", "removed");
         }
+
+        var lmonth = document.getElementById("lmonth");
+        lmonth.setAttribute("class", message.monthIndex);
+        lmonth.innerHTML = message.friendsLostLastMonth;
+
+        var lweek = document.getElementById("lweek");
+        lweek.setAttribute("class", message.weekIndex);
+        lweek.innerHTML = message.friendsLostLastWeek;
     }
 
     function getRemoved(data) {
