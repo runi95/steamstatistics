@@ -60,6 +60,10 @@
             Removed friends:
             <div id="removed"></div>
         </div>
+        <div class="row">
+            Friends from countries:
+            <div id="country"></div>
+        </div>
     </div>
 </div>
 
@@ -99,6 +103,23 @@
         for(var i = 0; i < message.oldest.length; i++) {
             addFriend(message.oldest[i], message.oldest[i].personastate, switchPersonastate(message.oldest[i].personastate), "oldest");
         }
+
+        var countryKeys = Object.keys(message.countryMap);
+        for(var i = 0; i < countryKeys.length; i++) {
+            addCountryMap(countryKeys[i], message.countryMap[countryKeys[i]]);
+        }
+    }
+
+    function addCountryMap(alpha2code, count) {
+        var country = document.getElementById("country");
+        var div = document.createElement("div");
+        var img = document.createElement("img");
+        var span = document.createElement("span");
+        img.setAttribute("src", "/css/img/countries/" + alpha2code.toLowerCase() + ".png");
+        span.innerHTML = alpha2code + ": " + count;
+        div.appendChild(img);
+        div.appendChild(span);
+        country.appendChild(div);
     }
 
     function switchPersonastate(state) {

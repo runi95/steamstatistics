@@ -54,7 +54,7 @@ public class SteamRestController {
         }
 
         SteamFriends steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
-        steamHandler.processSteamProfiles(steamid, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()), steamFriends.getFriendsList());
+        steamHandler.processSteamProfiles(steamid, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()), steamFriends);
 
         steamFriendService.updateFriendsList(steamFriends.getFriendsList(), steamid);
 
@@ -77,7 +77,7 @@ public class SteamRestController {
         Long steamid = getSteamid(token, principal);
 
         SteamFriends steamFriends = steamHandler.processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
-        steamHandler.processSteamProfiles(steamid, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()), steamFriends.getFriendsList());
+        steamHandler.processSteamProfiles(steamid, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends.getFriendsList()), steamFriends);
 
         return convertObjectToJson(new RestMessageModel("200", "getfriends", steamFriends));
     }

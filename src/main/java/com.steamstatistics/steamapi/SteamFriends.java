@@ -9,12 +9,13 @@ import java.util.Map;
 import java.util.TreeSet;
 
 public class SteamFriends {
-    private int friendsGainedLastMonth, friendsGainedLastWeek;
+    private int friendsGainedLastMonth, friendsGainedLastWeek, maxLevel, minLevel, averageLevel;
     private String monthIndex, weekIndex;
     private Map<Long, SteamFriendEntity> friendsList = new HashMap<>();
     private SteamFriendEntity steamProfile;
     private SteamFriendEntity[] oldest, newest;
     private TreeSet<SteamFriendEntity> sortedFriendsSet = new TreeSet<>(new SteamFriendsSinceComparator());
+    private Map<String, Integer> countryMap = new HashMap<>();
 
     public int getFriendsGainedLastMonth() {
         return friendsGainedLastMonth;
@@ -96,7 +97,31 @@ public class SteamFriends {
         }
     }
 
+    public void addCountryCode(String country) {
+        if(country != null) {
+            if(countryMap.containsKey(country)) {
+                countryMap.put(country, countryMap.get(country) + 1);
+            } else {
+                countryMap.put(country, 1);
+            }
+        }
+    }
+
+    public Map<String, Integer> getCountryMap() { return countryMap; }
+
     public void setOldest(SteamFriendEntity[] steamFriendEntity) { oldest = steamFriendEntity; }
 
     public void setNewest(SteamFriendEntity[] steamFriendEntity) { newest = steamFriendEntity; }
+
+    public int getMaxLevel() { return maxLevel; }
+
+    public void setMaxLevel(int maxLevel) { this.maxLevel = maxLevel; }
+
+    public int getMinLevel() { return minLevel; }
+
+    public void setMinLevel(int minLevel) { this.minLevel = minLevel; }
+
+    public int getAverageLevel() { return averageLevel; }
+
+    public void setAverageLevel(int averageLevel) { this.averageLevel = averageLevel; }
 }

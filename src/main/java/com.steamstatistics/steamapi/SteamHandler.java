@@ -1,15 +1,12 @@
 package com.steamstatistics.steamapi;
 
 import com.steamstatistics.data.SteamFriendEntity;
-import com.steamstatistics.data.SteamFriendService;
-import com.steamstatistics.data.SteamProfileEntity;
-import com.steamstatistics.data.SteamProfileModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -57,15 +54,15 @@ public class SteamHandler {
     }
 
     @Cacheable("summaries")
-    public void processSteamProfiles(Long steamid, List<Map<String, Object>> profiles, Map<Long, SteamFriendEntity> friendsList) {
+    public void processSteamProfiles(Long steamid, List<Map<String, Object>> profiles, SteamFriends steamFriends) {
         for(Map<String, Object> map : profiles) {
-            processSteamProfile(steamid, map, friendsList);
+            processSteamProfile(steamid, map, steamFriends);
         }
     }
 
-    public void processSteamProfile(Long steamid, Map<String, Object> profile, Map<Long, SteamFriendEntity> friendsList) {
+    public void processSteamProfile(Long steamid, Map<String, Object> profile, SteamFriends steamFriends) {
         Long steamFriendid = Long.parseLong((String) profile.get("steamid"));
-        SteamFriendEntity steamFriendEntity = friendsList.get(steamFriendid);
+        SteamFriendEntity steamFriendEntity = steamFriends.getFriendsList().get(steamFriendid);
 
         steamFriendEntity.setSteamid(steamid);
         steamFriendEntity.setSteamfriendid(steamFriendid);
@@ -77,6 +74,7 @@ public class SteamHandler {
         steamFriendEntity.setCommunityvisibilitystate(Integer.toString((int)profile.get("communityvisibilitystate")));
         steamFriendEntity.setProfilestate(Integer.toString((int)profile.get("profilestate")));
         steamFriendEntity.setLastlogoff((Integer) profile.get("lastlogoff"));
+        steamFriends.addCountryCode((String) profile.get("loccountrycode"));
 
         String onlineState = null;
         switch((int)profile.get("personastate")) {
@@ -92,7 +90,12 @@ public class SteamHandler {
                 onlineState = "online";
                 break;
         }
-
         steamFriendEntity.setPersonastate(onlineState);
+    }
+
+    public String getCountryNameFromISO(String alpha2code) {
+        Locale locale = new Locale("", alpha2code);
+
+        return locale.getDisplayCountry();
     }
 }
