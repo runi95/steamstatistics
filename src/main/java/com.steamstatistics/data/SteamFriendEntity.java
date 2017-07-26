@@ -12,7 +12,7 @@ public class SteamFriendEntity {
     private long steamid;
 
     @Id
-    @Column(name="steamfriendid", updatable = true, unique = true, nullable = false)
+    @Column(name="steamfriendid", updatable = true, nullable = false)
     private long steamfriendid;
 
     @Column(name="personname")
