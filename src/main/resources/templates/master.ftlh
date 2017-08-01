@@ -46,15 +46,17 @@
             </div>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
+                    <li class="active"><a href="/">Profile</a></li>
                     <li><a href="/">Share</a></li>
                     <li><a href="/graphs">Graphs</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <div style="padding: 7px 5px;">
-                        <a href="/login">
-                            <img src="/css/img/sits_01.png" alt="Steam Login">
-                        </a>
+                        <div id="steamhref" class="hide">
+                            <a href="/login">
+                                <img src="/css/img/sits_01.png" alt="Steam Login">
+                            </a>
+                        </div>
                     </div>
                     <!--
                     <li><a href="/login">

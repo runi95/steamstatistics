@@ -13,56 +13,43 @@
                 website may not work!
             </dd>
         </div>
-        <div class="col-md-10 col-md-offset-1" style="padding-right: auto;">
+        <div class="col-xs-12" style="padding-right: auto;">
             <div class="profileHeaderBackground">
                 <div class="profileHeader">
                     <div class="profileHeaderContent">
-                        <div class="profileHeaderCenteredPersona" style="text-align: left;">
-                            <div id="steamhref" class="hide">
-                                <a href="/login">
-                                    <img src="/css/img/sits_02.png" alt="Steam Login">
-                                </a>
+                        <div class="row">
+                            <div class="col-xs-7" style="max-width: 184px;">
+                                <div id="state" class="profileAvatar profileHeaderSize offline">
+                                    <div class="playerAvatarAutoSizeInner">
+                                        <img id="avatar"
+                                             src="css/img/defaultImage.jpg">
+                                    </div>
+                                </div>
                             </div>
-                            <div id="loader"></div>
-                            <div id="profile" class="hide">
-                                <div class="personaName">
+                            <div class="col-xs-5">
+                                <div class="profileHeaderCenteredPersona" style="text-align: left;">
+                                    <div id="loader"></div>
+                                    <div id="profile" class="hide">
+                                        <div class="personaName">
                                     <span id="personaname" class="actualPersonaName"
                                           style="font-size: 24px;"></span>
+                                        </div>
+                                        <div id="loader" class="loader"></div>
+                                        <span>Friends Gained (this month): <span id="month"></span></span>
+                                        <br>
+                                        <span>Friends Gained (this week): <span id="week"></span></span>
+                                        <br>
+                                        <span>Friends Lost (this month): <span id="lmonth"></span></span>
+                                        <br>
+                                        <span>Friends Lost (this week): <span id="lweek"></span></span>
+                                    </div>
                                 </div>
-                                <span>Friends Gained (this month): <span id="month"></span></span>
-                                <br>
-                                <span>Friends Gained (this week): <span id="week"></span></span>
-                                <br>
-                                <span>Friends Lost (this month): <span id="lmonth"></span></span>
-                                <br>
-                                <span>Friends Lost (this week): <span id="lweek"></span></span>
-                            </div>
-                        </div>
-                        <div id="state" class="profileAvatar profileHeaderSize offline">
-                            <div class="playerAvatarAutoSizeInner">
-                                <img id="avatar"
-                                     src="css/img/defaultImage.jpg">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-xs-offset-2" style="padding-top: 10px;">
-            <div class="col-xs-3" style="text-align: left;">
-                Top 5 oldest friends:
-                <div id="oldest"></div>
-            </div>
-            <div class="col-xs-3 col-xs-offset-4" style="text-align: left;">
-                Top 5 newest friends:
-                <div id="newest"></div>
-            </div>
-        </div>
-        <div class="col-xs-12">
-            Removed friends:
-            <div id="removed"></div>
-        </div>
-        <div id="graphdiv" class="col-xs-12"></div>
     </div>
 </div>
 <script src="js/steamstatistics.js"></script>
