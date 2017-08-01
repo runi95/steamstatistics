@@ -42,6 +42,9 @@ public class SteamFriendEntity {
     @Column(name="lastlogoff")
     private long lastlogoff;
 
+    @Column(name="loccountrycode", nullable = true)
+    private String loccountrycode;
+
     @Transient
     private long friendsince;
 
@@ -134,6 +137,10 @@ public class SteamFriendEntity {
     public void setLastlogoff(long lastlogoff) {
         this.lastlogoff = lastlogoff;
     }
+
+    public String getLoccountrycode() { return loccountrycode; }
+
+    public void setLoccountrycode(String loccountrycode) { this.loccountrycode = loccountrycode; }
 
     public long getFriendsince() { return friendsince; }
 

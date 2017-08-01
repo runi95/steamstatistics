@@ -2,6 +2,7 @@ package com.steamstatistics.steamapi;
 
 import com.steamstatistics.data.SteamFriendEntity;
 import org.springframework.boot.json.JacksonJsonParser;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;

@@ -13,21 +13,25 @@ function getProfile(data) {
 
 function getProfileSuccess(message) {
     document.getElementById("steamhref").setAttribute("class", "hide");
-    document.getElementById("profile").setAttribute("class", "show");
 
-    document.getElementById("personaname").innerHTML = message.steamProfile.personaname;
+    document.getElementById("personaname").innerHTML = message.personaname;
+    document.getElementById("state").setAttribute("class", "profileAvatar profileHeaderSize " + message.profilestate);
+    document.getElementById("avatar").setAttribute("src", message.avatarfull);
+    if (message.communityvisibilitystate != "3") {
+        document.getElementById("privacystate").setAttribute("class", "show");
+    }
+}
+
+function getProfileInfo(message) {
     var month = document.getElementById("month");
     var week = document.getElementById("week");
     month.setAttribute("class", message.monthIndex);
     week.setAttribute("class", message.weekIndex);
     month.innerHTML = message.friendsGainedLastMonth;
     week.innerHTML = message.friendsGainedLastWeek;
-    document.getElementById("state").setAttribute("class", "profileAvatar profileHeaderSize " + message.steamProfile.profilestate);
-    document.getElementById("avatar").setAttribute("src", message.steamProfile.avatarfull);
-    if (message.steamProfile.communityvisibilitystate != "3") {
-        document.getElementById("privacystate").setAttribute("class", "show");
-    }
+}
 
+function getTopFive(message) {
     for (var i = 0; i < message.newest.length; i++) {
         addFriend(message.newest[i], message.newest[i].personastate, switchPersonastate(message.newest[i].personastate), "newest");
     }
@@ -35,7 +39,9 @@ function getProfileSuccess(message) {
     for (var i = 0; i < message.oldest.length; i++) {
         addFriend(message.oldest[i], message.oldest[i].personastate, switchPersonastate(message.oldest[i].personastate), "oldest");
     }
+}
 
+function getGraph(message) {
     var graphdiv = document.getElementById("graphdiv");
     var dl = document.createElement("dl");
     var dt = document.createElement("dt");
@@ -61,18 +67,6 @@ function getProfileSuccess(message) {
         dl.appendChild(dd);
     }
     graphdiv.appendChild(dl);
-}
-
-function addCountryMap(alpha2code, count) {
-    var country = document.getElementById("country");
-    var div = document.createElement("div");
-    var img = document.createElement("img");
-    var span = document.createElement("span");
-    img.setAttribute("src", "/css/img/countries/" + alpha2code.toLowerCase() + ".png");
-    span.innerHTML = alpha2code + ": " + count;
-    div.appendChild(img);
-    div.appendChild(span);
-    country.appendChild(div);
 }
 
 function switchPersonastate(state) {
@@ -124,7 +118,6 @@ function addFriend(profile, message, state, parentdiv) {
 }
 
 function requestlogin() {
-    document.getElementById("profile").setAttribute("class", "hide");
     document.getElementById("steamhref").setAttribute("class", "show");
 }
 
@@ -176,9 +169,11 @@ function requestProfile() {
         success: function (data) {
             processStatus(data);
             requestRemovedFriends();
+        },
+        complete: function () {
+            document.getElementById("loader").setAttribute("class", "");
         }
     });
-    document.getElementById("loader").setAttribute("class", "");
 }
 
 function requestRemovedFriends() {

@@ -1,10 +1,12 @@
 package com.steamstatistics.steamapi;
 
+import com.steamstatistics.backend.SteamOpenIdConfig;
 import com.steamstatistics.data.SteamFriendEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -15,54 +17,52 @@ public class SteamHandler {
     @Autowired
     TimeService timeService;
 
-    @Cacheable("friends")
-    public SteamFriends processSteamFriends(List<Map<String, Object>> friends, long steamid) {
-        SteamFriends steamFriends = new SteamFriends();
+    @Autowired
+    SteamAPICaller steamAPICaller;
 
-        long lastMonth = timeService.getLastMonthUnixTime(), lastWeek = timeService.getLastWeekUnixTime();
-        int gainedMonth = 0, gainedWeek = 0;
+    @Autowired
+    SteamOpenIdConfig steamOpenIdConfig;
+
+    @Cacheable("friends")
+    public Map<Long, SteamFriendEntity> getProfile(String apikey, long steamid) {
+        Map<Long, SteamFriendEntity> steamFriends = processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
+        return processSteamProfiles(steamid, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends), steamFriends);
+    }
+
+    public Map<Long, SteamFriendEntity> processSteamFriends(List<Map<String, Object>> friends, long steamid) {
+        Map<Long, SteamFriendEntity> steamFriends = new HashMap<>();
 
         for (Map<String, Object> map : friends) {
             int friendSince = (int) map.get("friend_since");
             SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
             steamFriendEntity.setSteamid(steamid);
-            steamFriendEntity.setSteamfriendid(Long.parseLong((String) map.get("steamid")));
+            long steamFriendid = Long.parseLong((String) map.get("steamid"));
+            steamFriendEntity.setSteamfriendid(steamFriendid);
             steamFriendEntity.setFriendsince(friendSince);
-            steamFriends.addToFriendsList(steamFriendEntity);
-            steamFriends.addToSortedSet(steamFriendEntity);
 
-            if (friendSince > lastWeek) {
-                gainedWeek++;
-                gainedMonth++;
-            } else if (friendSince > lastMonth) {
-                gainedMonth++;
-            }
+            steamFriends.put(steamFriendid, steamFriendEntity);
         }
 
         SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
         steamFriendEntity.setSteamid(steamid);
         steamFriendEntity.setSteamfriendid(steamid);
-        steamFriends.setSteamProfile(steamFriendEntity);
-        steamFriends.addToFriendsList(steamFriendEntity);
 
-        steamFriends.setFriendsGainedLastMonth(gainedMonth);
-        steamFriends.setFriendsGainedLastWeek(gainedWeek);
-        steamFriends.setOldest(steamFriends.getOldest());
-        steamFriends.setNewest(steamFriends.getNewest());
+        steamFriends.put(steamid, steamFriendEntity);
 
         return steamFriends;
     }
 
-    @Cacheable("summaries")
-    public void processSteamProfiles(Long steamid, List<Map<String, Object>> profiles, SteamFriends steamFriends) {
+    public Map<Long, SteamFriendEntity> processSteamProfiles(Long steamid, List<Map<String, Object>> profiles, Map<Long, SteamFriendEntity> steamFriends) {
         for(Map<String, Object> map : profiles) {
             processSteamProfile(steamid, map, steamFriends);
         }
+
+        return steamFriends;
     }
 
-    public void processSteamProfile(Long steamid, Map<String, Object> profile, SteamFriends steamFriends) {
+    public void processSteamProfile(Long steamid, Map<String, Object> profile, Map<Long, SteamFriendEntity> steamFriends) {
         Long steamFriendid = Long.parseLong((String) profile.get("steamid"));
-        SteamFriendEntity steamFriendEntity = steamFriends.getFriendsList().get(steamFriendid);
+        SteamFriendEntity steamFriendEntity = steamFriends.get(steamFriendid);
 
         steamFriendEntity.setSteamid(steamid);
         steamFriendEntity.setSteamfriendid(steamFriendid);
@@ -74,7 +74,7 @@ public class SteamHandler {
         steamFriendEntity.setCommunityvisibilitystate(Integer.toString((int)profile.get("communityvisibilitystate")));
         steamFriendEntity.setProfilestate(Integer.toString((int)profile.get("profilestate")));
         steamFriendEntity.setLastlogoff((Integer) profile.get("lastlogoff"));
-        steamFriends.addCountryCode((String) profile.get("loccountrycode"));
+        steamFriendEntity.setLoccountrycode((String) profile.get("loccountrycode"));
 
         String onlineState = null;
         switch((int)profile.get("personastate")) {
