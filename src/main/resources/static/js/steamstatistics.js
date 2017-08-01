@@ -1,38 +1,5 @@
 var chartYMax = 400;
 
-// Set the individual height of bars
-function displayGraph(bars, i) {
-    // Changed the way we loop because of issues with $.each not resetting properly
-    if (i < bars.length) {
-        // Animate the height using the jQuery animate() function
-        $(bars[i].bar).animate({
-            height: bars[i].height
-        }, 800);
-        // Wait the specified time, then run the displayGraph() function again for the next bar
-        barTimer = setTimeout(function () {
-            i++;
-            displayGraph(bars, i);
-        }, 100);
-    }
-}
-
-// Reset graph settings and prepare for display
-function resetGraph(bars) {
-    // Stop all animations and set the bar's height to 0
-    $.each(bars, function (i) {
-        $(bars[i].bar).stop().css('height', 0);
-    });
-
-    // Clear timers
-    clearTimeout(barTimer);
-    clearTimeout(graphTimer);
-
-    // Restart timer
-    graphTimer = setTimeout(function () {
-        displayGraph(bars, 0);
-    }, 200);
-}
-
 function getProfile(data) {
     switch (data.status) {
         case "200":
@@ -69,52 +36,31 @@ function getProfileSuccess(message) {
         addFriend(message.oldest[i], message.oldest[i].personastate, switchPersonastate(message.oldest[i].personastate), "oldest");
     }
 
+    var graphdiv = document.getElementById("graphdiv");
+    var dl = document.createElement("dl");
+    var dt = document.createElement("dt");
+    dt.innerHTML = "Your friends countries";
+    dl.appendChild(dt);
     var countryKeys = Object.keys(message.countryMap);
-    var maxCounter = 0;
     for (var i = 0; i < countryKeys.length; i++) {
-        var countriesAxis = document.getElementById("countries");
-        var li = document.createElement("li");
-        var span = document.createElement("span");
-        span.innerHTML = countryKeys[i];
-        li.appendChild(span);
-        countriesAxis.appendChild(li);
+        var width = message.countryMap[countryKeys[i]]*10;
+        var textY = String(9.5 + i*20);
 
-        var counter = message.countryMap[countryKeys[i]];
-        if (counter > maxCounter) {
-            maxCounter = counter;
-        }
+        var dd = document.createElement("dd");
+        var amount = document.createElement("span");
+        var desc = document.createElement("span");
+        dd.setAttribute("class", "percentage");
+        dd.setAttribute("style", "width: " + width + "px");
+        amount.setAttribute("class", "amount");
+        desc.setAttribute("class", "desc");
 
-        var barGroup = $('<div class="bar-group"></div>');
-        var barObj = {};
-        barObj.label = counter;
-        barObj.height = Math.floor(barObj.label / chartYMax * 100) + '%';
-        barObj.bar = $('<div class="bar" style="height: 50%"><span>' + barObj.label + '</span></div>')
-            .appendTo(barGroup);
-        barGroup.appendTo($("#bars"));
+        desc.innerHTML = countryKeys[i];
+        amount.innerHTML = message.countryMap[countryKeys[i]];
+        dd.appendChild(amount);
+        dd.appendChild(desc);
+        dl.appendChild(dd);
     }
-
-    var counterAxis = document.getElementById("counter");
-    var maxcounterli = document.createElement("li");
-    var maxcounterspan = document.createElement("span");
-    maxcounterspan.innerHTML = maxCounter;
-
-    maxcounterli.appendChild(maxcounterspan);
-    counterAxis.appendChild(maxcounterli);
-    var loop = 5;
-    for (var i = 1; i < loop; i++) {
-        var li = document.createElement("li");
-        var span = document.createElement("span");
-        span.innerHTML = Math.floor((maxCounter / loop) * i);
-
-        li.appendChild(span);
-        counterAxis.appendChild(li);
-    }
-
-    /*
-     for(var i = 0; i < countryKeys.length; i++) {
-     addCountryMap(countryKeys[i], message.countryMap[countryKeys[i]]);
-     }
-     */
+    graphdiv.appendChild(dl);
 }
 
 function addCountryMap(alpha2code, count) {

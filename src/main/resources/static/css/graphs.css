@@ -1,0 +1,53 @@
+dl {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    padding: 20px;
+}
+
+dt {
+    align-self: flex-start;
+    width: 100%;
+    font-weight: 700;
+    display: block;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-left: 130px;
+}
+
+.desc {
+    font-weight: 600;
+    align-items: center;
+    height: 19px;
+    width: 130px;
+    position: absolute;
+    left: 60px;
+}
+
+.amount {
+    visibility: hidden;
+}
+
+.percentage:hover .amount {
+    visibility: visible;
+}
+
+.percentage {
+    font-size: .8em;
+    line-height: 1;
+    text-transform: uppercase;
+    height: 19px;
+    margin: 2px 2px 2px 130px;
+    background: #555;
+    -webkit-transition: background-color 0.5s linear;
+    -moz-transition: background-color 0.5s linear;
+    -o-transition: background-color 0.5s linear;
+    transition: background-color 0.5s linear;
+}
+
+.percentage:hover {
+    background: red;
+}

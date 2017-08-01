@@ -62,26 +62,7 @@
             Removed friends:
             <div id="removed"></div>
         </div>
-        <div class="col-xs-12">
-            Friends from countries:
-            <div id="country"></div>
-        </div>
-        <div class="col-xs-12">
-            <div class="col-xs-12">
-                <div id="wrapper">
-                    <div class="chart">
-                        <div id="figure">
-                            <h4>Graph:</h4>
-                            <div class="graph">
-                                <ul id="countries" class="x-axis"></ul>
-                                <ul id="counter" class="y-axis"></ul>
-                                <div id="bars" class="bars"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="graphdiv" class="col-xs-12"></div>
     </div>
 </div>
 <script src="js/steamstatistics.js"></script>
