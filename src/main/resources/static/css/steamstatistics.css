@@ -24,9 +24,8 @@
 }
 
 .profileHeaderBackground {
-    max-width: 976px;
-    min-height: 224px;
     margin: 0 auto;
+    padding: 20px;
     background-color: #283242;
     /* rgb(26, 27, 31) rgb(30, 31, 38) rgb(40, 50, 66) rgb(30, 31, 38) rgb(26, 27, 31)*/
     background: -webkit-linear-gradient( 145deg, #1a1b1f 10%,#1a1b1f 40%,#1e1f26 52%,#1a1b1f 61%,#1a1b1f 85%);
@@ -35,9 +34,7 @@
 
 .profileHeader {
     position: relative;
-    max-width: 926px;
     margin: 0 auto;
-    padding-top: 24px;
 }
 
 .profileAvatar.profileHeaderSize {
@@ -48,7 +45,6 @@
 
 .profileHeaderContent {
     position: relative;
-    padding-top: 8px;
     color: #898989;
     font-size: 13px;
 }
@@ -56,7 +52,6 @@
 .profileHeader .profileHeaderCenteredPersona {
     position: absolute;
     left: 186px;
-    right: 268px;
     white-space: nowrap;
 }
 

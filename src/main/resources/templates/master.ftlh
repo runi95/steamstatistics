@@ -15,6 +15,7 @@
 
     <!-- Custom CSS -->
     <link href="css/steamstatistics.css" rel="stylesheet">
+    <link href="css/graphs2.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,7 +31,41 @@
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-<noscript><h2 style="color: #ff0000">Javascript is required to view this webpage, please enable Javascript and refresh the page</h2></noscript>
+<noscript><h2 style="color: #ff0000">Javascript is required to view this webpage, please enable Javascript and refresh
+    the page</h2></noscript>
+<div style="padding-bottom: 50px;">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNav">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Steam Statistics</a>
+            </div>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="/">Share</a></li>
+                    <li><a href="/graphs">Graphs</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <div style="padding: 7px 5px;">
+                        <a href="/login">
+                            <img src="/css/img/sits_01.png" alt="Steam Login">
+                        </a>
+                    </div>
+                    <!--
+                    <li><a href="/login">
+                        <span class="glyphicon glyphicon-log-in"> Login</span>
+                    </a></li>
+                    -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
     <#nested/>
 <!-- /container -->
 
