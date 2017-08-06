@@ -37,8 +37,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String getLogin(HttpServletRequest request) {
-        AuthRequest authReq = steamOpenId.login(steamOpenIdConfig.getClientId() + "/login/openid");
-        String url = authReq.getDestinationUrl(true);
+        String url = steamOpenId.login(steamOpenIdConfig.getClientId() + "/login/openid");
 
         return "redirect:" + url;
     }

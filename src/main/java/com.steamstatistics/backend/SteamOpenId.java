@@ -31,14 +31,15 @@ public class SteamOpenId {
         discoveryInformation = manager.associate(manager.discover(OPENID_PROVIDER));
     }
 
-    public AuthRequest login(String callbackUrl) {
+    public String login(String callbackUrl) {
         if (this.discoveryInformation == null)
             return null;
 
         try {
             AuthRequest authReq = manager.authenticate(discoveryInformation, callbackUrl);
+            String url = authReq.getDestinationUrl(true);
 
-            return authReq;
+            return url;
         } catch (MessageException | ConsumerException e) {
             e.printStackTrace();
         }
