@@ -31,6 +31,15 @@ public class SteamHandlerMockup {
             map.put(steamFriendEntity.getSteamfriendid(), steamFriendEntity);
         }
 
+        SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
+        Random r = new Random();
+        steamFriendEntity.setSteamfriendid(steamid);
+        steamFriendEntity.setSteamid(steamid);
+        steamFriendEntity.setFriendsince(r.nextInt(2073600) + 1499378214);
+        map.put(steamFriendEntity.getSteamfriendid(), steamFriendEntity);
+
+        processSteamProfiles(steamid, map);
+
         return map;
     }
 
@@ -44,8 +53,8 @@ public class SteamHandlerMockup {
 
     public void processSteamProfile(Long steamid, SteamFriendEntity steamFriendEntity) {
         steamFriendEntity.setSteamid(steamid);
-        steamFriendEntity.setPersonaname("BOT" + steamFriendEntity.getSteamid());
-        steamFriendEntity.setProfileurl("http://steamcommunity.com/profile/" + steamFriendEntity.getSteamid());
+        steamFriendEntity.setPersonaname("BOT" + steamFriendEntity.getSteamfriendid());
+        steamFriendEntity.setProfileurl("http://steamcommunity.com/profile/" + steamFriendEntity.getSteamfriendid());
         steamFriendEntity.setAvatar("/css/img/defaultImage.jpg");
         steamFriendEntity.setAvatarmedium("/css/img/defaultImage.jpg");
         steamFriendEntity.setAvatarfull("/css/img/defaultImage.jpg");
