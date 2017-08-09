@@ -45,7 +45,7 @@ public class SteamFriendEntity {
     @Column(name="loccountrycode", nullable = true)
     private String loccountrycode;
 
-    @Transient
+    @Column(name = "friendsince", nullable = true)
     private long friendsince;
 
     @Column(name="adddate")

@@ -7,10 +7,7 @@ import com.steamstatistics.steamapi.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 
 @Service
 public class SteamFriendService {
@@ -107,6 +104,22 @@ public class SteamFriendService {
         }
 
         return maps;
+    }
+
+    public List<SteamFriendEntity> getLongestFriendship() {
+        List<SteamFriendEntity> orderedList = steamFriendRepository.findByFriendsinceNotNullOrderByFriendsince();
+        List<SteamFriendEntity> longestFriendship = new ArrayList<>();
+        System.out.println("orderedList: " + orderedList.size());
+
+        if(!orderedList.isEmpty()) {
+            SteamFriendEntity friend = orderedList.get(0);
+            SteamFriendEntity owner = steamFriendRepository.findBySteamidAndSteamfriendid(friend.getSteamid(), friend.getSteamid());
+
+            longestFriendship.add(owner);
+            longestFriendship.add(friend);
+        }
+
+        return longestFriendship;
     }
 
     private Map<Long, SteamFriendEntity> convertToMap(Iterable<SteamFriendEntity> list) {

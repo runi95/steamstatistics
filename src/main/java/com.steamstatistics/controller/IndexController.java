@@ -40,6 +40,11 @@ public class IndexController {
         return "test";
     }
 
+    @GetMapping(value = "/home")
+    public String getFrontpage() {
+        return "frontpage";
+    }
+
     @GetMapping(value = "/test")
     public String getTestPage() {
         return "test";

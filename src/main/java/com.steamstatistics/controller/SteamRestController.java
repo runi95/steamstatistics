@@ -8,10 +8,7 @@ import com.steamstatistics.data.RestMessageModel;
 import com.steamstatistics.data.SteamFriendEntity;
 import com.steamstatistics.data.SteamFriendService;
 import com.steamstatistics.data.SteamProfileService;
-import com.steamstatistics.steamapi.SteamAPICaller;
-import com.steamstatistics.steamapi.SteamFriends;
-import com.steamstatistics.steamapi.SteamHandler;
-import com.steamstatistics.steamapi.TimeService;
+import com.steamstatistics.steamapi.*;
 import com.steamstatistics.userauth.SteamUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -78,6 +76,14 @@ public class SteamRestController {
         Map<Long, SteamFriendEntity> steamFriends = steamHandler.getProfile(steamOpenIdConfig.getClientSecret(), steamid);
 
         return convertObjectToJson(new RestMessageModel("200", "getfriends", steamFriends));
+    }
+
+    @RequestMapping("/getfrontpage")
+    public String getFrontpage(@CookieValue(value = "token", required = false) String token, Principal principal) {
+
+        List<SteamFriendEntity> longestFriendship = steamFriendService.getLongestFriendship();
+
+        return convertObjectToJson(new RestMessageModel("200", "getfrontpage", longestFriendship));
     }
 
     private Long getSteamid(String token, Principal principal) {

@@ -16,4 +16,6 @@ public interface SteamFriendRepository extends CrudRepository<SteamFriendEntity,
 
     @Query("SELECT s FROM SteamFriendEntity s WHERE s.steamid = ?1 AND NOT s.removeDate = 0")
     List<SteamFriendEntity> findByRemoveDateNotNullAndSteamidOrderByRemoveDateDesc(long steamid);
+
+    List<SteamFriendEntity> findByFriendsinceNotNullOrderByFriendsince();
 }
