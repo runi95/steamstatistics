@@ -109,7 +109,6 @@ public class SteamFriendService {
     public List<SteamFriendEntity> getLongestFriendship() {
         List<SteamFriendEntity> orderedList = steamFriendRepository.findByFriendsinceNotNullOrderByFriendsince();
         List<SteamFriendEntity> longestFriendship = new ArrayList<>();
-        System.out.println("orderedList: " + orderedList.size());
 
         if(!orderedList.isEmpty()) {
             SteamFriendEntity friend = orderedList.get(0);
@@ -130,4 +129,6 @@ public class SteamFriendService {
 
         return map;
     }
+
+
 }

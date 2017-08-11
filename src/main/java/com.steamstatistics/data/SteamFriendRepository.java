@@ -18,4 +18,8 @@ public interface SteamFriendRepository extends CrudRepository<SteamFriendEntity,
     List<SteamFriendEntity> findByRemoveDateNotNullAndSteamidOrderByRemoveDateDesc(long steamid);
 
     List<SteamFriendEntity> findByFriendsinceNotNullOrderByFriendsince();
+
+    List<SteamFriendEntity> findByFriendsinceGreaterThan(long epoch);
+
+    List<SteamFriendEntity> findByRemoveDateGreaterThan(long epoch);
 }
