@@ -46,20 +46,14 @@
                     Monthly Stat
                 </div>
                 <div class="monthlystat">
-                    <span class="monthlynumb">300</span> friends gained
+                    <span id="friendgain" class="monthlynumb">300</span> friendships bonded
                 </div>
                 <div class="monthlystat">
-                    <span class="monthlynumb">50</span> friends lost
+                    <span id="friendloss" class="monthlynumb">50</span> friendships ruined
                 </div>
             </div>
         </div>
-        <div class="col-xs-4">
-                <span id="friendgain"></span> friends has been gained this month.
-        </div>
-        <div class="col-xs-4">
-            <span id="friendloss"></span> friends has been lost this month.
-        </div>
-        <div class="col-xs-4">
+        <div class="col-md-8">
             <span id="temp"></span>Placeholder for something coming.
         </div>
     </div>
