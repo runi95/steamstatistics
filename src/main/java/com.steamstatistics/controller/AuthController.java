@@ -3,6 +3,7 @@ package com.steamstatistics.controller;
 import com.steamstatistics.backend.OpenIdSession;
 import com.steamstatistics.backend.SteamOpenId;
 import com.steamstatistics.backend.SteamOpenIdConfig;
+import com.steamstatistics.backend.SteamOpenIdMockup;
 import com.steamstatistics.data.SteamProfileEntity;
 import com.steamstatistics.data.SteamProfileService;
 import com.steamstatistics.userauth.SteamUserDetailsService;
