@@ -3,6 +3,7 @@ package com.steamstatistics.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.steamstatistics.backend.Frontpage;
 import com.steamstatistics.backend.SteamOpenIdConfig;
 import com.steamstatistics.data.RestMessageModel;
 import com.steamstatistics.data.SteamFriendEntity;
@@ -80,10 +81,14 @@ public class SteamRestController {
 
     @RequestMapping("/getfrontpage")
     public String getFrontpage(@CookieValue(value = "token", required = false) String token, Principal principal) {
-
         List<SteamFriendEntity> longestFriendship = steamFriendService.getLongestFriendship();
+        List<SteamFriendEntity> ruinedFriendshipsList = steamFriendService.findByRemoveDateGreaterThan(timeService.getLastMonthUnixTime());
+        List<SteamFriendEntity> bondedFriendshipsList = steamFriendService.findByFriendsinceGreaterThan(timeService.getLastMonthUnixTime());
+        int ruinedFriendships = ruinedFriendshipsList.size(), bondedFriendships = bondedFriendshipsList.size();
 
-        return convertObjectToJson(new RestMessageModel("200", "getfrontpage", longestFriendship));
+        Frontpage frontpage = new Frontpage(ruinedFriendships, bondedFriendships, longestFriendship);
+
+        return convertObjectToJson(new RestMessageModel("200", "getfrontpage", frontpage));
     }
 
     private Long getSteamid(String token, Principal principal) {

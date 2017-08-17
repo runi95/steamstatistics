@@ -29,12 +29,14 @@ function loadFrontpage(data) {
 }
 
 function getFrontpageSuccess(message) {
-    var frienda = message[0];
-    var friendb = message[1];
+    var frienda = message.longestFriendship[0];
+    var friendb = message.longestFriendship[1];
     if(frienda != null && friendb != null) {
         document.getElementById("longestfrienda").innerHTML = frienda.personaname;
         document.getElementById("longestfriendb").innerHTML = friendb.personaname;
     }
+    document.getElementById("friendgain").innerHTML = message.ruinedfriendships;
+    document.getElementById("friendloss").innerHTML = message.bondedfriendships;
 }
 
 getFrontpage();

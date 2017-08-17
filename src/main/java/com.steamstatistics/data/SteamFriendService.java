@@ -17,6 +17,14 @@ public class SteamFriendService {
 
     TimeService timeService = new TimeService();
 
+    public List<SteamFriendEntity> findByRemoveDateGreaterThan(long epoch) {
+        return steamFriendRepository.findByRemoveDateGreaterThan(epoch);
+    }
+
+    public List<SteamFriendEntity> findByFriendsinceGreaterThan(long epoch) {
+        return steamFriendRepository.findByFriendsinceGreaterThan(epoch);
+    }
+
     public void save(SteamFriendEntity steamFriendEntity) {
         steamFriendRepository.save(steamFriendEntity);
     }
