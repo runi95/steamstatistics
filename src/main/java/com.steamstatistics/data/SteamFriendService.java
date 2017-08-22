@@ -1,5 +1,6 @@
 package com.steamstatistics.data;
 
+import com.steamstatistics.backend.LongestFriendship;
 import com.steamstatistics.backend.SteamFriendWithDateComparator;
 import com.steamstatistics.backend.SteamFriendsSinceComparator;
 import com.steamstatistics.steamapi.SteamRemovedFriends;
@@ -7,6 +8,7 @@ import com.steamstatistics.steamapi.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -114,16 +116,16 @@ public class SteamFriendService {
         return maps;
     }
 
-    public List<SteamFriendEntity> getLongestFriendship() {
+    public LongestFriendship getLongestFriendship() {
         List<SteamFriendEntity> orderedList = steamFriendRepository.findByFriendsinceNotNullOrderByFriendsince();
-        List<SteamFriendEntity> longestFriendship = new ArrayList<>();
+        LongestFriendship longestFriendship = null;
 
         if(!orderedList.isEmpty()) {
             SteamFriendEntity friend = orderedList.get(0);
             SteamFriendEntity owner = steamFriendRepository.findBySteamidAndSteamfriendid(friend.getSteamid(), friend.getSteamid());
+            LocalDateTime friendSince = timeService.getLocalDateTimeFromUnix(friend.getFriendsince());
 
-            longestFriendship.add(owner);
-            longestFriendship.add(friend);
+            longestFriendship = new LongestFriendship(owner, friend, ((friendSince.getDayOfMonth() <= 9 ? "0" + friendSince.getDayOfMonth() : friendSince.getDayOfMonth()) + "/" + (friendSince.getMonthValue() <= 9 ? "0" + friendSince.getMonthValue() : friendSince.getMonthValue() )) + "/" + friendSince.getYear());
         }
 
         return longestFriendship;
