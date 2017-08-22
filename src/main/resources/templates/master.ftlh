@@ -31,7 +31,7 @@
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-<noscript><h2 style="color: #ff0000">Javascript is required to view this webpage, please enable Javascript and refresh
+<noscript><h2 style="color: #ff0000">Javascript is required to view this website, please enable Javascript and refresh
     the page</h2></noscript>
 <div style="padding-bottom: 50px;">
     <nav class="navbar navbar-inverse navbar-fixed-top">
