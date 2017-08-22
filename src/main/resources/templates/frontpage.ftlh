@@ -3,6 +3,7 @@
 
 <style>
     .longestfriend {
+        height: 206px;
         background: red;
         background: -webkit-linear-gradient( 180deg, #1a1b1f 10%,#1a1b1f 40%,#1e1f26 52%,#1a1b1f 61%,#1a1b1f 85%);
         background: linear-gradient( 180deg, #1a1b1f 10%,#1a1b1f 40%,#1e1f26 52%,#1a1b1f 61%,#1a1b1f 85%);
@@ -15,13 +16,17 @@
     }
 
     .monthly {
-        background: black;
-        padding: 20px;
+        border-left: 3px solid #1e1f26;
+        border-bottom: 3px solid #1e1f26;
+        border-right: 3px solid #1e1f26;
+        background: #1e1f36;
+        padding: 10px;
     }
 
     .monthly .monthlytitle {
-        color: red;
+        color: #e1f1e1;
         font-size: 2em;
+        text-shadow: 2px 3px rgba(100,85,100,.5);
     }
 
     .monthly .monthlystat {
