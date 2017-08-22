@@ -50,6 +50,15 @@
     .donatorHeader .donatorContent .donator {
         padding: 10px;
     }
+
+    .longestfriendship {
+        background: #222222;
+        padding: 10px;
+    }
+
+    .longestfriendship .longestfriendshipHeader {
+        color: #a94442;
+    }
 </style>
 <div class="container">
     <div class="row">
@@ -62,9 +71,12 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-4">
-                        <div class="monthly" style="margin: 10px 10px">
+                        <div class="longestfriendship" style="margin: 10px 10px">
+                            <h4 class="longestfriendshipHeader">
+                                Longest Friendship
+                            </h4>
                             <div class="plusstest">
-                                has been friends since <span id="longestfriendshipdate"></span>
+                                <span id="longestfriendshipdate"></span>
                             </div>
                         </div>
                     </div>
