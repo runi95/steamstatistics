@@ -57,6 +57,7 @@ function getFrontpageSuccess(message) {
 
         document.getElementById("longestfriendshipdate").innerHTML = longestfriendship.friendDateAsString;
     }
+    document.getElementById("registeredaccounts").innerHTML = message.registeredusers;
     document.getElementById("friendgain").innerHTML = message.ruinedfriendships;
     document.getElementById("friendloss").innerHTML = message.bondedfriendships;
 }

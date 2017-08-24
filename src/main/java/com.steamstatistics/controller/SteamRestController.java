@@ -85,9 +85,10 @@ public class SteamRestController {
         LongestFriendship longestFriendship = steamFriendService.getLongestFriendship();
         List<SteamFriendEntity> ruinedFriendshipsList = steamFriendService.findByRemoveDateGreaterThan(timeService.getLastMonthUnixTime());
         List<SteamFriendEntity> bondedFriendshipsList = steamFriendService.findByFriendsinceGreaterThan(timeService.getLastMonthUnixTime());
-        int ruinedFriendships = ruinedFriendshipsList.size(), bondedFriendships = bondedFriendshipsList.size();
+        List<SteamFriendEntity> registeredUsersList = steamFriendService.getAllRegisteredUsers();
+        int registeredUsers = registeredUsersList.size(), ruinedFriendships = ruinedFriendshipsList.size(), bondedFriendships = bondedFriendshipsList.size();
 
-        Frontpage frontpage = new Frontpage(ruinedFriendships, bondedFriendships, longestFriendship);
+        Frontpage frontpage = new Frontpage(registeredUsers, ruinedFriendships, bondedFriendships, longestFriendship);
 
         return convertObjectToJson(new RestMessageModel("200", "getfrontpage", frontpage));
     }

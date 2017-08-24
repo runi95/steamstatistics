@@ -96,6 +96,9 @@
                     Monthly Stat
                 </div>
                 <div class="monthlystat">
+                    <span id="registeredaccounts" class="monthlynumb"></span> new accounts
+                </div>
+                <div class="monthlystat">
                     <span id="friendgain" class="monthlynumb"></span> friendships bonded
                 </div>
                 <div class="monthlystat">

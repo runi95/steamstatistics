@@ -131,6 +131,10 @@ public class SteamFriendService {
         return longestFriendship;
     }
 
+    public List<SteamFriendEntity> getAllRegisteredUsers() {
+        return steamFriendRepository.findAllRegisteredUsers();
+    }
+
     private Map<Long, SteamFriendEntity> convertToMap(Iterable<SteamFriendEntity> list) {
         HashMap<Long, SteamFriendEntity> map = new HashMap<>();
         for(SteamFriendEntity steamFriendEntity : list) {
