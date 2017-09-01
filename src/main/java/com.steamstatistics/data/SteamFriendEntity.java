@@ -4,16 +4,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="steamfriend")
-@IdClass(SteamFriendEntityKey.class)
 public class SteamFriendEntity {
 
     @Id
-    @Column(name="steamid", updatable = true, nullable = false)
+    @Column(name="steamid", nullable = false)
     private long steamid;
 
-    @Id
-    @Column(name="steamfriendid", updatable = true, nullable = false)
-    private long steamfriendid;
+    @Column(name = "updatetime", nullable = false)
+    private long updatetime;
 
     @Column(name="personname")
     private String personaname;
@@ -42,31 +40,45 @@ public class SteamFriendEntity {
     @Column(name="lastlogoff")
     private long lastlogoff;
 
-    @Column(name="loccountrycode", nullable = true)
+    @Column(name="commentpermission")
+    private boolean commentpermission;
+
+    @Column(name="realname")
+    private String realname;
+
+    @Column(name="primaryclanid")
+    private String primaryclanid;
+
+    @Column(name="timecreated")
+    private long timecreated;
+
+    @Column(name="gameid")
+    private long gameid; // Unused for now
+
+    @Column(name="gameserverip")
+    private String gameserverip; // Unused for now
+
+    @Column(name="gameextrainfo")
+    private String gameextrainfo; // Unused for now
+
+    @Column(name="loccountrycode")
     private String loccountrycode;
 
-    @Column(name = "friendsince", nullable = true)
-    private long friendsince;
+    @Column(name="locstatecode")
+    private String locstatecode;
 
-    @Column(name="adddate")
-    private long addDate;
+    @Column(name="loccityid")
+    private int loccityid;
 
-    @Column(name="removedate")
-    private long removeDate;
-
-    public long getSteamid() {
-        return steamid;
-    }
+    public long getSteamid() { return steamid; }
 
     public void setSteamid(long steamid) {
         this.steamid = steamid;
     }
 
-    public long getSteamfriendid() { return steamfriendid; }
+    public long getUpdatetime() { return updatetime; }
 
-    public void setSteamfriendid(long steamfriendid) {
-        this.steamfriendid = steamfriendid;
-    }
+    public void setUpdatetime(long updatetime) { this.updatetime = updatetime; }
 
     public String getPersonaname() {
         return personaname;
@@ -142,23 +154,39 @@ public class SteamFriendEntity {
 
     public void setLoccountrycode(String loccountrycode) { this.loccountrycode = loccountrycode; }
 
-    public long getFriendsince() { return friendsince; }
+    public boolean getCommentpermission() { return commentpermission; }
 
-    public void setFriendsince(long friendsince) { this.friendsince = friendsince; }
+    public void setCommentpermission(boolean commentpermission) { this.commentpermission = commentpermission; }
 
-    public long getAddDate() {
-        return addDate;
-    }
+    public String getRealname() { return realname; }
 
-    public void setAddDate(long addDate) {
-        this.addDate = addDate;
-    }
+    public void setRealname(String realname) { this.realname = realname; }
 
-    public long getRemoveDate() {
-        return removeDate;
-    }
+    public String getPrimaryclanid() { return primaryclanid; }
 
-    public void setRemoveDate(long removeDate) {
-        this.removeDate = removeDate;
-    }
+    public void setPrimaryclanid(String primaryclanid) { this.primaryclanid = primaryclanid; }
+
+    public long getTimecreated() { return timecreated; }
+
+    public void setTimecreated(int timecreated) { this.timecreated = timecreated; }
+
+    public long getGameid() { return gameid; }
+
+    public void setGameid(long gameid) { this.gameid = gameid; }
+
+    public String getGameserverip() { return gameserverip; }
+
+    public void setGameserverip(String gameserverip) { this.gameserverip = gameserverip; }
+
+    public String getGameextrainfo() { return gameextrainfo; }
+
+    public void setGameextrainfo(String gameextrainfo) { this.gameextrainfo = gameextrainfo; }
+
+    public String getLocstatecode() { return locstatecode; }
+
+    public void setLocstatecode(String locstatecode) { this.locstatecode = locstatecode; }
+
+    public int getLoccityid() { return loccityid; }
+
+    public void setLoccityid(int loccityid) { this.loccityid = loccityid; }
 }

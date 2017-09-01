@@ -1,7 +1,8 @@
 package com.steamstatistics.steamapi;
 
-import com.steamstatistics.backend.SteamFriendsSinceComparator;
+import com.steamstatistics.backend.SteamProfileToFriendsEntityComparator;
 import com.steamstatistics.data.SteamFriendEntity;
+import com.steamstatistics.data.SteamProfileToFriendEntity;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,8 +14,8 @@ public class SteamFriends {
     private String monthIndex, weekIndex;
     private Map<Long, SteamFriendEntity> friendsList = new HashMap<>();
     private SteamFriendEntity steamProfile;
-    private SteamFriendEntity[] oldest, newest;
-    private TreeSet<SteamFriendEntity> sortedFriendsSet = new TreeSet<>(new SteamFriendsSinceComparator());
+    private SteamProfileToFriendEntity[] oldest, newest;
+    private TreeSet<SteamProfileToFriendEntity> sortedFriendsSet = new TreeSet<>(new SteamProfileToFriendsEntityComparator());
     private Map<String, Integer> countryMap = new HashMap<>();
 
     public int getFriendsGainedLastMonth() {
@@ -55,23 +56,23 @@ public class SteamFriends {
 
     public Map<Long, SteamFriendEntity> getFriendsList() { return friendsList; }
 
-    public void addToFriendsList(SteamFriendEntity steamFriendEntity) { friendsList.put(steamFriendEntity.getSteamfriendid(), steamFriendEntity); }
+    public void addToFriendsList(SteamFriendEntity steamFriendEntity) { friendsList.put(steamFriendEntity.getSteamid(), steamFriendEntity); }
 
-    public void addToSortedSet(SteamFriendEntity steamFriendEntity) { sortedFriendsSet.add(steamFriendEntity); }
+    public void addToSortedSet(SteamProfileToFriendEntity steamFriendEntity) { sortedFriendsSet.add(steamFriendEntity); }
 
-    public TreeSet<SteamFriendEntity> getSortedFriendsSet() { return sortedFriendsSet; }
+    public TreeSet<SteamProfileToFriendEntity> getSortedFriendsSet() { return sortedFriendsSet; }
 
     public SteamFriendEntity getSteamProfile() { return steamProfile; }
 
     public void setSteamProfile(SteamFriendEntity steamProfile) { this.steamProfile = steamProfile; }
 
-    public SteamFriendEntity[] getOldest() {
+    public SteamProfileToFriendEntity[] getOldest() {
         if(oldest != null) {
             return oldest;
         } else {
-            Iterator<SteamFriendEntity> iterator = sortedFriendsSet.descendingIterator();
+            Iterator<SteamProfileToFriendEntity> iterator = sortedFriendsSet.descendingIterator();
 
-            SteamFriendEntity[] steamFriendEntities = new SteamFriendEntity[5];
+            SteamProfileToFriendEntity[] steamFriendEntities = new SteamProfileToFriendEntity[5];
             int i = 0;
             while (i < 5 && iterator.hasNext()) {
                 steamFriendEntities[i++] = iterator.next();
@@ -81,13 +82,13 @@ public class SteamFriends {
         }
     }
 
-    public SteamFriendEntity[] getNewest() {
+    public SteamProfileToFriendEntity[] getNewest() {
         if (newest != null) {
             return newest;
         } else {
-            Iterator<SteamFriendEntity> iterator = sortedFriendsSet.iterator();
+            Iterator<SteamProfileToFriendEntity> iterator = sortedFriendsSet.iterator();
 
-            SteamFriendEntity[] steamFriendEntities = new SteamFriendEntity[5];
+            SteamProfileToFriendEntity[] steamFriendEntities = new SteamProfileToFriendEntity[5];
             int i = 0;
             while (i < 5 && iterator.hasNext()) {
                 steamFriendEntities[i++] = iterator.next();
@@ -109,9 +110,9 @@ public class SteamFriends {
 
     public Map<String, Integer> getCountryMap() { return countryMap; }
 
-    public void setOldest(SteamFriendEntity[] steamFriendEntity) { oldest = steamFriendEntity; }
+    public void setOldest(SteamProfileToFriendEntity[] steamFriendEntity) { oldest = steamFriendEntity; }
 
-    public void setNewest(SteamFriendEntity[] steamFriendEntity) { newest = steamFriendEntity; }
+    public void setNewest(SteamProfileToFriendEntity[] steamFriendEntity) { newest = steamFriendEntity; }
 
     public int getMaxLevel() { return maxLevel; }
 

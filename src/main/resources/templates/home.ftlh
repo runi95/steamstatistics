@@ -17,7 +17,7 @@
                                 <div id="state" class="profileAvatar profileHeaderSize offline">
                                     <div class="playerAvatarAutoSizeInner">
                                         <img id="avatar"
-                                             src="css/img/defaultImage.jpg">
+                                             src="css/img/defaultImageLarge.jpg">
                                     </div>
                                 </div>
                             </div>
@@ -28,9 +28,11 @@
                                           style="font-size: 24px;"></span>
                                     </div>
                                     <div id="loader" class="loader"></div>
-                                    <span>Friends Lost (this month): <span id="lmonth"></span></span>
+                                    Joined Steam Statistics on <span id="jdate"></span>
                                     <br>
-                                    <span>Friends Lost (this week): <span id="lweek"></span></span>
+                                    <span><span id="lmonth"></span> friendships ended</span>
+                                    <br>
+                                    <span><span id="gmonth"></span> friendships started</span>
                                 </div>
                             </div>
                         </div>

@@ -35,9 +35,9 @@ public class SteamAPICaller {
         return friends;
     }
 
-    public List<Map<String, Object>> getPlayerSummaries(String apikey, Map<Long, SteamFriendEntity> steamids) {
+    public List<Map<String, Object>> getPlayerSummaries(String apikey, Map<Long, ?> steamids) {
         if (steamids == null || steamids.isEmpty())
-            return null;
+            return new ArrayList<>();
 
         List<Map<String, Object>> friendsList = null;
         Iterator<Long> iterator = steamids.keySet().iterator();
@@ -61,9 +61,35 @@ public class SteamAPICaller {
         return friendsList;
     }
 
+    public List<Map<String, Object>> getPlayerSummaries(String apikey, List<Long> steamids) {
+        if (steamids == null || steamids.isEmpty())
+            return new ArrayList<>();
+
+        List<Map<String, Object>> friendsList = null;
+        Iterator<Long> iterator = steamids.iterator();
+
+        while(iterator.hasNext()) {
+            String parsedSteamids = Long.toString(iterator.next());
+
+            int i = 0;
+            while (iterator.hasNext() && i < 100) {
+                parsedSteamids += "," + Long.toString(iterator.next());
+                i++;
+            }
+
+            if(friendsList == null) {
+                friendsList = getPlayerSummaries(apikey, parsedSteamids);
+            } else {
+                friendsList.addAll(getPlayerSummaries(apikey, parsedSteamids));
+            }
+        }
+
+        return friendsList;
+    }
+
     public List<Map<String, Object>> getPlayerSummaries(String apikey, String steamid) {
         if (steamid == null || steamid.isEmpty())
-            return null;
+            return new ArrayList<>();
 
         String read = readUrl("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + apikey + "&steamids=" + steamid);
 

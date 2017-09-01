@@ -42,13 +42,14 @@
 
     .donatorHeader {
         background: #222;
+        color: #e1f1e1;
+        font-size: 2em;
+        text-shadow: 2px 3px rgba(100, 85, 100, .5);
     }
 
     .donatorHeader .donatorContent {
-    }
-
-    .donatorHeader .donatorContent .donator {
         padding: 10px;
+        min-height: 50px;
     }
 
     .longestfriendship {
@@ -67,7 +68,9 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-4">
                         <div class="roundedAvatar">
-                            <div id="longestfrienda"></div>
+                            <div id="longestfrienda">
+                                <img id="longestfriendaimg" src="css/img/defaultImageMedium.jpg">
+                            </div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-4">
@@ -82,7 +85,9 @@
                     </div>
                     <div class="col-xs-12 col-md-4">
                         <div class="roundedAvatar">
-                            <div id="longestfriendb"></div>
+                            <div id="longestfriendb">
+                                <img id="longestfriendbimg" src="css/img/defaultImageMedium.jpg">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,30 +115,7 @@
             <div class="donatorHeader">
                 Latest donators:
                 <div class="donatorContent">
-                    <div class="donator">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <!-- This is just a temporary placeholder... -->
-                                <div class="profile persona golden" href="/profile">
-                                    <a class="profileLink" href="/"></a>
-
-                                    <div class="profileAvatar golden">
-                                        <img src="/css/img/countries/ae.png">
-                                    </div>
-                                    <div>
-                                        OLA NORDMANN
-                                        <br>
-                                        <span>
-                                    <span>
-                                    PLACEHOLDER (01/01/1970)
-                                    <br>
-                                    </span>
-                                </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="donatordiv"></div>
                 </div>
             </div>
         </div>

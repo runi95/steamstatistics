@@ -1,29 +1,28 @@
 package com.steamstatistics.data;
 
-import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "steamprofiles")
 public class SteamProfileEntity {
     @Id
-    @Column(name = "steamid", nullable = false, updatable = true, unique = true)
+    @Column(name = "steamid", nullable = false, unique = true)
     private long steamid;
 
-    @Column(name = "authtoken", nullable = false, updatable = true, unique = true)
-    private String authtoken;
-
-    @Column(name = "updatedate", nullable = true, updatable = true)
-    private Timestamp lastupdate;
+    @Column(name = "updatedate")
+    private long lastupdate;
 
     @Column(name = "creationdate", nullable = false)
-    private Timestamp creationdate;
+    private long creationdate;
+
+    @Column(name = "donationdate")
+    private long donationdate;
 
     public SteamProfileEntity(long creationdate) {
-        this.creationdate = new Timestamp(creationdate);
+        this.creationdate = creationdate;
     }
 
     public long getSteamid() {
@@ -34,13 +33,15 @@ public class SteamProfileEntity {
         this.steamid = steamid;
     }
 
-    public String getAuthtoken() { return authtoken; }
+    public long getLastupdate() { return lastupdate; }
 
-    public void setAuthtoken(String authtoken) { this.authtoken = authtoken; }
+    public void setLastupdate(long lastupdate) { this.lastupdate = lastupdate; }
 
-    public Timestamp getLastupdate() { return lastupdate; }
+    public long getCreationdate() { return creationdate; }
 
-    public void setLastupdate(Timestamp lastupdate) { this.lastupdate = lastupdate; }
+    public void setCreationdate(long creationdate) { this.creationdate = creationdate; }
 
-    public Timestamp getCreationdate() { return creationdate; }
+    public long getDonationdate() { return donationdate; }
+
+    public void setDonationdate(long donationdate) { this.donationdate = donationdate; }
 }

@@ -14,12 +14,14 @@ function getProfile(data) {
 function getProfileSuccess(message) {
     document.getElementById("steamhref").setAttribute("class", "hide");
 
-    document.getElementById("personaname").innerHTML = message.personaname;
-    document.getElementById("state").setAttribute("class", "profileAvatar profileHeaderSize " + message.profilestate);
-    document.getElementById("avatar").setAttribute("src", message.avatarfull);
-    if (message.communityvisibilitystate != "3") {
+    document.getElementById("personaname").innerHTML = message[0].personaname;
+    document.getElementById("state").setAttribute("class", "profileAvatar profileHeaderSize " + message[0].profilestate);
+    document.getElementById("avatar").setAttribute("src", message[0].avatarfull);
+    if (message[0].communityvisibilitystate != "3") {
         document.getElementById("privacystate").setAttribute("class", "show");
     }
+
+
 }
 
 function getProfileInfo(message) {
@@ -122,17 +124,25 @@ function requestlogin() {
 }
 
 function getRemovedSuccessful(message) {
-    for (var i = 0; i < message.sortedFriendsSet.length; i++) {
-        addFriend(message.sortedFriendsSet[i].steamFriendEntity, message.sortedFriendsSet[i].localDateTimeString, "removed", "removed");
+    for (var i = 0; i < message[0].length; i++) {
+        addFriend(message[0][i].steamFriendEntity, message[0][i].localDateTimeString, "removed", "removed");
     }
 
     var lmonth = document.getElementById("lmonth");
-    lmonth.setAttribute("class", message.monthIndex);
-    lmonth.innerHTML = message.friendsLostLastMonth;
+    lmonth.setAttribute("class", "negative");
+    lmonth.innerHTML = message[1];
 
-    var lweek = document.getElementById("lweek");
-    lweek.setAttribute("class", message.weekIndex);
-    lweek.innerHTML = message.friendsLostLastWeek;
+    //var lweek = document.getElementById("lweek");
+    //lweek.setAttribute("class", "negative");
+    //lweek.innerHTML = message[2];
+
+    var gmonth = document.getElementById("gmonth");
+    gmonth.setAttribute("class", "positive");
+    gmonth.innerHTML = message[2];
+
+    //var gweek = document.getElementById("gweek");
+    //gweek.setAttribute("class", "positive");
+    //gweek.innerHTML = message[4];
 }
 
 function getRemoved(data) {

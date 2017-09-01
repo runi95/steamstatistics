@@ -37,8 +37,8 @@ function getFrontpageSuccess(message) {
         var longestfriendb = document.getElementById("longestfriendb");
         var hrefa = document.createElement("a");
         var hrefb = document.createElement("a");
-        var imga = document.createElement("img");
-        var imgb = document.createElement("img");
+        var imga = document.getElementById("longestfriendaimg");
+        var imgb = document.getElementById("longestfriendbimg");
         var diva = document.createElement("div");
         var divb = document.createElement("div");
         hrefa.setAttribute("href", frienda.profileurl);
@@ -56,6 +56,37 @@ function getFrontpageSuccess(message) {
         longestfriendb.appendChild(divb);
 
         document.getElementById("longestfriendshipdate").innerHTML = longestfriendship.friendDateAsString;
+    }
+    for(var i = 0; i < message.donators.length; i++) {
+        var profile = document.createElement("div");
+        var a = document.createElement("a");
+        var profileavatar = document.createElement("div");
+        var avatar = document.createElement("img");
+        var div = document.createElement("div");
+        var br = document.createElement("br");
+        var span = document.createElement("span");
+        var innerspan = document.createElement("span");
+        var innerspanbr = document.createElement("br");
+
+        profile.setAttribute("class", "profile persona golden");
+        profile.setAttribute("href", message.donators[i].profileurl);
+        a.setAttribute("class", "profileLink");
+        a.setAttribute("href", message.donators[i].profileurl);
+        profileavatar.setAttribute("class", "profileAvatar golden");
+        img.setAttribute("src", message.donators[i].avatar);
+        div.innerHTML = message.donators[i].personaname;
+        innerspan.innerHTML = "donator";
+
+        profile.appendChild(a);
+        profile.appendChild(profileavatar);
+        profile.appendChild(div);
+        profileavatar.appendChild(avatar);
+        div.appendChild(br);
+        div.appendChild(span);
+        span.appendChild(innerspan);
+        innerspan.appendChild(innerspanbr);
+
+        document.getElementById("donatordiv").appendChild(profile);
     }
     document.getElementById("registeredaccounts").innerHTML = message.registeredusers;
     document.getElementById("friendgain").innerHTML = message.ruinedfriendships;

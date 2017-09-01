@@ -1,29 +1,14 @@
 package com.steamstatistics.data;
 
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface SteamFriendRepository extends CrudRepository<SteamFriendEntity, SteamFriendEntityKey>{
-    List<SteamFriendEntity> findBySteamid(long steamid);
-    SteamFriendEntity findBySteamidAndSteamfriendid(long steamid, long steamfriendid);
-    List<SteamFriendEntity> findBySteamfriendid(long steamfriendid);
+public interface SteamFriendRepository extends CrudRepository<SteamFriendEntity, Long>{
+    SteamFriendEntity findBySteamid(long steamid);
 
-    @Query("SELECT s FROM SteamFriendEntity s WHERE s.steamid = ?1 AND s.removeDate = 0")
-    List<SteamFriendEntity> findAllUnremovedFriends(long steamid);
-
-    @Query("SELECT s FROM SteamFriendEntity s WHERE s.steamid = ?1 AND NOT s.removeDate = 0")
-    List<SteamFriendEntity> findByRemoveDateNotNullAndSteamidOrderByRemoveDateDesc(long steamid);
-
-    @Query("SELECT s FROM SteamFriendEntity s WHERE NOT s.friendsince = 0 ORDER BY s.friendsince")
-    List<SteamFriendEntity> findByFriendsinceNotNullOrderByFriendsince();
-
-    @Query("SELECT s FROM SteamFriendEntity s WHERE s.steamid = s.steamfriendid")
-    List<SteamFriendEntity> findAllRegisteredUsers();
-
-    List<SteamFriendEntity> findByFriendsinceGreaterThan(long epoch);
-
-    List<SteamFriendEntity> findByRemoveDateGreaterThan(long epoch);
+    List<SteamFriendEntity> findBySteamidIsIn(List<Long> steamidList);
+    List<SteamFriendEntity> findBySteamidIsInAndUpdatetimeLessThan(List<Long> steamidList, long updatetime);
+    List<SteamFriendEntity> findBySteamidIsInAndUpdatetimeGreaterThan(List<Long> steamidList, long updatetime);
 }

@@ -2,6 +2,7 @@ package com.steamstatistics.steamapi;
 
 import com.steamstatistics.backend.SteamOpenIdConfig;
 import com.steamstatistics.data.SteamFriendEntity;
+import com.steamstatistics.data.SteamProfileToFriendEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,25 @@ public class SteamHandler {
     @Cacheable("friends")
     public Map<Long, SteamFriendEntity> getProfile(String apikey, long steamid) {
         Map<Long, SteamFriendEntity> steamFriends = processSteamFriends(steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid), steamid);
-        return processSteamProfiles(steamid, steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends), steamFriends);
+        return processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriends));
+    }
+
+    public Map<Long, SteamProfileToFriendEntity> processFriendsList(List<Map<String, Object>> friendslist, long steamProfileid) {
+        Map<Long, SteamProfileToFriendEntity> mappedFriends = new HashMap<>();
+
+        for(Map<String, Object> map : friendslist) {
+            int friendSince = (int) map.get("friend_since");
+            long steamid = Long.parseLong((String) map.get("steamid"));
+
+            SteamProfileToFriendEntity steamProfileToFriendEntity = new SteamProfileToFriendEntity();
+            steamProfileToFriendEntity.setFriendsince(friendSince);
+            steamProfileToFriendEntity.setSteamprofileid(steamProfileid);
+            steamProfileToFriendEntity.setSteamfriendid(steamid);
+
+            mappedFriends.put(steamid, steamProfileToFriendEntity);
+        }
+
+        return mappedFriends;
     }
 
     public Map<Long, SteamFriendEntity> processSteamFriends(List<Map<String, Object>> friends, long steamid) {
@@ -35,37 +54,35 @@ public class SteamHandler {
         for (Map<String, Object> map : friends) {
             int friendSince = (int) map.get("friend_since");
             SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
-            steamFriendEntity.setSteamid(steamid);
             long steamFriendid = Long.parseLong((String) map.get("steamid"));
-            steamFriendEntity.setSteamfriendid(steamFriendid);
-            steamFriendEntity.setFriendsince(friendSince);
+            steamFriendEntity.setSteamid(steamFriendid);
+            //steamFriendEntity.setFriendsince(friendSince);
 
             steamFriends.put(steamFriendid, steamFriendEntity);
         }
 
         SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
         steamFriendEntity.setSteamid(steamid);
-        steamFriendEntity.setSteamfriendid(steamid);
 
         steamFriends.put(steamid, steamFriendEntity);
 
         return steamFriends;
     }
 
-    public Map<Long, SteamFriendEntity> processSteamProfiles(Long steamid, List<Map<String, Object>> profiles, Map<Long, SteamFriendEntity> steamFriends) {
-        for(Map<String, Object> map : profiles) {
-            processSteamProfile(steamid, map, steamFriends);
+    public Map<Long, SteamFriendEntity> processSteamProfiles(List<Map<String, Object>> profiles) {
+        Map<Long, SteamFriendEntity> map = new HashMap<>();
+
+        for(Map<String, Object> profileMap : profiles) {
+            processSteamProfile(map, profileMap);
         }
 
-        return steamFriends;
+        return map;
     }
 
-    public void processSteamProfile(Long steamid, Map<String, Object> profile, Map<Long, SteamFriendEntity> steamFriends) {
-        Long steamFriendid = Long.parseLong((String) profile.get("steamid"));
-        SteamFriendEntity steamFriendEntity = steamFriends.get(steamFriendid);
-
+    public void processSteamProfile(Map<Long, SteamFriendEntity> map, Map<String, Object> profile) {
+        SteamFriendEntity steamFriendEntity = new SteamFriendEntity();
+        Long steamid = Long.parseLong((String) profile.get("steamid"));
         steamFriendEntity.setSteamid(steamid);
-        steamFriendEntity.setSteamfriendid(steamFriendid);
         steamFriendEntity.setPersonaname((String) profile.get("personaname"));
         steamFriendEntity.setProfileurl((String) profile.get("profileurl"));
         steamFriendEntity.setAvatar((String) profile.get("avatar"));
@@ -74,7 +91,14 @@ public class SteamHandler {
         steamFriendEntity.setCommunityvisibilitystate(Integer.toString((int)profile.get("communityvisibilitystate")));
         steamFriendEntity.setProfilestate(Integer.toString((int)profile.get("profilestate")));
         steamFriendEntity.setLastlogoff((Integer) profile.get("lastlogoff"));
+        steamFriendEntity.setRealname((String) profile.get("realname"));
+        steamFriendEntity.setPrimaryclanid((String) profile.get("primaryclanid"));
+        steamFriendEntity.setTimecreated((int) profile.get("timecreated"));
+        //steamFriendEntity.setGameid((long) profile.get("gameid"));
+        //steamFriendEntity.setGameserverip((String) profile.get("gameserverip"));
+        //steamFriendEntity.setGameextrainfo((String) profile.get("gameextrainfo"));
         steamFriendEntity.setLoccountrycode((String) profile.get("loccountrycode"));
+        steamFriendEntity.setLocstatecode((String) profile.get("locstatecode"));
 
         String onlineState = null;
         switch((int)profile.get("personastate")) {
@@ -91,6 +115,13 @@ public class SteamHandler {
                 break;
         }
         steamFriendEntity.setPersonastate(onlineState);
+        Object commentPermission = profile.get("commentpermission");
+        steamFriendEntity.setCommentpermission(commentPermission != null);
+
+        Object loccityid = profile.get("loccityid");
+        if(loccityid != null)
+            steamFriendEntity.setLoccityid((int) loccityid);
+        map.put(steamid, steamFriendEntity);
     }
 
     public String getCountryNameFromISO(String alpha2code) {
