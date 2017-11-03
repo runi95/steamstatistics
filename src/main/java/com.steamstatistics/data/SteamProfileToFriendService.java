@@ -48,12 +48,20 @@ public class SteamProfileToFriendService {
         steamProfileToFriendRepository.save(steamProfileToFriendEntity);
     }
 
+    public void saveAll(Collection<SteamProfileToFriendEntity> steamProfileToFriendEntityCollection) {
+        steamProfileToFriendRepository.save(steamProfileToFriendEntityCollection);
+    }
+
     public List<SteamProfileToFriendEntity> findByRemoveDateGreaterThan(long epoch) {
         return steamProfileToFriendRepository.findByRemoveDateGreaterThan(epoch);
     }
 
     public List<SteamProfileToFriendEntity> findByFriendsinceGreaterThan(long epoch) {
         return steamProfileToFriendRepository.findByFriendsinceGreaterThan(epoch);
+    }
+
+    public List<Long> getAllFriendsSteamIds(long steamid) {
+        return steamProfileToFriendRepository.findAllFriendsSteamIds(steamid);
     }
 
     public Map<Long, SteamProfileToFriendEntity> getAllFriends(long steamid) {

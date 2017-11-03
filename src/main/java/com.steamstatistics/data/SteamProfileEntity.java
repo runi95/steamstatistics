@@ -21,10 +21,6 @@ public class SteamProfileEntity {
     @Column(name = "donationdate")
     private long donationdate;
 
-    public SteamProfileEntity(long creationdate) {
-        this.creationdate = creationdate;
-    }
-
     public long getSteamid() {
         return steamid;
     }

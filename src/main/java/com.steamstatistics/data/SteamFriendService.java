@@ -31,6 +31,10 @@ public class SteamFriendService {
         return steamFriendRepository.findBySteamidIsInAndUpdatetimeLessThan(steamidList, updatetime);
     }
 
+    public List<SteamFriendEntity> getAllInList(List<Long> steamidList) {
+        return steamFriendRepository.findBySteamidIsIn(steamidList);
+    }
+
     public Iterable<SteamFriendEntity> getAll() {
         return steamFriendRepository.findAll();
     }

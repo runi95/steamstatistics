@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class SteamRestController {
@@ -56,31 +53,57 @@ public class SteamRestController {
             return convertObjectToJson(new RestMessageModel("200", "login"));
         }
 
-//        SteamFriendEntity steamProfile = steamFriendService.get(steamid);
+        SteamProfileEntity steamProfile = steamProfileService.get(steamid);
+        long currentTime = timeService.getCurrentUnixTime();
 
-//        if(steamProfile == null) {
-//            Map<Long, SteamFriendEntity> map = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), Long.toString(steamid)));
-//            steamProfile = map.get(steamid);
-//            steamFriendService.save(steamProfile);
-//        }
+//        Iterable<SteamProfileEntity> iterator = steamProfileService.getAll();
+//        System.out.println("Printing db");
+//        iterator.forEach((profile) -> System.out.println("db steamid: " + profile.getSteamid()));
+//        System.out.println("steamid: " + steamid);
+        System.out.print("(" + steamProfile + " != null) = " + (steamProfile != null));
+        if(steamProfile == null)
+            System.out.println();
+        else
+            System.out.println(", (" + steamProfile.getLastupdate() + " > " + (currentTime - 3600) + ") = " + (steamProfile.getLastupdate() > (currentTime - 3600)));
 
-        List<Map<String, Object>> friendsList = steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid);
-        Map<Long, SteamProfileToFriendEntity> mappedFriends = steamHandler.processFriendsList(friendsList, steamid);
-        Map<Long, SteamProfileToFriendEntity>[] addedAndRemovedFriends = steamProfileToFriendService.updateFriendsList(mappedFriends, steamid);
-        SteamProfileToFriendEntity steamProfileToFriendEntity = new SteamProfileToFriendEntity();
-        steamProfileToFriendEntity.setSteamfriendid(steamid);
-        addedAndRemovedFriends[0].put(steamid, steamProfileToFriendEntity);
-        List<Map<String, Object>> summariesList = steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), addedAndRemovedFriends[0]);
-        Map<Long, SteamFriendEntity> mappedSteamFriends = steamHandler.processSteamProfiles(summariesList);
-        steamFriendService.saveAll(mappedSteamFriends.values());
+        Map<Long, SteamFriendEntity> mappedSteamFriends;
+        if(steamProfile != null && steamProfile.getLastupdate() > (currentTime - 3600)) {
+            System.out.println("Calling db.");
+            List<Long> friendsSteamIdList = steamProfileToFriendService.getAllFriendsSteamIds(steamid);
+            List<SteamFriendEntity> steamFriends = steamFriendService.getAllInList(friendsSteamIdList);
+            mappedSteamFriends = new HashMap<>();
+            steamFriends.forEach((friend) -> mappedSteamFriends.put(friend.getSteamid(), friend));
+            mappedSteamFriends.put(steamid, steamFriendService.get(steamid));
+        } else {
+            System.out.println("Calling api.");
+            List<Map<String, Object>> friendsList = steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid);
+            Map<Long, SteamProfileToFriendEntity> mappedFriends = steamHandler.processFriendsList(friendsList, steamid);
+            Map<Long, SteamProfileToFriendEntity>[] addedAndRemovedFriends = steamProfileToFriendService.updateFriendsList(mappedFriends, steamid);
+            steamProfileToFriendService.saveAll(addedAndRemovedFriends[0].values());
+            steamProfileToFriendService.saveAll(addedAndRemovedFriends[1].values());
+            SteamProfileToFriendEntity steamProfileToFriendEntity = new SteamProfileToFriendEntity();
+            steamProfileToFriendEntity.setSteamfriendid(steamid);
+            addedAndRemovedFriends[0].put(steamid, steamProfileToFriendEntity);
+            List<Map<String, Object>> summariesList = steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), addedAndRemovedFriends[0]);
+            mappedSteamFriends = steamHandler.processSteamProfiles(summariesList);
+            steamFriendService.saveAll(mappedSteamFriends.values());
+
+            if(steamProfile == null) {
+                steamProfile = new SteamProfileEntity();
+                steamProfile.setSteamid(steamid);
+                steamProfile.setCreationdate(currentTime);
+                steamProfile.setLastupdate(currentTime);
+                steamProfileService.save(steamProfile);
+            }
+        }
 
         List<Object> list = new ArrayList<>();
         list.add(mappedSteamFriends.get(steamid));
-//        list.add(jdate);
-        list.add(addedAndRemovedFriends[0]);
-        list.add(addedAndRemovedFriends[1]);
+        list.add(timeService.getLocalDateTimeFromUnix(steamProfile.getCreationdate()).toString());
         list.add(mappedSteamFriends);
 //        list.add(steamProfile);
+
+        System.out.println("Returned");
 
         return convertObjectToJson(new RestMessageModel("200", "getprofile", list));
     }

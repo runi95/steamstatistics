@@ -35,4 +35,7 @@ public interface SteamProfileToFriendRepository  extends CrudRepository<SteamPro
 
     @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE NOT s.steamprofileid = 0")
     List<SteamProfileToFriendEntity> findAllUsers();
+
+    @Query("SELECT s.steamfriendid FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1")
+    List<Long> findAllFriendsSteamIds(long steamid);
 }
