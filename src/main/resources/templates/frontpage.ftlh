@@ -60,6 +60,18 @@
     .longestfriendship .longestfriendshipHeader {
         color: #a94442;
     }
+
+    .footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .paypal {
+    }
 </style>
 <div class="container">
     <div class="row">
@@ -121,5 +133,25 @@
         </div>
     </div>
 </div>
+<!--
+<div class="footer">
+    <div class="paypal">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_donations">
+            <#if steamid ??>
+                <input type="hidden" name="custom" value="${steamid}"/>
+            </#if>
+            <input type="image" src="https://www.paypalobjects.com/en_US/NO/i/btn/btn_donateCC_LG.gif" border="0"
+                   name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+        <div>
+            <#if !steamid ??>
+                <small>You need to be logged in to get donator rank</small>
+            </#if>
+        </div>
+    </div>
+</div>
+-->
 <script src="js/frontpage.js"></script>
 </@m.master>
