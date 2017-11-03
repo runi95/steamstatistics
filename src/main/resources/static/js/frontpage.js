@@ -89,8 +89,8 @@ function getFrontpageSuccess(message) {
         document.getElementById("donatordiv").appendChild(profile);
     }
     document.getElementById("registeredaccounts").innerHTML = message.registeredusers;
-    document.getElementById("friendgain").innerHTML = message.ruinedfriendships;
-    document.getElementById("friendloss").innerHTML = message.bondedfriendships;
+    document.getElementById("friendgain").innerHTML = message.bondedfriendships;
+    document.getElementById("friendloss").innerHTML = message.ruinedfriendships;
 }
 
 getFrontpage();
