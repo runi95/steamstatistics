@@ -93,7 +93,9 @@ public class SteamHandler {
         steamFriendEntity.setLastlogoff((Integer) profile.get("lastlogoff"));
         steamFriendEntity.setRealname((String) profile.get("realname"));
         steamFriendEntity.setPrimaryclanid((String) profile.get("primaryclanid"));
-        steamFriendEntity.setTimecreated((int) profile.get("timecreated"));
+        Object timeCreated = profile.get("timecreated");
+        if(timeCreated != null)
+            steamFriendEntity.setTimecreated((int)timeCreated);
         //steamFriendEntity.setGameid((long) profile.get("gameid"));
         //steamFriendEntity.setGameserverip((String) profile.get("gameserverip"));
         //steamFriendEntity.setGameextrainfo((String) profile.get("gameextrainfo"));
