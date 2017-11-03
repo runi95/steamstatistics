@@ -21,7 +21,7 @@ function getProfileSuccess(message) {
         document.getElementById("privacystate").setAttribute("class", "show");
     }
 
-
+    document.getElementById("jdate").innerHTML = message[1];
 }
 
 function getProfileInfo(message) {
