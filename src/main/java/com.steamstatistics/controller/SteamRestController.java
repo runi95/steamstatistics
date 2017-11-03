@@ -85,9 +85,12 @@ public class SteamRestController {
             }
         }
 
+        LocalDateTime localTimeDate = timeService.getLocalDateTimeFromUnix(steamProfile.getCreationdate());
+        String jdate = (localTimeDate.getDayOfMonth() <= 9 ? "0" + localTimeDate.getDayOfMonth() : localTimeDate.getDayOfMonth()) + "/" + (localTimeDate.getMonthValue() <= 9 ? "0" + localTimeDate.getMonthValue() : localTimeDate.getMonthValue()) + "/" + localTimeDate.getYear();
+
         List<Object> list = new ArrayList<>();
         list.add(mappedSteamFriends.get(steamid));
-        list.add(timeService.getLocalDateTimeFromUnix(steamProfile.getCreationdate()).toString());
+        list.add(jdate);
         list.add(mappedSteamFriends);
 //        list.add(steamProfile);
 
