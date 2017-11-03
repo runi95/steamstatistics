@@ -33,41 +33,6 @@
 <body>
 <noscript><h2 style="color: #ff0000">Javascript is required to view this website, please enable Javascript and refresh
     the page</h2></noscript>
-<div style="padding-bottom: 50px;">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNav">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">Steam Statistics</a>
-            </div>
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Profile</a></li>
-                    <li><a href="/">Share</a></li>
-                    <li><a href="/graphs">Graphs</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <div style="padding: 7px 5px;">
-                        <div id="steamhref" class="hide">
-                            <a href="/login">
-                                <img src="/css/img/sits_01.png" alt="Steam Login">
-                            </a>
-                        </div>
-                    </div>
-                    <!--
-                    <li><a href="/login">
-                        <span class="glyphicon glyphicon-log-in"> Login</span>
-                    </a></li>
-                    -->
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
     <#nested/>
 <!-- /container -->
 
