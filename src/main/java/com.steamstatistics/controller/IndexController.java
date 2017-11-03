@@ -1,21 +1,24 @@
 package com.steamstatistics.controller;
 
-import com.steamstatistics.backend.SteamOpenIdConfig;
-import com.steamstatistics.data.*;
-import com.steamstatistics.steamapi.SteamAPICaller;
-import com.steamstatistics.steamapi.SteamFriends;
-import com.steamstatistics.steamapi.SteamHandler;
-import com.steamstatistics.steamapi.TimeService;
-import com.steamstatistics.userauth.SteamUserDetailsService;
-import com.steamstatistics.userauth.UserPrincipal;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
 
 import java.security.Principal;
-import java.util.HashMap;
+import java.util.Map;
+
+import static org.apache.http.HttpHeaders.USER_AGENT;
 
 @Controller
 public class IndexController {
@@ -41,7 +44,10 @@ public class IndexController {
     }
 
     @GetMapping(value = "/home")
-    public String getFrontpage() {
+    public String getFrontpage(Principal principal, Model model) {
+        if(principal != null)
+            model.addAttribute("steamid", principal.getName());
+
         return "frontpage";
     }
 
@@ -49,4 +55,68 @@ public class IndexController {
     public String getTestPage() {
         return "test";
     }
+
+    @GetMapping(value = "/ipn")
+    public String testIPN() {
+        return "ipn";
+    }
+
+    /*
+    @PostMapping(value = "/ipn")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void getInstantPaymentNotification(@RequestParam Map<String,String> allRequestParam) throws Exception {
+        // Return 200 OK.
+        // Return addr https://ipnpb.paypal.com/cgi-bin/webscr
+
+        //String url = "https://ipnpb.paypal.com/cgi-bin/webscr";
+        String url = "https://ipnpb.sandbox.paypal.com/cgi-bin/webscr";
+        URL obj = new URL(url);
+        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+
+        con.setRequestMethod("POST");
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String s : allRequestParam.keySet()) {
+            if(!s.equals("_csrf"))
+                stringBuilder.append("&" + s + "=" + allRequestParam.get(s));
+        }
+
+        String urlParameters = "cmd=_notify-validate" + stringBuilder.toString();
+
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(urlParameters);
+        wr.flush();
+        wr.close();
+
+        DataInputStream streamIn = new DataInputStream(con.getInputStream());
+        int count = con.getInputStream().available();
+        byte[] bs = new byte[count];
+        streamIn.read(bs);
+        streamIn.close();
+        System.out.print("Verification : ");
+        for (byte b:bs) {
+
+            // convert byte into character
+            char c = (char)b;
+
+            // print the character
+            System.out.print(c+" ");
+        }
+        System.out.println();
+//        String verification = streamIn.readUTF();
+
+        int responseCode = con.getResponseCode();
+        String msg = con.getResponseMessage();
+        System.out.println("\nSending 'POST' request to URL : " + url);
+        System.out.println("Post parameters : " + urlParameters);
+        System.out.println("Response Code : " + responseCode);
+        System.out.println("Response Message : " + msg);
+//        System.out.println("Verification : " + verification);
+    }
+    */
+
 }
