@@ -56,26 +56,14 @@ public class SteamRestController {
         SteamProfileEntity steamProfile = steamProfileService.get(steamid);
         long currentTime = timeService.getCurrentUnixTime();
 
-//        Iterable<SteamProfileEntity> iterator = steamProfileService.getAll();
-//        System.out.println("Printing db");
-//        iterator.forEach((profile) -> System.out.println("db steamid: " + profile.getSteamid()));
-//        System.out.println("steamid: " + steamid);
-        System.out.print("(" + steamProfile + " != null) = " + (steamProfile != null));
-        if(steamProfile == null)
-            System.out.println();
-        else
-            System.out.println(", (" + steamProfile.getLastupdate() + " > " + (currentTime - 3600) + ") = " + (steamProfile.getLastupdate() > (currentTime - 3600)));
-
         Map<Long, SteamFriendEntity> mappedSteamFriends;
         if(steamProfile != null && steamProfile.getLastupdate() > (currentTime - 3600)) {
-            System.out.println("Calling db.");
             List<Long> friendsSteamIdList = steamProfileToFriendService.getAllFriendsSteamIds(steamid);
             List<SteamFriendEntity> steamFriends = steamFriendService.getAllInList(friendsSteamIdList);
             mappedSteamFriends = new HashMap<>();
             steamFriends.forEach((friend) -> mappedSteamFriends.put(friend.getSteamid(), friend));
             mappedSteamFriends.put(steamid, steamFriendService.get(steamid));
         } else {
-            System.out.println("Calling api.");
             List<Map<String, Object>> friendsList = steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), steamid);
             Map<Long, SteamProfileToFriendEntity> mappedFriends = steamHandler.processFriendsList(friendsList, steamid);
             Map<Long, SteamProfileToFriendEntity>[] addedAndRemovedFriends = steamProfileToFriendService.updateFriendsList(mappedFriends, steamid);
@@ -102,8 +90,6 @@ public class SteamRestController {
         list.add(timeService.getLocalDateTimeFromUnix(steamProfile.getCreationdate()).toString());
         list.add(mappedSteamFriends);
 //        list.add(steamProfile);
-
-        System.out.println("Returned");
 
         return convertObjectToJson(new RestMessageModel("200", "getprofile", list));
     }
