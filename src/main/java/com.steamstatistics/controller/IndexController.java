@@ -1,12 +1,12 @@
 package com.steamstatistics.controller;
 
+import com.steamstatistics.userauth.SteamUserDetailsService;
+import com.steamstatistics.userauth.UserPrincipal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -14,6 +14,8 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import java.security.Principal;
 import java.util.Map;
@@ -25,8 +27,18 @@ public class IndexController {
 
     private final String userAgreement = "This website stores information about your steam profile and friends list to keep up to date, by clicking accept you agree to let us gather and store information from your steam profile. Users can delete the stored data at any given time by logging in through the Steam again and clicking the delete button. The information gathered will be public information from your steam profile which means this site can't function if your profile is on private. Click accept to continue";
 
+    @Autowired
+    SteamUserDetailsService steamUserDetailsService;
+
     @GetMapping(value = "/")
-    public String getHomepage() {
+    public String getHomepage(@CookieValue(value = "token", required = false) String token, Principal principal, HttpServletResponse response) {
+        if (principal != null && (token == null || token.isEmpty())) {
+            UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(principal.getName());
+
+            Cookie cookie = new Cookie("token", userPrincipal.getUserToken());
+            response.addCookie(cookie);
+        }
+
         return "home";
     }
 

@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -44,7 +45,7 @@ public class AuthController {
     }
 
     @GetMapping("/login/openid")
-    public String getCallback(HttpServletRequest request, HttpServletResponse response) {
+    public String getCallback(HttpServletRequest request) {
         String steamidString = steamOpenId.verify(steamOpenIdConfig.getClientId() + "/login/openid", request.getParameterMap());
         Long steamid = Long.parseLong(steamidString);
 
@@ -74,8 +75,12 @@ public class AuthController {
     }
 
     @GetMapping("logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, HttpServletResponse response) {
         session.invalidate();
-        return "redirect:/test";
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return "redirect:/";
     }
 }

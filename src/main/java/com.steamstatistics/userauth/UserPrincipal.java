@@ -31,6 +31,8 @@ public class UserPrincipal implements UserDetails {
         return user.getSteamId();
     }
 
+    public String getUserToken() { return user.getUserToken(); }
+
     /**
      * Indicates whether the user's account has expired. An expired account cannot be authenticated.
      * @return true if the user's account is valid (ie non-expired), false if no longer valid (ie expired)
