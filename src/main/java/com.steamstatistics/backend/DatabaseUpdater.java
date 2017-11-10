@@ -15,7 +15,7 @@ import java.util.List;
 
 @Component
 public class DatabaseUpdater extends Thread {
-    private static final int sleepTime = 3600;  // Hourly
+    private static final int threadSleepInSecondsTime = 3600;  // Hourly
     private boolean updating = true;
 
     @Autowired
@@ -66,7 +66,7 @@ public class DatabaseUpdater extends Thread {
             steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriendsToUpdate);
 
             try {
-                sleep(sleepTime * 100);
+                sleep(threadSleepInSecondsTime * 100);
             } catch (InterruptedException e) {
 
             }
