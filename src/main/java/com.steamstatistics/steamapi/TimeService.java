@@ -35,6 +35,13 @@ public class TimeService {
         return localDateTime.toEpochSecond(ZoneOffset.UTC);
     }
 
+    public long getYesterdayUnixTime() {
+        LocalDateTime localDateTime = LocalDateTime.now(ZoneOffset.UTC).minusDays(1);
+        localDateTime.toEpochSecond(ZoneOffset.UTC);
+
+        return localDateTime.toEpochSecond(ZoneOffset.UTC);
+    }
+
     public LocalDateTime getLocalDateTimeFromUnix(long unix) {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(unix), ZoneOffset.UTC);
 
