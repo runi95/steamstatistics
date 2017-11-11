@@ -140,6 +140,10 @@ function getRemovedSuccessful(message) {
     gmonth.setAttribute("class", "positive");
     gmonth.innerHTML = message[2];
 
+    for(var i = 0; i < message[3].length; i++) {
+        addFriend(message[3][i].steamFriendEntity, message[3][i].localDateTimeString, "golden", "added");
+    }
+
     //var gweek = document.getElementById("gweek");
     //gweek.setAttribute("class", "positive");
     //gweek.innerHTML = message[4];
@@ -195,6 +199,24 @@ function requestRemovedFriends() {
             processStatus(data);
         }
     });
+}
+
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: "/getfriends",
+    success: function (data) {
+        updateFriends(data.message);
+    }
+});
+
+function updateFriends(message) {
+    console.log("Updating friends: " + message);
+    for (var key in message) {
+        addFriend(message[key], message[key].personastate, switchPersonastate(message[key].personastate), "friends");
+    }
+
+    document.getElementById("friendcount").innerHTML = message.keys().length;
 }
 
 requestProfile();

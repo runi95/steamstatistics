@@ -63,6 +63,14 @@ public class IndexController {
         return "frontpage";
     }
 
+    @GetMapping("/friends")
+    public String getFriendslist(Principal principal, Model model) {
+        if(principal != null)
+            model.addAttribute("steamid", principal.getName());
+
+        return "friendslist";
+    }
+
     @GetMapping(value = "/test")
     public String getTestPage() {
         return "test";

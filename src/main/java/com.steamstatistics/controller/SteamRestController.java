@@ -116,13 +116,30 @@ public class SteamRestController {
             removedFriendsWithDate.add(steamFriendWithDate);
         }
 
+        long lastMonth = timeService.getLastMonthUnixTime();
+        List<SteamProfileToFriendEntity> gainedProfileToFriend = steamProfileToFriendService.findByFriendsinceGreaterThan(lastMonth);
+        List<Long> gainedSteamidList = new ArrayList<>();
+        Map<Long, SteamProfileToFriendEntity> gainedProfileToFriendMap = new HashMap<>();
+        for(SteamProfileToFriendEntity f : gainedProfileToFriend) {
+            gainedSteamidList.add(f.getSteamfriendid());
+            gainedProfileToFriendMap.put(f.getSteamfriendid(), f);
+        }
+        List<SteamFriendEntity> gainedFriends = steamFriendService.getAllInList(gainedSteamidList);
+//        Map<Long, SteamFriendEntity> gainedFriendsMap = new HashMap<>();
+//        gainedFriends.forEach((f) -> gainedFriendsMap.put(f.getSteamid(), f));
+
+        List<SteamFriendWithDate> addedFriendsWithDate = new ArrayList<>();
+        for(SteamFriendEntity f : gainedFriends) {
+            SteamFriendWithDate steamFriendWithDate = new SteamFriendWithDate(f, gainedProfileToFriendMap.get(f.getSteamid()).getFriendsince(), timeService);
+            addedFriendsWithDate.add(steamFriendWithDate);
+        }
         //List<SteamFriendEntity> removedFriends = steamFriendService.getAllInListUpdatedSince(steamidList, 0);
 
-        long lastMonth = timeService.getLastMonthUnixTime();
         List<Object> list = new ArrayList<>();
         list.add(removedFriendsWithDate);
         list.add(steamProfileToFriendService.findByRemoveDateGreaterThan(lastMonth).size());
-        list.add(steamProfileToFriendService.findByFriendsinceGreaterThan(lastMonth).size());
+        list.add(gainedFriends.size());
+        list.add(addedFriendsWithDate);
 
         return convertObjectToJson(new RestMessageModel("200", "getremoved", list));
     }

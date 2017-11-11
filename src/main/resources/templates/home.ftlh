@@ -13,7 +13,15 @@
             </div>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Profile</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="active"><a href="/">Profile</a></li>
+                            <li><a href="/friends">Friends</a></li>
+                        </ul>
+                    </li>
+                    <!-- <li class="active"><a href="/">Profile</a></li> -->
                     <li><a href="/home">Frontpage</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -69,9 +77,19 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-10 col-xs-offset-1">
-            <h4 class="text-danger">Friendships Ended</h4>
-            <div id="removed"></div>
+        <div class="col-xs-12" style="padding-right: auto; margin-top: 10px; margin-bottom: 10px;">
+            <div class="friend-container">
+                <h4 class="text-danger">Friendships Ended</h4>
+                <div id="removed"></div>
+                <div class="readmore-footer"><a href="#">See more...</a></div>
+            </div>
+        </div>
+        <div class="col-xs-12" style="padding-right: auto; margin-top: 10px;">
+            <div class="friend-container container">
+                <h4 class="text-success">Friendships Started</h4>
+                <div id="added"></div>
+                <div class="readmore-footer"><a href="#">See more...</a></div>
+            </div>
         </div>
     </div>
 </div>

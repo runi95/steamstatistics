@@ -1,3 +1,16 @@
+.friend-container {
+    /* padding: 20px; */
+    /* margin: 20px; */
+    border: 2px solid #4b4b4b;
+    border-radius: 5px;
+    margin: 0 auto;
+    padding: 20px;
+    float: left;
+    position: relative;
+    width: 100%;
+    /* background: #4b4b4b; */
+}
+
 .loader {
     position: absolute;
     border: 6px solid #f3f3f3; /* Light grey */
@@ -10,6 +23,25 @@
 }
 
 .footer {
+    position: static;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    text-align: center;
+}
+
+.readmore-footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 10px 0 0 0;
+    text-align: center;
+}
+
+/*
+.footer {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -17,6 +49,7 @@
     padding: 1rem;
     text-align: center;
 }
+*/
 
 .modal-content {
     background-color: #4b4b4b;
