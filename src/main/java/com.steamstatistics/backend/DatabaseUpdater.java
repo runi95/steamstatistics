@@ -66,7 +66,7 @@ public class DatabaseUpdater extends Thread {
             steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriendsToUpdate);
 
             try {
-                sleep(threadSleepInSecondsTime * 100);
+                sleep(threadSleepInSecondsTime * 1000);
             } catch (InterruptedException e) {
 
             }
