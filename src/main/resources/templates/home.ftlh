@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="col-xs-10 col-xs-offset-1">
-            <h4 class="text-danger">Steam profiles no longer on your friends list</h4>
+            <h4 class="text-danger">Friendships Ended</h4>
             <div id="removed"></div>
         </div>
     </div>
