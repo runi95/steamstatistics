@@ -69,6 +69,10 @@ public class SteamProfileToFriendService {
         return convertToMap(allFriends);
     }
 
+    public List<SteamProfileToFriendEntity> getUnremovedFriends(long steamid) {
+        return steamProfileToFriendRepository.findAllUnremovedFriends(steamid);
+    }
+
     public Map<Long, SteamProfileToFriendEntity> getUnremovedMap(long steamid) {
         Iterable<SteamProfileToFriendEntity> unremoved = steamProfileToFriendRepository.findAllUnremovedFriends(steamid);
         return convertToMap(unremoved);

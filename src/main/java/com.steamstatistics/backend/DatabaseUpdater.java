@@ -3,6 +3,7 @@ package com.steamstatistics.backend;
 import com.steamstatistics.data.SteamFriendEntity;
 import com.steamstatistics.data.SteamFriendService;
 import com.steamstatistics.steamapi.SteamAPICaller;
+import com.steamstatistics.steamapi.SteamHandler;
 import com.steamstatistics.steamapi.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class DatabaseUpdater extends Thread {
@@ -26,6 +28,9 @@ public class DatabaseUpdater extends Thread {
 
     @Autowired
     SteamAPICaller steamAPICaller;
+
+    @Autowired
+    SteamHandler steamHandler;
 
     @Autowired
     SteamOpenIdConfig steamOpenIdConfig;
@@ -63,7 +68,11 @@ public class DatabaseUpdater extends Thread {
                 }
             }
 
-            steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriendsToUpdate);
+            Map<Long, SteamFriendEntity> mappedProfiles = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriendsToUpdate));
+            System.out.println(mappedProfiles.values().size());
+            System.out.println("76561198051185314? " + mappedProfiles.get(76561198051185314l));
+            System.out.println("76561198103109121? " + mappedProfiles.get(76561198103109121l));
+            steamFriendService.saveAll(mappedProfiles.values());
 
             try {
                 sleep(threadSleepInSecondsTime * 1000);

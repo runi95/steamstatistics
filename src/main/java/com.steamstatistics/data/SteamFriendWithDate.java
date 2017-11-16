@@ -5,7 +5,7 @@ import com.steamstatistics.steamapi.TimeService;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalField;
 
-public class SteamFriendWithDate {
+public class SteamFriendWithDate implements Comparable<SteamFriendWithDate> {
     SteamFriendEntity steamFriendEntity;
     long epochSeconds;
     LocalDateTime localDateTime;
@@ -37,5 +37,9 @@ public class SteamFriendWithDate {
 
     public String getLocalDateTimeString() {
         return localDateTimeString;
+    }
+
+    public int compareTo(SteamFriendWithDate o) {
+        return Long.compare(epochSeconds, o.getEpochSeconds());
     }
 }

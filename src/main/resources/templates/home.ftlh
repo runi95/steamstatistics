@@ -97,4 +97,5 @@
     *All data is cached and updates once every hour
 </div>
 <script src="js/steamstatistics.js"></script>
+<script src="js/home.js"></script>
 </@m.master>

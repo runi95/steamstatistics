@@ -35,6 +35,10 @@ public class SteamFriendService {
         return steamFriendRepository.findBySteamidIsIn(steamidList);
     }
 
+    public List<SteamFriendEntity> getAllInList(Long[] steamidList) {
+        return steamFriendRepository.findBySteamidIsIn(steamidList);
+    }
+
     public Iterable<SteamFriendEntity> getAll() {
         return steamFriendRepository.findAll();
     }

@@ -1,4 +1,4 @@
-var chartYMax = 400;
+//var chartYMax = 400;
 
 function getProfile(data) {
     switch (data.status) {
@@ -24,6 +24,7 @@ function getProfileSuccess(message) {
     document.getElementById("jdate").innerHTML = message[1];
 }
 
+/*
 function getProfileInfo(message) {
     var month = document.getElementById("month");
     var week = document.getElementById("week");
@@ -70,6 +71,7 @@ function getGraph(message) {
     }
     graphdiv.appendChild(dl);
 }
+*/
 
 function switchPersonastate(state) {
     switch (state) {
@@ -95,6 +97,7 @@ function switchPersonastate(state) {
 }
 
 function addFriend(profile, message, state, parentdiv) {
+    console.log(profile);
     var div = document.createElement("div");
     div.setAttribute("class", "profile persona " + state);
     div.setAttribute("href", profile.profileurl);
@@ -201,22 +204,21 @@ function requestRemovedFriends() {
     });
 }
 
-$.ajax({
-    type: "GET",
-    dataType: "json",
-    url: "/getfriends",
-    success: function (data) {
-        updateFriends(data.message);
-    }
-});
+function getFriends() {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/getfriends",
+        success: function (data) {
+            updateFriends(data.message);
+        }
+    });
+}
 
 function updateFriends(message) {
-    console.log("Updating friends: " + message);
     for (var key in message) {
-        addFriend(message[key], message[key].personastate, switchPersonastate(message[key].personastate), "friends");
+        addFriend(message[key].steamFriendEntity, message[key].localDateTimeString, switchPersonastate(message[key].personastate), "friends");
     }
 
     document.getElementById("friendcount").innerHTML = message.keys().length;
 }
-
-requestProfile();

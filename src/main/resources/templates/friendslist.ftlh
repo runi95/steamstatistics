@@ -48,4 +48,5 @@
     </div>
 </div>
 <script src="js/steamstatistics.js"></script>
+<script src="js/friendslist.js"></script>
 </@m.master>
