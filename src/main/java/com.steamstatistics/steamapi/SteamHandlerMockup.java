@@ -11,6 +11,7 @@ import java.util.*;
 @Service
 public class SteamHandlerMockup {
 
+    /*
     public static final int N = 100;
 
     @Autowired
@@ -80,5 +81,6 @@ public class SteamHandlerMockup {
 
         return steamFriendEntity;
     }
+*/
 
 }

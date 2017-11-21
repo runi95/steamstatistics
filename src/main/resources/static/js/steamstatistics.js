@@ -216,9 +216,9 @@ function getFriends() {
 }
 
 function updateFriends(message) {
-    for (var key in message) {
-        addFriend(message[key].steamFriendEntity, message[key].localDateTimeString, switchPersonastate(message[key].personastate), "friends");
+    for (var key in message.friends) {
+        addFriend(message.friends[key].steamFriendEntity, message.friends[key].localDateTimeString, switchPersonastate(message.friends[key].personastate), "friends");
     }
 
-    document.getElementById("friendcount").innerHTML = message.keys().length;
+    document.getElementById("friendcount").innerHTML = message.length;
 }
