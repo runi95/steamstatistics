@@ -1,3 +1,61 @@
+.btn-steamstats {
+    color: #fff;
+    background-color: #5b667a;
+    border-color: #465476;
+}
+.btn-steamstats:focus,
+.btn-steamstats.focus {
+    color: #fff;
+    background-color: #314c71;
+    border-color: #1b3135;
+}
+.btn-steamstats:hover {
+    color: #fff;
+    background-color: #314c71;
+    border-color: #263658;
+}
+.btn-steamstats:active,
+.btn-steamstats.active,
+.open > .dropdown-toggle.btn-steamstats {
+    color: #fff;
+    background-color: #314c71;
+    border-color: #263658;
+}
+.btn-steamstats:active:hover,
+.btn-steamstats.active:hover,
+.open > .dropdown-toggle.btn-steamstats:hover,
+.btn-steamstats:active:focus,
+.btn-steamstats.active:focus,
+.open > .dropdown-toggle.btn-steamstats:focus,
+.btn-steamstats:active.focus,
+.btn-steamstats.active.focus,
+.open > .dropdown-toggle.btn-steamstats.focus {
+    color: #fff;
+    background-color: #263658;
+    border-color: #1b3135;
+}
+.btn-steamstats:active,
+.btn-steamstats.active,
+.open > .dropdown-toggle.btn-steamstats {
+    background-image: none;
+}
+.btn-steamstats.disabled:hover,
+.btn-steamstats[disabled]:hover,
+fieldset[disabled] .btn-steamstats:hover,
+.btn-steamstats.disabled:focus,
+.btn-steamstats[disabled]:focus,
+fieldset[disabled] .btn-steamstats:focus,
+.btn-steamstats.disabled.focus,
+.btn-steamstats[disabled].focus,
+fieldset[disabled] .btn-steamstats.focus {
+    background-color: #464b50;
+    border-color: #5f6469;
+}
+.btn-steamstats .badge {
+    color: #464b50;
+    background-color: #fff;
+}
+
 .friend-container {
     /* padding: 20px; */
     /* margin: 20px; */
