@@ -1,7 +1,6 @@
 package com.steamstatistics.backend;
 
-import com.steamstatistics.data.SteamFriendEntity;
-import com.steamstatistics.data.SteamFriendService;
+import com.steamstatistics.data.*;
 import com.steamstatistics.steamapi.SteamAPICaller;
 import com.steamstatistics.steamapi.SteamHandler;
 import com.steamstatistics.steamapi.TimeService;
@@ -22,6 +21,12 @@ public class DatabaseUpdater extends Thread {
 
     @Autowired
     SteamFriendService steamFriendService;
+
+    @Autowired
+    SteamProfileService steamProfileService;
+
+    @Autowired
+    SteamProfileToFriendService steamProfileToFriendService;
 
     @Autowired
     TimeService timeService;
@@ -53,12 +58,35 @@ public class DatabaseUpdater extends Thread {
         while(updating) {
             LocalDateTime localDateTime = timeService.getLocalDateTimeFromUnix(timeService.getCurrentUnixTime());
             System.out.println(localDateTime.getYear() + "-" + localDateTime.getMonthValue() + "-" + localDateTime.getDayOfMonth() + " " + localDateTime.getHour() + ":" + localDateTime.getMinute() + ":" + localDateTime.getSecond() + " INFO --- [\tDatabaseUpdater");
-            Iterable<SteamFriendEntity> getAll = steamFriendService.getAll();
-            Iterator<SteamFriendEntity> iterator = getAll.iterator();
+            Iterable<SteamProfileEntity> getAllProfiles = steamProfileService.getAll();
+            Iterator<SteamProfileEntity> profileIterator = getAllProfiles.iterator();
+
+            while(profileIterator.hasNext()) {
+                SteamProfileEntity profile = profileIterator.next();
+
+                long lastUpdated = profile.getLastupdate();
+                long yesterday = timeService.getYesterdayUnixTime();
+
+                if(lastUpdated < yesterday) {
+                    List<Map<String, Object>> friendsList = steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), profile.getSteamid());
+                    Map<Long, SteamProfileToFriendEntity> processedFriendsList = steamHandler.processFriendsList(friendsList, profile.getSteamid());
+                    profile.setLastupdate(timeService.getCurrentUnixTime());
+                    steamProfileService.save(profile);
+                    steamProfileToFriendService.saveAll(processedFriendsList.values());
+                }
+            }
+
+            System.out.println("76561198058838893: " + steamFriendService.get(76561198058838893l));
+            System.out.println("76561198034901438: " + steamFriendService.get(76561198034901438l));
+
+            Iterable<SteamFriendEntity> getAllFriends = steamFriendService.getAll();
+            Iterator<SteamFriendEntity> friendIterator = getAllFriends.iterator();
 
             List<Long> steamFriendsToUpdate = new ArrayList<>();
-            while (iterator.hasNext()) {
-                SteamFriendEntity friend = iterator.next();
+            int iterator = 0;
+            while (friendIterator.hasNext()) {
+                iterator++;
+                SteamFriendEntity friend = friendIterator.next();
 
                 long lastUpdated = friend.getUpdatetime();
                 long yesterday = timeService.getYesterdayUnixTime();
@@ -68,10 +96,13 @@ public class DatabaseUpdater extends Thread {
                 }
             }
 
-            Map<Long, SteamFriendEntity> mappedProfiles = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriendsToUpdate));
-            System.out.println(mappedProfiles.values().size());
-            System.out.println("76561198051185314? " + mappedProfiles.get(76561198051185314l));
-            System.out.println("76561198103109121? " + mappedProfiles.get(76561198103109121l));
+            System.out.println("iterator: " + iterator);
+            System.out.println("steamFriendsToUpdate.size() " + steamFriendsToUpdate.size());
+
+            List<Map<String, Object>> list = steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriendsToUpdate);
+            System.out.println("list size " + list.size());
+            Map<Long, SteamFriendEntity> mappedProfiles = steamHandler.processSteamProfiles(list);
+            System.out.println("Saving " + mappedProfiles.values().size() + " entities to steamFriendService");
             steamFriendService.saveAll(mappedProfiles.values());
 
             try {

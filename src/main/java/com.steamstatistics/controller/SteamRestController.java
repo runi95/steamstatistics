@@ -163,7 +163,6 @@ public class SteamRestController {
         for(SteamProfileToFriendEntity steamProfileToFriendEntity : steamProfileToFriendEntities) {
             //LocalDateTime localDateTime = timeService.getLocalDateTimeFromUnix(steamProfileToFriendEntity.getRemoveDate());
             //String localDateTimeString = (localDateTime.getDayOfMonth() <= 9 ? "0" + localDateTime.getDayOfMonth() : localDateTime.getDayOfMonth()) + "/" + (localDateTime.getMonthValue() <= 9 ? "0" + localDateTime.getMonthValue() : localDateTime.getMonthValue()) + "/" + localDateTime.getYear();
-            System.out.println("new SteamFriendWithDate(" + steamFriends.get(steamProfileToFriendEntity.getSteamfriendid()) + ", " + steamProfileToFriendEntity.getSteamfriendid() + ", " + steamProfileToFriendEntity.getFriendsince() + ", ?");
             SteamFriendWithDate steamFriendWithDate = new SteamFriendWithDate(steamFriends.get(steamProfileToFriendEntity.getSteamfriendid()), steamProfileToFriendEntity.getFriendsince(), timeService);
             friendsWithDate.add(steamFriendWithDate);
         }

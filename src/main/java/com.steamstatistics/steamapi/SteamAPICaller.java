@@ -43,18 +43,19 @@ public class SteamAPICaller {
         Iterator<Long> iterator = steamids.keySet().iterator();
 
         while(iterator.hasNext()) {
-            String parsedSteamids = Long.toString(iterator.next());
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(iterator.next());
 
             int i = 0;
-            while (iterator.hasNext() && i < 100) {
-                parsedSteamids += "," + Long.toString(iterator.next());
+            while (iterator.hasNext() && i < 99) {
+                stringBuilder.append("," + iterator.next());
                 i++;
             }
 
             if(friendsList == null) {
-                friendsList = getPlayerSummaries(apikey, parsedSteamids);
+                friendsList = getPlayerSummaries(apikey, stringBuilder.toString());
             } else {
-                friendsList.addAll(getPlayerSummaries(apikey, parsedSteamids));
+                friendsList.addAll(getPlayerSummaries(apikey, stringBuilder.toString()));
             }
         }
 
@@ -66,21 +67,23 @@ public class SteamAPICaller {
             return new ArrayList<>();
 
         List<Map<String, Object>> friendsList = null;
-        Iterator<Long> iterator = steamids.iterator();
+        int j = 0;
+        while(j < steamids.size()) {
+            StringBuilder stringBuilder = new StringBuilder();
 
-        while(iterator.hasNext()) {
-            String parsedSteamids = Long.toString(iterator.next());
+            for (int i = 0; i < 100 && j < steamids.size(); i++) {
+                if(i == 0)
+                    stringBuilder.append(steamids.get(j));
+                else
+                    stringBuilder.append("," + steamids.get(j));
 
-            int i = 0;
-            while (iterator.hasNext() && i < 100) {
-                parsedSteamids += "," + Long.toString(iterator.next());
-                i++;
+                j++;
             }
 
             if(friendsList == null) {
-                friendsList = getPlayerSummaries(apikey, parsedSteamids);
+                friendsList = getPlayerSummaries(apikey, stringBuilder.toString());
             } else {
-                friendsList.addAll(getPlayerSummaries(apikey, parsedSteamids));
+                friendsList.addAll(getPlayerSummaries(apikey, stringBuilder.toString()));
             }
         }
 
