@@ -81,14 +81,14 @@
             <div class="friend-container">
                 <h4 class="text-danger">Friendships Ended</h4>
                 <div id="removed"></div>
-                <div><button class="btn btn-steamstats">See more</button></div>
+                <div><button class="btn btn-steamstats" onclick="seemorebtn('ended')">See more</button></div>
             </div>
         </div>
         <div class="col-xs-12" style="padding-right: auto; margin-top: 10px;">
             <div class="friend-container container">
                 <h4 class="text-success">Friendships Started</h4>
                 <div id="added"></div>
-                <div class="col-xs-12"><button class="btn btn-steamstats">See more</button></div>
+                <div class="col-xs-12"><button class="btn btn-steamstats" onclick="seemorebtn('started')">See more</button></div>
             </div>
         </div>
     </div>
