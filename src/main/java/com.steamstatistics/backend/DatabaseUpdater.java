@@ -76,9 +76,6 @@ public class DatabaseUpdater extends Thread {
                 }
             }
 
-            System.out.println("76561198058838893: " + steamFriendService.get(76561198058838893l));
-            System.out.println("76561198034901438: " + steamFriendService.get(76561198034901438l));
-
             Iterable<SteamFriendEntity> getAllFriends = steamFriendService.getAll();
             Iterator<SteamFriendEntity> friendIterator = getAllFriends.iterator();
 
@@ -96,13 +93,8 @@ public class DatabaseUpdater extends Thread {
                 }
             }
 
-            System.out.println("iterator: " + iterator);
-            System.out.println("steamFriendsToUpdate.size() " + steamFriendsToUpdate.size());
-
             List<Map<String, Object>> list = steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriendsToUpdate);
-            System.out.println("list size " + list.size());
             Map<Long, SteamFriendEntity> mappedProfiles = steamHandler.processSteamProfiles(list);
-            System.out.println("Saving " + mappedProfiles.values().size() + " entities to steamFriendService");
             steamFriendService.saveAll(mappedProfiles.values());
 
             try {

@@ -166,13 +166,16 @@ public class SteamRestController {
             SteamFriendWithDate steamFriendWithDate = new SteamFriendWithDate(steamFriends.get(steamProfileToFriendEntity.getSteamfriendid()), steamProfileToFriendEntity.getFriendsince(), timeService);
             friendsWithDate.add(steamFriendWithDate);
         }
-        System.out.println("unremoved: " + steamProfileToFriendEntities.size() + ", steamFriendidList: " + steamFriendidList.size() + ", steamFriendsList: " + steamFriendsList.size() + ", steamFriends: " + steamFriends.size() + ", friendsWithDate: " + friendsWithDate.size());
+        //System.out.println("unremoved: " + steamProfileToFriendEntities.size() + ", steamFriendidList: " + steamFriendidList.size() + ", steamFriendsList: " + steamFriendsList.size() + ", steamFriends: " + steamFriends.size() + ", friendsWithDate: " + friendsWithDate.size());
 
         Collections.sort(friendsWithDate);
 
 //        Map<Long, SteamFriendEntity> steamFriends = steamHandler.getProfile(steamOpenIdConfig.getClientSecret(), steamid);
 
-        return convertObjectToJson(new RestMessageModel("200", "getfriends", friendsWithDate));
+        Map<String, Object> map = new HashMap<>();
+        map.put("friends", friendsWithDate);
+        map.put("length", friendsWithDate.size());
+        return convertObjectToJson(new RestMessageModel("200", "getfriends", map));
     }
 
     @RequestMapping("/getfrontpage")
