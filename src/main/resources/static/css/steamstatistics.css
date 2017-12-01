@@ -1,3 +1,7 @@
+#added {
+    float: left;
+}
+
 .btn-steamstats {
     color: #fff;
     background-color: #5b667a;
@@ -181,10 +185,9 @@ fieldset[disabled] .btn-steamstats.focus {
 
 
 .profile {
+    display: inline-block;
     text-align: left;
     height: 42px;
-    padding: 4px 0 4px 4px;
-    margin-bottom: 4px;
     font-size: 11px;
     line-height: 13px;
     overflow: hidden;
@@ -193,9 +196,12 @@ fieldset[disabled] .btn-steamstats.focus {
     position: relative;
     background-color: rgba( 84, 133, 183, 0.2);
 
-    float: left;
-    width: 290px;
+    padding: 4px 0 4px 4px;
     margin-right: 8px;
+    margin-left: auto;
+
+    min-width: 200px;
+    max-width: 290px;
 }
 
 a.profile {
