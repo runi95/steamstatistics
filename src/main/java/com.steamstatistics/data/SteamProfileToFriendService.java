@@ -60,6 +60,14 @@ public class SteamProfileToFriendService {
         return steamProfileToFriendRepository.findByFriendsinceGreaterThan(epoch);
     }
 
+    public List<SteamProfileToFriendEntity> findByFriendsinceGreaterThanAndProfileid(long epoch, long steamid) {
+        return steamProfileToFriendRepository.findByFriendsinceGreaterThanAndSteamprofileid(epoch, steamid);
+    }
+
+    public List<SteamProfileToFriendEntity> findByRemoveDateGreaterThanAndProfileid(long epoch, long steamid) {
+        return steamProfileToFriendRepository.findByRemoveDateGreaterThanAndSteamprofileid(epoch, steamid);
+    }
+
     public List<Long> getAllFriendsSteamIds(long steamid) {
         return steamProfileToFriendRepository.findAllFriendsSteamIds(steamid);
     }
