@@ -129,6 +129,10 @@ public class SteamProfileToFriendService {
         return maps;
     }
 
+    public List<SteamProfileToFriendEntity> findAllAddedFriends(long steamid) {
+        return steamProfileToFriendRepository.findAllAddedFriends(steamid);
+    }
+
     public List<SteamProfileToFriendEntity> getSteamProfileToFriendOrderedByFriendsinceDate() {
         List<SteamProfileToFriendEntity> orderedList = steamProfileToFriendRepository.findByFriendsinceNotNullOrderByFriendsince();
 

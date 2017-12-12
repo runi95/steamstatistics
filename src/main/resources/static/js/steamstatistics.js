@@ -1,4 +1,10 @@
-//var chartYMax = 400;
+var steamprofilelist = {};
+
+var friendshipsended = [];
+var friendshipsendedindex = 0;
+var friendshipsstarted = [];
+var friendshipsstartedindex = 0;
+
 
 function getProfile(data) {
     switch (data.status) {
@@ -22,6 +28,18 @@ function getProfileSuccess(message) {
     }
 
     document.getElementById("jdate").innerHTML = message[1];
+}
+
+function seemorebtn(btn) {
+    switch (btn) {
+        case "started":
+            friendshipsstartedindex = loadFriends(5, friendshipsstarted, friendshipsstartedindex, "golden", "added");
+            break;
+        case "ended":
+            friendshipsendedindex = loadFriends(5, friendshipsended, friendshipsendedindex, "removed", "removed");
+            break;
+    }
+    
 }
 
 /*
@@ -128,34 +146,54 @@ function requestlogin() {
 
 function getRemovedSuccessful(message) {
     for (var i = 0; i < message[0].length; i++) {
-        addFriend(message[0][i].steamFriendEntity, message[0][i].localDateTimeString, "removed", "removed");
+        steamprofilelist[message[0][i].steamFriendEntity.steamid] = message[0][i].steamFriendEntity;
+        friendshipsended.push({ "steamid":message[0][i].steamFriendEntity.steamid, "date":message[0][i].localDateTimeString });
     }
+
+    friendshipsendedindex = loadFriends(5, friendshipsended, friendshipsendedindex, "removed", "removed");
 
     var lmonth = document.getElementById("lmonth");
     lmonth.setAttribute("class", "negative");
     lmonth.innerHTML = message[1];
+}
 
-    //var lweek = document.getElementById("lweek");
-    //lweek.setAttribute("class", "negative");
-    //lweek.innerHTML = message[2];
+function getAddedSuccessful(message) {
+    for (var i = 0; i < message[0].length; i++) {
+        steamprofilelist[message[0][i].steamFriendEntity.steamid] = message[0][i].steamFriendEntity;
+        friendshipsstarted.push({ "steamid":message[0][i].steamFriendEntity.steamid, "date":message[0][i].localDateTimeString });
+    }
+
+    friendshipsstartedindex = loadFriends(5, friendshipsstarted, friendshipsstartedindex, "golden", "added");
 
     var gmonth = document.getElementById("gmonth");
     gmonth.setAttribute("class", "positive");
-    gmonth.innerHTML = message[2];
+    gmonth.innerHTML = message[1];
+}
 
-    for(var i = 0; i < message[3].length; i++) {
-        addFriend(message[3][i].steamFriendEntity, message[3][i].localDateTimeString, "golden", "added");
+function loadFriends(n, list, listindex, addfriendcolor, addfrienddiv) {
+    for(var i = 0; (i + listindex) < list.length && i < n; i++) {
+        addFriend(steamprofilelist[list[i + listindex].steamid], list[i + listindex].date, addfriendcolor, addfrienddiv);
     }
 
-    //var gweek = document.getElementById("gweek");
-    //gweek.setAttribute("class", "positive");
-    //gweek.innerHTML = message[4];
+    listindex += i;
+    return listindex;
 }
 
 function getRemoved(data) {
     switch (data.status) {
         case "200":
             getRemovedSuccessful(data.message);
+            break;
+        case "400":
+
+            break;
+    }
+}
+
+function getAdded(data) {
+    switch (data.status) {
+        case "200":
+            getAddedSuccessful(data.message);
             break;
         case "400":
 
@@ -174,6 +212,9 @@ function processStatus(data) {
         case "getremoved":
             getRemoved(data);
             break;
+        case "getadded":
+            getAdded(data);
+            break;
     }
 }
 
@@ -186,6 +227,7 @@ function requestProfile() {
         success: function (data) {
             processStatus(data);
             requestRemovedFriends();
+            requestAddedFriends();
         },
         complete: function () {
             document.getElementById("loader").setAttribute("class", "");
@@ -198,6 +240,17 @@ function requestRemovedFriends() {
         type: "GET",
         dataType: "json",
         url: "/getremoved",
+        success: function (data) {
+            processStatus(data);
+        }
+    });
+}
+
+function requestAddedFriends() {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/getadded",
         success: function (data) {
             processStatus(data);
         }

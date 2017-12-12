@@ -27,6 +27,9 @@ public interface SteamProfileToFriendRepository  extends CrudRepository<SteamPro
     @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE NOT s.friendsince = 0 ORDER BY s.friendsince")
     List<SteamProfileToFriendEntity> findByFriendsinceNotNullOrderByFriendsince();
 
+    @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND NOT s.friendsince = 0 ORDER BY s.friendsince")
+    List<SteamProfileToFriendEntity> findAllAddedFriends(long steamprofileid);
+
     List<SteamProfileToFriendEntity> findByFriendsinceGreaterThan(long epoch);
 
     List<SteamProfileToFriendEntity> findByFriendsinceGreaterThanAndSteamprofileid(long epoch, long profileid);
