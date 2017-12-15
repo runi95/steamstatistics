@@ -15,6 +15,7 @@
 
     <!-- Custom CSS -->
     <link href="css/steamstatistics.css" rel="stylesheet">
+    <link href="css/frontpage.css" rel="stylesheet">
     <link href="css/graphs.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

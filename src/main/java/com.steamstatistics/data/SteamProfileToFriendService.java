@@ -60,6 +60,10 @@ public class SteamProfileToFriendService {
         return steamProfileToFriendRepository.findByFriendsinceGreaterThan(epoch);
     }
 
+    public Object[][] findByFriendsinceGreaterThanTwo(long epoch) {
+        return steamProfileToFriendRepository.findByFriendsinceGreaterThanTwo(epoch);
+    }
+
     public List<SteamProfileToFriendEntity> findByFriendsinceGreaterThanAndProfileid(long epoch, long steamid) {
         return steamProfileToFriendRepository.findByFriendsinceGreaterThanAndSteamprofileid(epoch, steamid);
     }
@@ -138,6 +142,16 @@ public class SteamProfileToFriendService {
 
         return orderedList;
     }
+
+    public Object[][] getSteamProfileToFriendOrderedByFriendsinceDateTwo() {
+        return steamProfileToFriendRepository.findByFriendsinceNotNullOrderByFriendsinceTwo();
+    }
+
+    /*
+    public Object[] getSteamProfileToFriendOrderedByFriendsinceDateTwo() {
+        return steamProfileToFriendRepository.findByFriendsinceNotNullOrderByFriendsinceTwo();
+    }
+    */
 
 //    public int countAllRegisteredUsers() {
 //        return steamProfileToFriendRepository.countAllBySteamprofileid();

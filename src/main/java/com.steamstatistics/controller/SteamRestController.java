@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -215,6 +216,111 @@ public class SteamRestController {
         Frontpage frontpage = new Frontpage(registeredUsers, ruinedFriendships, bondedFriendships, longestFriendship, donationsList);
 
         return convertObjectToJson(new RestMessageModel("200", "getfrontpage", frontpage));
+    }
+
+    @RequestMapping("/getfrontpage2")
+    public String getFrontpageTwo() {
+        List<Map<String, Object>> topthreelongestfriendships = new ArrayList();
+
+        Object[][] longestFriendshipSortedArray = steamProfileToFriendService.getSteamProfileToFriendOrderedByFriendsinceDateTwo();
+        for(int i = 0; i < 3 && i < longestFriendshipSortedArray.length; i++) {
+            long steamprofileid = (long)longestFriendshipSortedArray[i][0];
+            long friendshipepoch = (long)longestFriendshipSortedArray[i][1];
+
+            SteamFriendEntity steamFriendEntity = steamFriendService.get(steamprofileid);
+
+            LocalDateTime localDateTime = timeService.getLocalDateTimeFromUnix(timeService.getCurrentUnixTime());
+            LocalDateTime friendshipepochLocalDateTime = timeService.getLocalDateTimeFromUnix(friendshipepoch);
+
+            localDateTime = localDateTime.minusDays(friendshipepochLocalDateTime.getDayOfMonth()).minusMonths(friendshipepochLocalDateTime.getMonthValue()).minusYears(friendshipepochLocalDateTime.getYear());
+            int years = localDateTime.getYear(), months = localDateTime.getMonthValue(), days = localDateTime.getDayOfMonth();
+            String prettifiedYears = (years == 0 ? "" : (years == 1) ? years + " year, " : years + " years, ");
+            String prettifiedMonths = (months == 0 ? "" : (months == 1) ? months + " month and " : months + " months and ");
+            String prettifiedDays = (days == 1 ? days + " day" : days + " days");
+            String prettifiedFriendshipLengthText = prettifiedYears + prettifiedMonths + prettifiedDays;
+
+            Map<String, Object> javascriptObject = new HashMap<>();
+            javascriptObject.put("steamfriend", steamFriendEntity);
+            javascriptObject.put("friendshipdurationdate", prettifiedFriendshipLengthText);
+
+            topthreelongestfriendships.add(javascriptObject);
+        }
+
+        long lastMonth = timeService.getLastMonthUnixTime();
+
+        /*
+        List<SteamProfileToFriendEntity> lastMonthGainedFriendsList = steamProfileToFriendService.findByFriendsinceGreaterThan(lastMonth);
+        Map<Long, Integer> lastMonthGainedFriendsCounterMap = new HashMap<>();
+        long biggestFriendHoarderSteamId = 0;
+        int biggestFriendHoarderCount = 0;
+        for(SteamProfileToFriendEntity sptfe : lastMonthGainedFriendsList) {
+            long steamprofileid = sptfe.getSteamprofileid();
+            int currentCount;
+            Integer count = lastMonthGainedFriendsCounterMap.get(steamprofileid);
+            if(count == null)
+                currentCount = 0;
+            else
+                currentCount = count;
+
+            currentCount++;
+
+            if(currentCount > biggestFriendHoarderCount) {
+                biggestFriendHoarderCount = currentCount;
+                biggestFriendHoarderSteamId = steamprofileid;
+            }
+
+            lastMonthGainedFriendsCounterMap.put(steamprofileid, currentCount);
+        }
+
+        SteamFriendEntity biggestHoarderFriendEntity = steamFriendService.get(biggestFriendHoarderSteamId);
+        Map<String, Object> hoarderMap = new HashMap<>();
+        hoarderMap.put("steamfriend", biggestHoarderFriendEntity);
+        hoarderMap.put("count", biggestFriendHoarderCount);
+        */
+
+        List<Map<String, Object>> topThreeMonthlyHoardersList = new ArrayList<>();
+        int totalHoardCount = 0;
+
+        Object[][] lastMonthGainedFriendsList = steamProfileToFriendService.findByFriendsinceGreaterThanTwo(lastMonth);
+        for(int i = 0; i < 3 && i < lastMonthGainedFriendsList.length; i++) {
+            long steamprofileid = (long)lastMonthGainedFriendsList[i][0];
+            long hoardcounter = (long)lastMonthGainedFriendsList[i][1];
+
+            SteamFriendEntity steamFriendEntity = steamFriendService.get(steamprofileid);
+
+            Map<String, Object> hoarderMap = new HashMap<>();
+            hoarderMap.put("steamfriend", steamFriendEntity);
+            hoarderMap.put("cnt", hoardcounter);
+
+            topThreeMonthlyHoardersList.add(hoarderMap);
+
+            totalHoardCount += hoardcounter;
+        }
+
+        List<Map<String, Object>> topThreeHoardersList = new ArrayList<>();
+
+        Object[][] totalGainedFriendsList = steamProfileToFriendService.findByFriendsinceGreaterThanTwo(0);
+        for(int i = 0; i < 3 && i < totalGainedFriendsList.length; i++) {
+            long steamprofileid = (long)totalGainedFriendsList[i][0];
+            long hoardcounter = (long)totalGainedFriendsList[i][1];
+
+            SteamFriendEntity steamFriendEntity = steamFriendService.get(steamprofileid);
+
+            Map<String, Object> hoarderMap = new HashMap<>();
+            hoarderMap.put("steamfriend", steamFriendEntity);
+            hoarderMap.put("cnt", hoardcounter);
+
+            topThreeHoardersList.add(hoarderMap);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("topthreefriendships", topthreelongestfriendships);
+        map.put("topthreehoarders", topThreeHoardersList);
+        map.put("topthreemonthlyhoarders", topThreeMonthlyHoardersList);
+        map.put("monthlygain", totalHoardCount);
+        map.put("monthlyloss", steamProfileToFriendService.findByRemoveDateGreaterThan(timeService.getLastMonthUnixTime()).size());
+        map.put("joinedusers", steamProfileService.findByCreationdateGreaterThanEpoch(timeService.getLastMonthUnixTime()).size());
+        return convertObjectToJson(new RestMessageModel("200", "getfrontpage2", map));
     }
 
     private Long getSteamid(String token, Principal principal) {

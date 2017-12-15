@@ -1,6 +1,6 @@
 <#import "master.ftlh" as m/>
 <@m.master>
-<div style="padding-bottom: 50px;">
+<div style="padding-bottom: 60px;">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -13,16 +13,8 @@
             </div>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li class="active"><a href="/">Profile</a></li>
-                            <li><a href="/friends">Friends</a></li>
-                        </ul>
-                    </li>
-                    <!-- <li class="active"><a href="/">Profile</a></li> -->
                     <li><a href="/home">Frontpage</a></li>
+                    <li class="active"><a href="/">Profile</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <div style="padding: 7px 5px;">

@@ -1,79 +1,6 @@
 <#import "master.ftlh" as m/>
 <@m.master>
-
-<style>
-    .longestfriend {
-        background: repeating-linear-gradient(
-                -55deg,
-                #222,
-                #222 10px,
-                #282828 10px,
-                #282828 20px
-        );
-        padding: 20px;
-        margin: 0 auto;
-        min-height: 32px;
-    }
-
-    .roundedAvatar img {
-        border-radius: 50%;
-        border-color: #1e1f26;
-    }
-
-    .monthly {
-        border: 3px solid #1e1f26;
-        background: #222222;
-        padding: 10px;
-    }
-
-    .monthly .monthlytitle {
-        color: #e1f1e1;
-        font-size: 2em;
-        text-shadow: 2px 3px rgba(100, 85, 100, .5);
-    }
-
-    .monthly .monthlystat {
-        color: darkgrey;
-    }
-
-    .monthlynumb {
-        color: teal;
-    }
-
-    .donatorHeader {
-        background: #222;
-        color: #e1f1e1;
-        font-size: 2em;
-        text-shadow: 2px 3px rgba(100, 85, 100, .5);
-    }
-
-    .donatorHeader .donatorContent {
-        padding: 10px;
-        min-height: 50px;
-    }
-
-    .longestfriendship {
-        background: #222222;
-        padding: 10px;
-    }
-
-    .longestfriendship .longestfriendshipHeader {
-        color: #a94442;
-    }
-
-    .footer {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        padding: 1rem;
-        text-align: center;
-    }
-
-    .paypal {
-    }
-</style>
-<div style="padding-bottom: 50px;">
+<div style="padding-top: 60px;">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -86,8 +13,8 @@
             </div>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Profile</a></li>
                     <li class="active"><a href="/home">Frontpage</a></li>
+                    <li><a href="/">Profile</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <div style="padding: 7px 5px;">
@@ -102,82 +29,226 @@
         </div>
     </nav>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="longestfriend">
-                <div class="row">
-                    <div class="col-xs-12 col-md-4">
-                        <div class="roundedAvatar">
-                            <div id="longestfrienda">
-                                <img id="longestfriendaimg" src="css/img/defaultImageMedium.jpg">
+<div class="col-sm-6 col-sm-offset-3">
+    <div class="box">
+        <h3>Longest Friendships</h3>
+        <div id="topthreefriendships">
+            <div class="medal-container">
+                <div style="display: table;">
+                    <div class="medal-avatar">
+                        <div class="medal gold">
+                            <div class="medal-outer">
+                                <div class="medal-inner">
+                                    <a id="topthreefriendships_goldlink">
+                                        <img id="topthreefriendships_goldimg" class="medal-img"
+                                             src="/css/img/defaultImageMedium.jpg">
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="longestfriendship" style="margin: 10px 10px">
-                            <h4 class="longestfriendshipHeader">
-                                Longest Friendship
-                            </h4>
-                            <div class="plusstest">
-                                <span id="longestfriendshipdate"></span>
+                    <a id="topthreefriendships_goldtitle" class="gold-text medal-container-title"></a>
+                    <div id="topthreefriendships_goldtext" class="medal-container-text"></div>
+                </div>
+            </div>
+            <div class="medal-container">
+                <div style="display: table;">
+                    <div class="medal-avatar">
+                        <div class="medal silver">
+                            <div class="medal-outer">
+                                <div class="medal-inner">
+                                    <a id="topthreefriendships_silverlink">
+                                        <img id="topthreefriendships_silverimg" class="medal-img"
+                                             src="/css/img/defaultImageMedium.jpg">
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-md-4">
-                        <div class="roundedAvatar">
-                            <div id="longestfriendb">
-                                <img id="longestfriendbimg" src="css/img/defaultImageMedium.jpg">
+                    <a id="topthreefriendships_silvertitle" class="silver-text medal-container-title"></a>
+                    <div id="topthreefriendships_silvertext" class="medal-container-text"></div>
+                </div>
+            </div>
+            <div class="medal-container">
+                <div style="display: table;">
+                    <div class="medal-avatar">
+                        <div class="medal bronze">
+                            <div class="medal-outer">
+                                <div class="medal-inner">
+                                    <a id="topthreefriendships_bronzelink">
+                                        <img id="topthreefriendships_bronzeimg" class="medal-img"
+                                             src="/css/img/defaultImageMedium.jpg">
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <a id="topthreefriendships_bronzetitle" class="bronze-text medal-container-title"></a>
+                    <div id="topthreefriendships_bronzetext" class="medal-container-text"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12 col-md-4">
-            <div class="monthly">
-                <div class="monthlytitle">
-                    Monthly Stat
+    <div class="box">
+        <h3>Friend Collectors</h3>
+        <div id="topthreehoarders">
+            <div class="medal-container">
+                <div style="display: table;">
+                    <div class="medal-avatar">
+                        <div class="medal gold">
+                            <div class="medal-outer">
+                                <div class="medal-inner">
+                                    <a id="topthreehoarders_goldlink">
+                                        <img id="topthreehoarders_goldimg" class="medal-img"
+                                             src="/css/img/defaultImageMedium.jpg">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a id="topthreehoarders_goldtitle" class="gold-text medal-container-title"></a>
+                    <div id="topthreehoarders_goldtext" class="medal-container-text"></div>
                 </div>
-                <div class="monthlystat">
-                    <span id="registeredaccounts" class="monthlynumb"></span> new accounts
+            </div>
+            <div class="medal-container">
+                <div style="display: table;">
+                    <div class="medal-avatar">
+                        <div class="medal silver">
+                            <div class="medal-outer">
+                                <div class="medal-inner">
+                                    <a id="topthreehoarders_silverlink">
+                                        <img id="topthreehoarders_silverimg" class="medal-img"
+                                             src="/css/img/defaultImageMedium.jpg">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a id="topthreehoarders_silvertitle" class="silver-text medal-container-title"></a>
+                    <div id="topthreehoarders_silvertext" class="medal-container-text"></div>
                 </div>
-                <div class="monthlystat">
-                    <span id="friendgain" class="monthlynumb"></span> friendships bonded
-                </div>
-                <div class="monthlystat">
-                    <span id="friendloss" class="monthlynumb"></span> friendships ruined
+            </div>
+            <div class="medal-container">
+                <div style="display: table;">
+                    <div class="medal-avatar">
+                        <div class="medal bronze">
+                            <div class="medal-outer">
+                                <div class="medal-inner">
+                                    <a id="topthreehoarders_bronzelink">
+                                        <img id="topthreehoarders_bronzeimg" class="medal-img"
+                                             src="/css/img/defaultImageMedium.jpg">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a id="topthreehoarders_bronzetitle" class="bronze-text medal-container-title"></a>
+                    <div id="topthreehoarders_bronzetext" class="medal-container-text"></div>
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-md-4 col-md-offset-4">
-            <div class="donatorHeader">
-                Latest donators:
-                <div class="donatorContent">
-                    <div id="donatordiv"></div>
+    </div>
+    <div class="box">
+        <h3>Monthly Collectors</h3>
+        <div id="topthreemonthlyhoarders">
+            <div class="medal-container">
+                <div style="display: table;">
+                    <div class="medal-avatar">
+                        <div class="medal gold">
+                            <div class="medal-outer">
+                                <div class="medal-inner">
+                                    <a id="topthreemonthlyhoarders_goldlink">
+                                        <img id="topthreemonthlyhoarders_goldimg" class="medal-img"
+                                             src="/css/img/defaultImageMedium.jpg">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a id="topthreemonthlyhoarders_goldtitle" class="gold-text medal-container-title"></a>
+                    <div id="topthreemonthlyhoarders_goldtext" class="medal-container-text"></div>
                 </div>
             </div>
+            <div class="medal-container">
+                <div style="display: table;">
+                    <div class="medal-avatar">
+                        <div class="medal silver">
+                            <div class="medal-outer">
+                                <div class="medal-inner">
+                                    <a id="topthreemonthlyhoarders_silverlink">
+                                        <img id="topthreemonthlyhoarders_silverimg" class="medal-img"
+                                             src="/css/img/defaultImageMedium.jpg">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a id="topthreemonthlyhoarders_silvertitle" class="silver-text medal-container-title"></a>
+                    <div id="topthreemonthlyhoarders_silvertext" class="medal-container-text"></div>
+                </div>
+            </div>
+            <div class="medal-container">
+                <div style="display: table;">
+                    <div class="medal-avatar">
+                        <div class="medal bronze">
+                            <div class="medal-outer">
+                                <div class="medal-inner">
+                                    <a id="topthreemonthlyhoarders_bronzelink">
+                                        <img id="topthreemonthlyhoarders_bronzeimg" class="medal-img"
+                                             src="/css/img/defaultImageMedium.jpg">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a id="topthreemonthlyhoarders_bronzetitle" class="bronze-text medal-container-title"></a>
+                    <div id="topthreemonthlyhoarders_bronzetext" class="medal-container-text"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: inline-block; padding: 5px 30px 10px 30px; margin: 10px;">
+        <h3>Monthly Stats</h3>
+        <div id="monthlygain">
+            <span id="monthlygainvalue" style="color: #6ca0e0"></span><span id="monthlygaintext"></span>
+        </div>
+        <div id="monthlyloss">
+            <span id="monthlylossvalue" style="color: #6ca0e0"></span><span id="monthlylosstext"></span>
+        </div>
+        <div id="joinedusers">
+            <span id="joinedusersvalue" style="color: #6ca0e0"></span><span id="joineduserstext"></span>
         </div>
     </div>
 </div>
+<div style="padding-bottom: 10px"></div>
 <!--
-<div class="footer">
-    <div class="paypal">
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-            <input type="hidden" name="cmd" value="_donations">
-            <#if steamid ??>
-                <input type="hidden" name="custom" value="${steamid}"/>
-            </#if>
-            <input type="image" src="https://www.paypalobjects.com/en_US/NO/i/btn/btn_donateCC_LG.gif" border="0"
-                   name="submit" alt="PayPal - The safer, easier way to pay online!">
-            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-        </form>
-        <div>
-            <#if !steamid ??>
-                <small>You need to be logged in to get donator rank</small>
-            </#if>
+<div class="medal gold" style="display: table;">
+    <div style="display: table-cell; vertical-align: middle;">
+        <div class="margin-left: auto; margin-right: auto;">
+            <a href="http://steamcommunity.com/profiles/76561198272426404/">
+                <img src="http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/b8/b867b64f01bfccd3fa69836e1a9ce0bba90f0a75_medium.jpg"
+                     style="border-radius: 50%">
+            </a>
+        </div>
+    </div>
+</div>
+<div class="medal silver" style="display: table;">
+    <div style="display: table-cell; vertical-align: middle;">
+        <div class="">
+            <a href="http://steamcommunity.com/profiles/76561198272426404/">
+                <img src="http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/b8/b867b64f01bfccd3fa69836e1a9ce0bba90f0a75_medium.jpg"
+                     style="border-radius: 50%">
+            </a>
+        </div>
+    </div>
+</div>
+<div class="medal bronze" style="display: table;">
+    <div style="display: table-cell; vertical-align: middle;">
+        <div class="margin-left: auto; margin-right: auto;">
+            <a href="http://steamcommunity.com/profiles/76561198272426404/">
+                <img src="http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/b8/b867b64f01bfccd3fa69836e1a9ce0bba90f0a75_medium.jpg"
+                     style="border-radius: 50%">
+            </a>
         </div>
     </div>
 </div>
