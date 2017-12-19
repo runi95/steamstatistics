@@ -34,6 +34,10 @@ public interface SteamProfileToFriendRepository  extends CrudRepository<SteamPro
     @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND NOT s.friendsince = 0 ORDER BY s.friendsince ASC")
     List<SteamProfileToFriendEntity> findAllAddedFriends(long steamprofileid);
 
+    @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND NOT s.friendsince = 0 ORDER BY s.friendsince DESC")
+    List<SteamProfileToFriendEntity> findAllAddedFriendsDesc(long steamprofileid);
+
+
     @Query("SELECT DISTINCT(s.steamprofileid), COUNT(s) FROM SteamProfileToFriendEntity s WHERE s.friendsince > ?1 GROUP BY s.steamprofileid ORDER BY COUNT(s) DESC")
     Object[][] findByFriendsinceGreaterThanTwo(long epoch);
 

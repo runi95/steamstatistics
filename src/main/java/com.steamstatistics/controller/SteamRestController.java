@@ -131,7 +131,7 @@ public class SteamRestController {
         if(steamid == null) {
             return convertObjectToJson(new RestMessageModel("200", "login"));
         }
-        List<SteamProfileToFriendEntity> steamProfileToFriendEntities = steamProfileToFriendService.findAllAddedFriends(steamid);
+        List<SteamProfileToFriendEntity> steamProfileToFriendEntities = steamProfileToFriendService.findAllAddedFriendsDesc(steamid);
         List<Long> steamidList = new ArrayList<>();
         steamProfileToFriendEntities.forEach((s) -> steamidList.add(s.getSteamfriendid()));
         Map<Long, SteamFriendEntity> addedFriends = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamidList));

@@ -137,6 +137,11 @@ public class SteamProfileToFriendService {
         return steamProfileToFriendRepository.findAllAddedFriends(steamid);
     }
 
+    public List<SteamProfileToFriendEntity> findAllAddedFriendsDesc(long steamid) {
+        return steamProfileToFriendRepository.findAllAddedFriendsDesc(steamid);
+    }
+
+
     public List<SteamProfileToFriendEntity> getSteamProfileToFriendOrderedByFriendsinceDate() {
         List<SteamProfileToFriendEntity> orderedList = steamProfileToFriendRepository.findByFriendsinceNotNullOrderByFriendsince();
 
