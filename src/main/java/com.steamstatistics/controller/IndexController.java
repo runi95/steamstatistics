@@ -1,11 +1,14 @@
 package com.steamstatistics.controller;
 
+import com.steamstatistics.data.SuggestionEntity;
+import com.steamstatistics.data.SuggestionService;
 import com.steamstatistics.userauth.SteamUserDetailsService;
 import com.steamstatistics.userauth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
@@ -18,6 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 import static org.apache.http.HttpHeaders.USER_AGENT;
@@ -29,6 +33,9 @@ public class IndexController {
 
     @Autowired
     SteamUserDetailsService steamUserDetailsService;
+
+    @Autowired
+    SuggestionService suggestionService;
 
     @GetMapping(value = "/")
     public String getHomepage(@CookieValue(value = "token", required = false) String token, Principal principal, HttpServletResponse response) {
@@ -79,6 +86,21 @@ public class IndexController {
     @GetMapping(value = "/ipn")
     public String testIPN() {
         return "ipn";
+    }
+
+    @PostMapping("/suggestion")
+    public String suggestions(@ModelAttribute("suggestionForm") SuggestionForm suggestionForm, BindingResult bindingResult) {
+        if(suggestionForm.getCategory() != null && suggestionForm.getDescription() != null && !suggestionForm.getCategory().isEmpty() && !suggestionForm.getDescription().isEmpty()) {
+            SuggestionEntity suggestionEntity = new SuggestionEntity();
+            suggestionEntity.setCategory(suggestionForm.getCategory());
+            suggestionEntity.setDescription(suggestionForm.getDescription());
+            suggestionService.save(suggestionEntity);
+        }
+
+        List<SuggestionEntity> test = suggestionService.getAll();
+        test.forEach((x) -> System.out.println(x.getCategory() + ": " + x.getDescription()));
+
+        return "redirect:/home";
     }
 
     /*

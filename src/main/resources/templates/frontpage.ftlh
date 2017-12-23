@@ -29,7 +29,54 @@
         </div>
     </nav>
 </div>
-<div class="col-sm-6 col-sm-offset-3">
+<div class="col-sm-3">
+    <div class="box" style="padding: 5px 30px 10px 30px; margin: 10px;">
+        <h3>Monthly Stats</h3>
+        <div id="monthlygain">
+            <span id="monthlygainvalue" style="color: #6ca0e0"></span><span id="monthlygaintext"></span>
+        </div>
+        <div id="monthlyloss">
+            <span id="monthlylossvalue" style="color: #6ca0e0"></span><span id="monthlylosstext"></span>
+        </div>
+        <div id="joinedusers">
+            <span id="joinedusersvalue" style="color: #6ca0e0"></span><span id="joineduserstext"></span>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6">
+    <div class="box" style="padding-left: 10px; padding-right: 10px;">
+        <h3>Got any suggestions?</h3>
+        <h4>post them below!</h4>
+        <div class="row">
+            <#if steamid ??>
+                <div class="col-sm-6 col-sm-offset-3">
+                <form id="suggestionForm" class="form-horizontal" defaultaction="/suggestion" name="suggestionForm"
+                      method="POST">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <div class="form-group">
+                        <label for="category" class="control-label col-sm-3">Category:</label>
+                        <div class="col-sm-9" style="color: #000000">
+                            <select name="category" class="form-control">
+                                <option value="feature">Feature</option>
+                                <option value="bug">Bug</option>
+                                <option value="misc">Miscellaneous</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="control-label col-sm-3">Description:</label>
+                        <div class="col-sm-9" style="color: #000000">
+                            <textarea name="description" class="form-control" maxlength="1000"></textarea>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary form-control" value="Submit">
+                </form>
+                </div>
+            <#else>
+                <div style="color: #666666">You need to be logged in to add suggestions!</div>
+            </#if>
+        </div>
+    </div>
     <div class="box">
         <h3>Longest Friendships</h3>
         <div id="topthreefriendships">
@@ -205,18 +252,6 @@
                     <div id="topthreemonthlyhoarders_bronzetext" class="medal-container-text"></div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div style="display: inline-block; padding: 5px 30px 10px 30px; margin: 10px;">
-        <h3>Monthly Stats</h3>
-        <div id="monthlygain">
-            <span id="monthlygainvalue" style="color: #6ca0e0"></span><span id="monthlygaintext"></span>
-        </div>
-        <div id="monthlyloss">
-            <span id="monthlylossvalue" style="color: #6ca0e0"></span><span id="monthlylosstext"></span>
-        </div>
-        <div id="joinedusers">
-            <span id="joinedusersvalue" style="color: #6ca0e0"></span><span id="joineduserstext"></span>
         </div>
     </div>
 </div>
