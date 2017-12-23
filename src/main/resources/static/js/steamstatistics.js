@@ -33,10 +33,10 @@ function getProfileSuccess(message) {
 function seemorebtn(btn) {
     switch (btn) {
         case "started":
-            friendshipsstartedindex = loadFriends(5, friendshipsstarted, friendshipsstartedindex, "golden", "added");
+            friendshipsstartedindex = loadFriends(friendshipsstarted.length, friendshipsstarted, friendshipsstartedindex, "golden", "added");
             break;
         case "ended":
-            friendshipsendedindex = loadFriends(5, friendshipsended, friendshipsendedindex, "removed", "removed");
+            friendshipsendedindex = loadFriends(friendshipsended.length, friendshipsended, friendshipsendedindex, "removed", "removed");
             break;
     }
     

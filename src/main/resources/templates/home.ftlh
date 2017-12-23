@@ -42,7 +42,7 @@
                 <div class="profileHeader">
                     <div class="profileHeaderContent">
                         <div class="row">
-                            <div class="col-xs-7" style="max-width: 184px;">
+                            <div class="col-xs-12 col-sm-7" style="max-width: 184px;">
                                 <div id="state" class="profileAvatar profileHeaderSize offline">
                                     <div class="playerAvatarAutoSizeInner">
                                         <img id="avatar"
@@ -50,7 +50,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-5">
+                            <div class="col-xs-12 col-sm-5">
                                 <div class="profileHeaderCenteredPersona" style="text-align: left;">
                                     <div class="personaName">
                                     <span id="personaname" class="actualPersonaName"
