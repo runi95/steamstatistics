@@ -20,14 +20,14 @@ function getProfile(data) {
 function getProfileSuccess(message) {
     document.getElementById("steamhref").setAttribute("class", "hide");
 
-    document.getElementById("personaname").innerHTML = message[0].personaname;
+    document.getElementById("personaname").appendChild(document.createTextNode(message[0].personaname));
     document.getElementById("state").setAttribute("class", "profileAvatar profileHeaderSize " + message[0].profilestate);
     document.getElementById("avatar").setAttribute("src", message[0].avatarfull);
     if (message[0].communityvisibilitystate != "3") {
         document.getElementById("privacystate").setAttribute("class", "show");
     }
 
-    document.getElementById("jdate").innerHTML = message[1];
+    document.getElementById("jdate").appendChild(document.createTextNode(message[1]));
 }
 
 function seemorebtn(btn) {
@@ -130,11 +130,11 @@ function addFriend(profile, message, state, parentdiv) {
     avatar.appendChild(img);
     div.appendChild(avatar);
     var name = document.createElement("div");
-    name.innerHTML = profile.personaname;
+    name.appendChild(document.createTextNode(profile.personaname));
     var namebr = document.createElement("br");
     name.appendChild(namebr);
     var span = document.createElement("span");
-    span.innerHTML = message;
+    span.appendChild(document.createTextNode(message));;
     name.appendChild(span);
     div.appendChild(name);
     document.getElementById(parentdiv).appendChild(div);
@@ -154,7 +154,7 @@ function getRemovedSuccessful(message) {
 
     var lmonth = document.getElementById("lmonth");
     lmonth.setAttribute("class", "negative");
-    lmonth.innerHTML = message[1];
+    lmonth.appendChild(document.createTextNode(message[1]));
 }
 
 function getAddedSuccessful(message) {
@@ -167,7 +167,7 @@ function getAddedSuccessful(message) {
 
     var gmonth = document.getElementById("gmonth");
     gmonth.setAttribute("class", "positive");
-    gmonth.innerHTML = message[1];
+    gmonth.appendChild(document.createTextNode(message[1]));
 }
 
 function loadFriends(n, list, listindex, addfriendcolor, addfrienddiv) {
@@ -273,5 +273,5 @@ function updateFriends(message) {
         addFriend(message.friends[key].steamFriendEntity, message.friends[key].localDateTimeString, switchPersonastate(message.friends[key].personastate), "friends");
     }
 
-    document.getElementById("friendcount").innerHTML = message.length;
+    document.getElementById("friendcount").appendChild(document.createTextNode(message.length));
 }
