@@ -12,6 +12,7 @@
         <tbody>
         <#list suggestions as suggestion>
         <tr id="sugg_${suggestion.id}" style="color: #337ab7">
+            <td>${suggestion.creationDate}</td>
             <td>${suggestion.steamid}</td>
             <td>${suggestion.category}</td>
             <td>${suggestion.description}</td>
