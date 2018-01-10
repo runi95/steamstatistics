@@ -20,6 +20,9 @@ public class SuggestionEntity {
     @Column(name = "desc", nullable = false)
     private String description;
 
+    @Column(name = "date", nullable = false)
+    private String creationDate;
+
     public long getId() {
         return id;
     }
@@ -28,9 +31,7 @@ public class SuggestionEntity {
         return steamid;
     }
 
-    public void setSteamid(long steamid) {
-        this.steamid = steamid;
-    }
+    public void setSteamid(long steamid) { this.steamid = steamid; }
 
     public String getCategory() {
         return category;
@@ -47,4 +48,8 @@ public class SuggestionEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getCreationDate() { return creationDate; }
+
+    public void setCreationDate(String creationDate) { this.creationDate = creationDate; }
 }

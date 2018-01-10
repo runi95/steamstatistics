@@ -2,6 +2,7 @@ package com.steamstatistics.controller;
 
 import com.steamstatistics.data.SuggestionEntity;
 import com.steamstatistics.data.SuggestionService;
+import com.steamstatistics.steamapi.TimeService;
 import com.steamstatistics.userauth.SteamUserDetailsService;
 import com.steamstatistics.userauth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class IndexController {
 
     @Autowired
     SuggestionService suggestionService;
+
+    @Autowired
+    TimeService timeService;
 
     @GetMapping(value = "/")
     public String getHomepage(@CookieValue(value = "token", required = false) String token, Principal principal, HttpServletResponse response) {
@@ -94,6 +98,7 @@ public class IndexController {
             SuggestionEntity suggestionEntity = new SuggestionEntity();
             suggestionEntity.setCategory(suggestionForm.getCategory());
             suggestionEntity.setDescription(suggestionForm.getDescription());
+            suggestionEntity.setCreationDate(Long.toString(timeService.getCurrentUnixTime()));
             suggestionService.save(suggestionEntity);
         }
 
