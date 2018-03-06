@@ -10,9 +10,8 @@ import com.steamstatistics.data.*;
 import com.steamstatistics.steamapi.*;
 import com.steamstatistics.userauth.SteamUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -45,6 +44,9 @@ public class SteamRestController {
 
     @Autowired
     TimeService timeService;
+
+    @Autowired
+    SuggestionService suggestionService;
 
     @RequestMapping("/getprofile")
     public String getProfile(@CookieValue(value = "token", required = false) String token, Principal principal) {
@@ -321,6 +323,26 @@ public class SteamRestController {
         map.put("monthlyloss", steamProfileToFriendService.findByRemoveDateGreaterThan(timeService.getLastMonthUnixTime()).size());
         map.put("joinedusers", steamProfileService.findByCreationdateGreaterThanEpoch(timeService.getLastMonthUnixTime()).size());
         return convertObjectToJson(new RestMessageModel("200", "getfrontpage2", map));
+    }
+
+    @PostMapping("/suggestion")
+    public String suggestions(@ModelAttribute("suggestionForm") SuggestionForm suggestionForm, BindingResult bindingResult) {
+        RestMessageModel restMessageModel = null;
+
+        if(suggestionForm.getCategory() != null && suggestionForm.getDescription() != null && !suggestionForm.getCategory().isEmpty() && !suggestionForm.getDescription().isEmpty()) {
+            SuggestionEntity suggestionEntity = new SuggestionEntity();
+            suggestionEntity.setCategory(suggestionForm.getCategory());
+            suggestionEntity.setDescription(suggestionForm.getDescription());
+            suggestionEntity.setCreationDate(Long.toString(timeService.getCurrentUnixTime()));
+            suggestionService.save(suggestionEntity);
+
+            Map<String, Object> map = new HashMap<>();
+            restMessageModel = new RestMessageModel("200", "suggestion", null);
+        } else {
+            restMessageModel = new RestMessageModel("408", "suggestion", null);
+        }
+
+        return convertObjectToJson(restMessageModel);
     }
 
     private Long getSteamid(String token, Principal principal) {

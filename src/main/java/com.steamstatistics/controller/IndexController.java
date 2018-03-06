@@ -92,7 +92,7 @@ public class IndexController {
         return "ipn";
     }
 
-    @PostMapping("/suggestion")
+    @PostMapping("/suggestions")
     public String suggestions(@ModelAttribute("suggestionForm") SuggestionForm suggestionForm, BindingResult bindingResult) {
         if(suggestionForm.getCategory() != null && suggestionForm.getDescription() != null && !suggestionForm.getCategory().isEmpty() && !suggestionForm.getDescription().isEmpty()) {
             SuggestionEntity suggestionEntity = new SuggestionEntity();
@@ -105,7 +105,7 @@ public class IndexController {
         List<SuggestionEntity> test = suggestionService.getAll();
         test.forEach((x) -> System.out.println(x.getCategory() + ": " + x.getDescription()));
 
-        return "redirect:/home";
+        return "home";
     }
 
     /*

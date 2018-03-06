@@ -1,3 +1,5 @@
+var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
 function getFrontpage() {
     $.ajax({
         type: "GET",
@@ -28,6 +30,9 @@ function processStatus(data) {
         case "getfrontpage2":
             loadFrontpageTwo(data);
             break;
+        case "suggestion":
+            loadSuggestion(data);
+            break;
     }
 }
 
@@ -51,6 +56,50 @@ function loadFrontpageTwo(data) {
 
             break;
     }
+}
+
+function loadSuggestion(data) {
+    document.getElementById("suggestionText").value = "";
+    var alertdiv = document.getElementById("alertdiv");
+    var alert = document.createElement("div");
+    var a = document.createElement("a");
+
+    var btn = document.getElementById("subbtn");
+    switch(data.status) {
+        case "200":
+            /*
+            a.setAttribute("href", "#");
+            a.setAttribute("class", "close");
+            a.setAttribute("data-dismiss", "alert");
+            a.setAttribute("aria-label", "close");
+            a.innerHTML = "&times;";
+            alert.appendChild(a);
+            alert.appendChild(document.createTextNode("Your suggestion has been successfully sent out, thank you!"));
+            alert.setAttribute("class", "alert alert-success alert-dismissible fade in");
+            alertdiv.appendChild(alert);
+            */
+            btn.setAttribute("class", "btn btn-primary form-control suggestion-success");
+            break;
+        case "408":
+        default:
+            btn.setAttribute("class", "btn btn-primary form-control suggestion-failure");
+            /*
+            a.setAttribute("href", "#");
+            a.setAttribute("class", "close");
+            a.setAttribute("data-dismiss", "alert");
+            a.setAttribute("aria-label", "close");
+            a.innerHTML = "&times;";
+            alert.appendChild(a);
+            alert.appendChild(document.createTextNode("Suggestion failed to send, please try again."));
+            alert.setAttribute("class", "alert alert-danger alert-dismissible fade in");
+            alertdiv.appendChild(alert);
+            */
+            break;
+    }
+
+    setTimeout(function(){
+        btn.setAttribute("class", "btn btn-primary form-control");
+    }, 3000);
 }
 
 function getFrontpageSuccessTwo(message) {
@@ -258,3 +307,17 @@ function getFrontpageSuccess(message) {
 }
 
 getFrontpageTwo();
+
+function submitSuggestion() {
+    document.getElementById("subbtn").setAttribute("class", "btn btn-primary form-control");
+
+    $.ajax({
+        url: '/suggestion',
+        type: 'POST',
+        dataType: 'json',
+        data: $('form#suggestionForm').serialize() + "&_token=" + csrf_token,
+        success: function(data) {
+            processStatus(data);
+        }
+    });
+}

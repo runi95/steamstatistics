@@ -43,6 +43,7 @@
         </div>
     </div>
 </div>
+<div id="alertdiv" class="alert-div"></div>
 <div class="col-sm-6">
     <div class="box" style="padding-left: 10px; padding-right: 10px;">
         <h3>Got any suggestions?</h3>
@@ -50,7 +51,7 @@
         <div class="row">
             <#if steamid ??>
                 <div class="col-sm-6 col-sm-offset-3">
-                <form id="suggestionForm" class="form-horizontal" defaultaction="/suggestion" name="suggestionForm"
+                <form id="suggestionForm" class="form-horizontal" action="javascript:submitSuggestion();" name="suggestionForm"
                       method="POST">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <div class="form-group">
@@ -66,10 +67,10 @@
                     <div class="form-group">
                         <label for="description" class="control-label col-sm-3">Description:</label>
                         <div class="col-sm-9" style="color: #000000">
-                            <textarea name="description" class="form-control" maxlength="1000"></textarea>
+                            <textarea id="suggestionText" name="description" class="form-control" maxlength="1000"></textarea>
                         </div>
                     </div>
-                    <input type="submit" class="btn btn-primary form-control" value="Submit">
+                    <input id="subbtn" type="submit" class="btn btn-primary form-control" value="Submit">
                 </form>
                 </div>
             <#else>
@@ -254,6 +255,12 @@
             </div>
         </div>
     </div>
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="HXWXXV478XGZW">
+        <input type="image" src="https://www.paypalobjects.com/en_US/NO/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+    </form>
 </div>
 <div style="padding-bottom: 10px"></div>
 <!--
