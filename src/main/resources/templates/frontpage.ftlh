@@ -65,6 +65,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="title" class="control-label col-sm-3">Title:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="title" class="form-control" maxlength="32">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="description" class="control-label col-sm-3">Description:</label>
                         <div class="col-sm-9" style="color: #000000">
                             <textarea id="suggestionText" name="description" class="form-control" maxlength="1000"></textarea>

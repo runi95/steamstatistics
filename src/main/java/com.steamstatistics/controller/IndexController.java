@@ -93,19 +93,30 @@ public class IndexController {
     }
 
     @PostMapping("/suggestions")
-    public String suggestions(@ModelAttribute("suggestionForm") SuggestionForm suggestionForm, BindingResult bindingResult) {
-        if(suggestionForm.getCategory() != null && suggestionForm.getDescription() != null && !suggestionForm.getCategory().isEmpty() && !suggestionForm.getDescription().isEmpty()) {
-            SuggestionEntity suggestionEntity = new SuggestionEntity();
-            suggestionEntity.setCategory(suggestionForm.getCategory());
-            suggestionEntity.setDescription(suggestionForm.getDescription());
-            suggestionEntity.setCreationDate(Long.toString(timeService.getCurrentUnixTime()));
-            suggestionService.save(suggestionEntity);
+    public String suggestions(Principal principal, @ModelAttribute("suggestionForm") SuggestionForm suggestionForm, BindingResult bindingResult) {
+
+        if(principal != null) {
+            UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(principal.getName());
+
+            if (suggestionForm.getCategory() != null && suggestionForm.getDescription() != null && !suggestionForm.getCategory().isEmpty() && !suggestionForm.getDescription().isEmpty()) {
+                SuggestionEntity suggestionEntity = new SuggestionEntity();
+                suggestionEntity.setSteamid(userPrincipal.getSteamId());
+                suggestionEntity.setTitle(suggestionForm.getTitle());
+                suggestionEntity.setCategory(suggestionForm.getCategory());
+                suggestionEntity.setDescription(suggestionForm.getDescription());
+                suggestionEntity.setCreationDate(Long.toString(timeService.getCurrentUnixTime()));
+                suggestionService.save(suggestionEntity);
+            }
         }
 
-        List<SuggestionEntity> test = suggestionService.getAll();
-        test.forEach((x) -> System.out.println(x.getCategory() + ": " + x.getDescription()));
-
         return "home";
+    }
+
+    @GetMapping("/suggestions")
+    public String getSuggestions() {
+
+
+        return "suggestions";
     }
 
     /*

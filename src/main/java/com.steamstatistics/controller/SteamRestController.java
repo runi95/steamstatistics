@@ -9,6 +9,7 @@ import com.steamstatistics.backend.SteamOpenIdConfig;
 import com.steamstatistics.data.*;
 import com.steamstatistics.steamapi.*;
 import com.steamstatistics.userauth.SteamUserDetailsService;
+import com.steamstatistics.userauth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -326,21 +327,37 @@ public class SteamRestController {
     }
 
     @PostMapping("/suggestion")
-    public String suggestions(@ModelAttribute("suggestionForm") SuggestionForm suggestionForm, BindingResult bindingResult) {
+    public String suggestions(Principal principal, @ModelAttribute("suggestionForm") SuggestionForm suggestionForm, BindingResult bindingResult) {
         RestMessageModel restMessageModel = null;
 
-        if(suggestionForm.getCategory() != null && suggestionForm.getDescription() != null && !suggestionForm.getCategory().isEmpty() && !suggestionForm.getDescription().isEmpty()) {
-            SuggestionEntity suggestionEntity = new SuggestionEntity();
-            suggestionEntity.setCategory(suggestionForm.getCategory());
-            suggestionEntity.setDescription(suggestionForm.getDescription());
-            suggestionEntity.setCreationDate(Long.toString(timeService.getCurrentUnixTime()));
-            suggestionService.save(suggestionEntity);
+        if(principal != null) {
+            UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(principal.getName());
 
-            Map<String, Object> map = new HashMap<>();
-            restMessageModel = new RestMessageModel("200", "suggestion", null);
-        } else {
-            restMessageModel = new RestMessageModel("408", "suggestion", null);
+            if (suggestionForm.getCategory() != null && suggestionForm.getDescription() != null && !suggestionForm.getCategory().isEmpty() && !suggestionForm.getDescription().isEmpty()) {
+                SuggestionEntity suggestionEntity = new SuggestionEntity();
+                suggestionEntity.setSteamid(userPrincipal.getSteamId());
+                suggestionEntity.setTitle(suggestionForm.getTitle());
+                suggestionEntity.setCategory(suggestionForm.getCategory());
+                suggestionEntity.setDescription(suggestionForm.getDescription());
+                suggestionEntity.setCreationDate(Long.toString(timeService.getCurrentUnixTime()));
+                suggestionService.save(suggestionEntity);
+
+                Map<String, Object> map = new HashMap<>();
+                restMessageModel = new RestMessageModel("200", "suggestion", null);
+            } else {
+                restMessageModel = new RestMessageModel("408", "suggestion", null);
+            }
         }
+
+        return convertObjectToJson(restMessageModel);
+    }
+
+    @GetMapping("/getsuggestions")
+    public String getSuggestions() {
+        RestMessageModel restMessageModel;
+
+        List<SuggestionEntity> suggestionEntities = suggestionService.getAll();
+        restMessageModel = new RestMessageModel("200", "suggestion", suggestionEntities);
 
         return convertObjectToJson(restMessageModel);
     }

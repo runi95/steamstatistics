@@ -14,6 +14,9 @@ public class SuggestionEntity {
     @Column(name = "steamid", nullable = false)
     private long steamid;
 
+    @Column(name = "title", nullable = false)
+    private String title;
+
     @Column(name = "category", nullable = false)
     private String category;
 
@@ -32,6 +35,10 @@ public class SuggestionEntity {
     }
 
     public void setSteamid(long steamid) { this.steamid = steamid; }
+
+    public String getTitle() { return title; }
+
+    public void setTitle(String title) { this.title = title; }
 
     public String getCategory() {
         return category;
