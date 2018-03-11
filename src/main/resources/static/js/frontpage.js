@@ -60,6 +60,7 @@ function loadFrontpageTwo(data) {
 
 function loadSuggestion(data) {
     document.getElementById("suggestionText").value = "";
+    document.getElementById("suggestionTitle").value = "";
     var alertdiv = document.getElementById("alertdiv");
     var alert = document.createElement("div");
     var a = document.createElement("a");

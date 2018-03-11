@@ -67,7 +67,7 @@
                     <div class="form-group">
                         <label for="title" class="control-label col-sm-3">Title:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="title" class="form-control" maxlength="32">
+                            <input id="suggestionTitle" type="text" name="title" class="form-control" maxlength="32">
                         </div>
                     </div>
                     <div class="form-group">
