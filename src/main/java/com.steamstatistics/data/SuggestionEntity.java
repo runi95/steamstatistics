@@ -1,6 +1,10 @@
 package com.steamstatistics.data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
 
 @Entity
 @Table(name = "suggestions")
@@ -20,7 +24,7 @@ public class SuggestionEntity {
     @Column(name = "category", nullable = false)
     private String category;
 
-    @Column(name = "desc", nullable = false)
+    @Column(name = "descript", nullable = false)
     private String description;
 
     @Column(name = "date", nullable = false)

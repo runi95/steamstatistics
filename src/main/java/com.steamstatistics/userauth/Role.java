@@ -23,6 +23,8 @@ public class Role {
                     name = "privilege_id", referencedColumnName = "id"))
     private Collection<Privilege> privileges;
 
+    public Role() {}
+
     public Role(String name) {
         this.name = name;
     }
