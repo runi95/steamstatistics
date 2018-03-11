@@ -100,7 +100,7 @@ public class IndexController {
 
             if (suggestionForm.getCategory() != null && suggestionForm.getDescription() != null && !suggestionForm.getCategory().isEmpty() && !suggestionForm.getDescription().isEmpty()) {
                 SuggestionEntity suggestionEntity = new SuggestionEntity();
-                suggestionEntity.setSteamid(userPrincipal.getSteamId());
+                suggestionEntity.setSteamid(Long.toString(userPrincipal.getSteamId()));
                 suggestionEntity.setTitle(suggestionForm.getTitle());
                 suggestionEntity.setCategory(suggestionForm.getCategory());
                 suggestionEntity.setDescription(suggestionForm.getDescription());

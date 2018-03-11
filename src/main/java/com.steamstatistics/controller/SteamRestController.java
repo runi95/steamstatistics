@@ -335,7 +335,7 @@ public class SteamRestController {
 
             if (suggestionForm.getCategory() != null && suggestionForm.getDescription() != null && !suggestionForm.getCategory().isEmpty() && !suggestionForm.getDescription().isEmpty()) {
                 SuggestionEntity suggestionEntity = new SuggestionEntity();
-                suggestionEntity.setSteamid(userPrincipal.getSteamId());
+                suggestionEntity.setSteamid(Long.toString(userPrincipal.getSteamId()));
                 suggestionEntity.setTitle(suggestionForm.getTitle());
                 suggestionEntity.setCategory(suggestionForm.getCategory());
                 suggestionEntity.setDescription(suggestionForm.getDescription());
@@ -357,6 +357,7 @@ public class SteamRestController {
         RestMessageModel restMessageModel;
 
         List<SuggestionEntity> suggestionEntities = suggestionService.getAll();
+
         restMessageModel = new RestMessageModel("200", "suggestion", suggestionEntities);
 
         return convertObjectToJson(restMessageModel);
