@@ -56,19 +56,6 @@ public class IndexController {
         return "home";
     }
 
-    @GetMapping(value = "/profile/accept")
-    public String acceptTerms(Principal principal) {
-        if (principal != null) {
-//            UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(principal.getName());
-//            SteamProfileEntity steamProfileEntity = new SteamProfileEntity(timeService.getCurrentUnixTime());
-//            steamProfileEntity.setSteamid(Long.parseLong(userPrincipal.getSteamId()));
-//            steamProfileEntity.setAuthtoken(userPrincipal.getUsername());
-//            steamProfileService.save(steamProfileEntity);
-        }
-
-        return "test";
-    }
-
     @GetMapping(value = "/home")
     public String getFrontpage(Principal principal, Model model) {
         if(principal != null)
@@ -85,15 +72,12 @@ public class IndexController {
         return "friendslist";
     }
 
-    @GetMapping(value = "/test")
-    public String getTestPage() {
-        return "test";
-    }
-
+    /*
     @GetMapping(value = "/ipn")
     public String testIPN() {
         return "ipn";
     }
+    */
 
     @PostMapping("/suggestions")
     public String suggestions(Principal principal, @ModelAttribute("suggestionForm") SuggestionForm suggestionForm, BindingResult bindingResult) {
