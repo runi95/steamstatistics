@@ -167,7 +167,7 @@
             var datediv = document.createElement("div");
             var titlediv = document.createElement("div");
             var steamiddiv = document.createElement("div");
-            var steamidinput = document.createElement("div");
+            var steamidinput = document.createElement("a");
             var categorydiv = document.createElement("div");
             var categoryinput = document.createElement("div");
             var descdiv = document.createElement("div");
@@ -186,6 +186,7 @@
             steamiddiv.setAttribute("class", "suggestiontype");
             steamiddiv.appendChild(document.createTextNode("Steamid:"));
             steamidinput.setAttribute("class", "suggestioninput suggestionsteamid");
+            steamidinput.setAttribute("href", "https://steamcommunity.com/profiles/" + data.steamid);
             steamidinput.appendChild(document.createTextNode(data.steamid));
             categorydiv.setAttribute("class", "suggestiontype");
             categorydiv.appendChild(document.createTextNode("Category:"));

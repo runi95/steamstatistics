@@ -47,4 +47,11 @@ public class TimeService {
 
         return localDateTime;
     }
+
+    public String prettifyDate(LocalDateTime localDateTime) {
+        int day = localDateTime.getDayOfMonth();
+        int month = localDateTime.getMonthValue();
+        int year = localDateTime.getYear();
+        return (day > 9 ? day : "0" + day) + "/" + (month > 9 ? month : "0" + month) + "/" + year;
+    }
 }

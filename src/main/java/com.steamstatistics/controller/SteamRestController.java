@@ -339,7 +339,7 @@ public class SteamRestController {
                 suggestionEntity.setTitle(suggestionForm.getTitle());
                 suggestionEntity.setCategory(suggestionForm.getCategory());
                 suggestionEntity.setDescription(suggestionForm.getDescription());
-                suggestionEntity.setCreationDate(Long.toString(timeService.getCurrentUnixTime()));
+                suggestionEntity.setCreationDate(timeService.prettifyDate(timeService.getLocalDateTimeFromUnix(timeService.getCurrentUnixTime())));
                 suggestionService.save(suggestionEntity);
 
                 Map<String, Object> map = new HashMap<>();
