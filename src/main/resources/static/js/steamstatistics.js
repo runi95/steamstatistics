@@ -18,8 +18,6 @@ function getProfile(data) {
 }
 
 function getProfileSuccess(message) {
-    document.getElementById("steamhref").setAttribute("class", "hide");
-
     document.getElementById("personaname").appendChild(document.createTextNode(message[0].personaname));
     document.getElementById("state").setAttribute("class", "profileAvatar profileHeaderSize " + message[0].profilestate);
     document.getElementById("avatar").setAttribute("src", message[0].avatarfull);

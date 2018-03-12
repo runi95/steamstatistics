@@ -7,6 +7,9 @@ import com.steamstatistics.userauth.SteamUserDetailsService;
 import com.steamstatistics.userauth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.security.Principal;
@@ -41,33 +45,39 @@ public class IndexController {
     @Autowired
     TimeService timeService;
 
-    @GetMapping(value = "/")
-    public String getHomepage(@CookieValue(value = "token", required = false) String token, Principal principal, HttpServletResponse response) {
+    public void checkLogin(HttpServletRequest request, String token, Principal principal, Model model) {
+        if(principal != null) {
+            model.addAttribute("steamid", principal.getName());
+        } else if(token != null && !token.isEmpty()) {
+            UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(token);
 
-        /*
-        if (principal != null && (token == null || token.isEmpty())) {
-            UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(principal.getName());
+            if(userPrincipal != null) {
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
+                auth.setDetails(new WebAuthenticationDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(auth);
 
-            Cookie cookie = new Cookie("token", userPrincipal.getUserToken());
-            response.addCookie(cookie);
+                model.addAttribute("steamid", userPrincipal.getSteamId());
+            }
         }
-        */
+    }
+
+    @GetMapping(value = "/")
+    public String getHomepage(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
+        checkLogin(request, token, principal, model);
 
         return "home";
     }
 
-    @GetMapping(value = "/home")
-    public String getFrontpage(Principal principal, Model model) {
-        if(principal != null)
-            model.addAttribute("steamid", principal.getName());
+    @GetMapping(value = "/frontpage")
+    public String getFrontpage(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
+        checkLogin(request, token, principal, model);
 
         return "frontpage";
     }
 
     @GetMapping("/friends")
-    public String getFriendslist(Principal principal, Model model) {
-        if(principal != null)
-            model.addAttribute("steamid", principal.getName());
+    public String getFriendslist(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
+        checkLogin(request, token, principal, model);
 
         return "friendslist";
     }
@@ -100,8 +110,8 @@ public class IndexController {
     }
 
     @GetMapping("/suggestions")
-    public String getSuggestions() {
-
+    public String getSuggestions(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
+        checkLogin(request, token, principal, model);
 
         return "suggestions";
     }

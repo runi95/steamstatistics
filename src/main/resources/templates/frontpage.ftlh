@@ -1,6 +1,6 @@
 <#import "master.ftlh" as m/>
 <@m.master>
-<div style="padding-top: 60px;">
+<div style="padding-bottom: 60px;">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -13,17 +13,23 @@
             </div>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/home">Frontpage</a></li>
+                    <li class="active"><a href="/frontpage">Frontpage</a></li>
                     <li><a href="/">Profile</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <div style="padding: 7px 5px;">
-                        <div id="steamhref" class="hide">
-                            <a href="/login">
-                                <img src="/css/img/sits_01.png" alt="Steam Login">
-                            </a>
+                    <#if steamid??>
+                        <ul class="nav navbar-nav">
+                            <li id="steamlogout"><a href="/logout">Logout</a></li>
+                        </ul>
+                    <#else>
+                        <div id="steamhref">
+                            <div style="padding: 7px 5px;">
+                                <a href="/login">
+                                    <img src="/css/img/sits_01.png" alt="Steam Login">
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </#if>
                 </ul>
             </div>
         </div>
