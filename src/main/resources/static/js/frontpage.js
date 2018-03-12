@@ -11,74 +11,32 @@ function getFrontpage() {
     });
 }
 
-function processStatus(data) {
-    switch (data.request) {
-        case "getfrontpage":
-            loadFrontpage(data);
-            break;
-        case "suggestion":
-            loadSuggestion(data);
-            break;
-        case "getprofile":
-            getProfile(data);
-            break;
-    }
-}
-
-function loadFrontpage(data) {
-    switch (data.status) {
-        case "200":
-            getFrontpageSuccess(data.message);
-            break;
-        case "400":
-
-            break;
-    }
-}
-
 function loadSuggestion(data) {
-    document.getElementById("suggestionText").value = "";
-    document.getElementById("suggestionTitle").value = "";
-    var alertdiv = document.getElementById("alertdiv");
-    var alert = document.createElement("div");
-    var a = document.createElement("a");
+    var oldbanner = document.getElementById("infobanner");
+    var newbanner = oldbanner.cloneNode(false);
 
-    var btn = document.getElementById("subbtn");
     switch(data.status) {
         case "200":
-            /*
-            a.setAttribute("href", "#");
-            a.setAttribute("class", "close");
-            a.setAttribute("data-dismiss", "alert");
-            a.setAttribute("aria-label", "close");
-            a.innerHTML = "&times;";
-            alert.appendChild(a);
-            alert.appendChild(document.createTextNode("Your suggestion has been successfully sent out, thank you!"));
-            alert.setAttribute("class", "alert alert-success alert-dismissible fade in");
-            alertdiv.appendChild(alert);
-            */
-            btn.setAttribute("class", "btn btn-primary form-control suggestion-success");
+            document.getElementById("suggestionText").value = "";
+            document.getElementById("suggestionTitle").value = "";
+            newbanner.setAttribute("class", "banner banner-move banner-success");
+            var glyph = document.createElement("span");
+            glyph.setAttribute("class", "glyphicon glyphicon-ok");
+            glyph.setAttribute("style", "margin-right: 5px;");
+            newbanner.appendChild(glyph);
+            newbanner.appendChild(document.createTextNode("Suggestion successfully sent out!"));
             break;
         case "408":
         default:
-            btn.setAttribute("class", "btn btn-primary form-control suggestion-failure");
-            /*
-            a.setAttribute("href", "#");
-            a.setAttribute("class", "close");
-            a.setAttribute("data-dismiss", "alert");
-            a.setAttribute("aria-label", "close");
-            a.innerHTML = "&times;";
-            alert.appendChild(a);
-            alert.appendChild(document.createTextNode("Suggestion failed to send, please try again."));
-            alert.setAttribute("class", "alert alert-danger alert-dismissible fade in");
-            alertdiv.appendChild(alert);
-            */
+            newbanner.setAttribute("class", "banner banner-move banner-failure");
+            var glyph = document.createElement("span");
+            glyph.setAttribute("class", "glyphicon glyphicon-remove");
+            glyph.setAttribute("style", "margin-right: 5px;");
+            newbanner.appendChild(glyph);
+            newbanner.appendChild(document.createTextNode("Please try again..."));
             break;
     }
-
-    setTimeout(function(){
-        btn.setAttribute("class", "btn btn-primary form-control");
-    }, 3000);
+    oldbanner.parentNode.replaceChild(newbanner, oldbanner);
 }
 
 function getFrontpageSuccess(message) {

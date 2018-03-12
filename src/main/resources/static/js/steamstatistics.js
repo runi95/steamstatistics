@@ -150,6 +150,17 @@ function getAdded(data) {
     }
 }
 
+function loadFrontpage(data) {
+    switch (data.status) {
+        case "200":
+            getFrontpageSuccess(data.message);
+            break;
+        case "400":
+
+            break;
+    }
+}
+
 function processStatus(data) {
     switch (data.request) {
         case "getprofile":
@@ -163,6 +174,12 @@ function processStatus(data) {
             break;
         case "getadded":
             getAdded(data);
+            break;
+        case "getfrontpage":
+            loadFrontpage(data);
+            break;
+        case "suggestion":
+            loadSuggestion(data);
             break;
     }
 }

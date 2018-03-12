@@ -2,6 +2,47 @@
     float: left;
 }
 
+.banner {
+    border-radius: 5px;
+    position: relative;
+    left: -50%;
+    padding: 10px 0 10px 0;
+    font-size: 1.25em;
+}
+
+.banner-move {
+    animation-name: banner-anim;
+    animation-fill-mode: forwards;
+    animation-duration: 10s;
+}
+
+.banner-success {
+    background: #3eb63e;
+}
+
+.banner-failure {
+    background: #b63e3e;
+}
+
+@keyframes banner-anim {
+    0% {
+        top: 0;
+    }
+
+    25% {
+        top: 50px;
+    }
+
+    75% {
+        top: 50px;
+    }
+
+    100% {
+        top: 0;
+        display: none;
+    }
+}
+
 .btn-steamstats {
     color: #fff;
     background-color: #5b667a;
@@ -132,10 +173,11 @@ fieldset[disabled] .btn-steamstats.focus {
 .profileHeaderBackground {
     margin: 0 auto;
     padding: 20px;
-    background-color: #283242;
+    background: rgba(30, 30, 30, 0.7);
+    /* background-color: #283242; */
     /* rgb(26, 27, 31) rgb(30, 31, 38) rgb(40, 50, 66) rgb(30, 31, 38) rgb(26, 27, 31)*/
-    background: -webkit-linear-gradient( 145deg, #1a1b1f 10%,#1a1b1f 40%,#1e1f26 52%,#1a1b1f 61%,#1a1b1f 85%);
-    background: linear-gradient( 145deg, #1a1b1f 10%,#1a1b1f 40%,#1e1f26 52%,#1a1b1f 61%,#1a1b1f 85%);
+    /* background: -webkit-linear-gradient( 145deg, #1a1b1f 10%,#1a1b1f 40%,#1e1f26 52%,#1a1b1f 61%,#1a1b1f 85%); */
+    /* background: linear-gradient( 145deg, #1a1b1f 10%,#1a1b1f 40%,#1e1f26 52%,#1a1b1f 61%,#1a1b1f 85%); */
 }
 
 .profileHeader {

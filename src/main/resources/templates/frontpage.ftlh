@@ -1,5 +1,8 @@
 <#import "master.ftlh" as m/>
 <@m.master>
+<div style="position: fixed; left: 50%; z-index: 100; width: 50%">
+    <div id="infobanner" class="banner"></div>
+</div>
 <div style="padding-bottom: 60px;">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
@@ -307,5 +310,6 @@
     </div>
 </div>
 -->
+<script src="js/steamstatistics.js"></script>
 <script src="js/frontpage.js"></script>
 </@m.master>
