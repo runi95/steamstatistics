@@ -48,29 +48,33 @@ public class AuthController {
     @GetMapping("/openid")
     public String getCallback(HttpServletRequest request, HttpServletResponse response) {
         String steamidString = steamOpenId.verify(steamOpenIdConfig.getClientId() + "/openid", request.getParameterMap());
-        Long steamid = Long.parseLong(steamidString);
+        if(steamidString != null && !steamidString.isEmpty()) {
+            Long steamid = Long.parseLong(steamidString);
 
-        UserPrincipal userPrincipal = null;
-        userPrincipal = steamUserDetailsService.findUserBySteamId(steamid);
+            UserPrincipal userPrincipal = null;
+            userPrincipal = steamUserDetailsService.findUserBySteamId(steamid);
 
-        if(userPrincipal == null) {
-            String userToken = steamUserDetailsService.createUserToken();
-            User user = new User();
-            user.setSteamId(steamid);
-            user.setUserToken(userToken);
-            steamUserDetailsService.saveUser(user);
+            if (userPrincipal == null) {
+                String userToken = steamUserDetailsService.createUserToken();
+                User user = new User();
+                user.setSteamId(steamid);
+                user.setUserToken(userToken);
+                steamUserDetailsService.saveUser(user);
 
-            userPrincipal = new UserPrincipal(user);
+                userPrincipal = new UserPrincipal(user);
 
-            Cookie cookie = new Cookie("token", userPrincipal.getUserToken());
-            response.addCookie(cookie);
+                Cookie cookie = new Cookie("token", userPrincipal.getUserToken());
+                response.addCookie(cookie);
+            }
+
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
+            auth.setDetails(new WebAuthenticationDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            return "authsuccess";
+        } else {
+            throw new IllegalStateException("OpenID could not verify user!");
         }
-
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
-        auth.setDetails(new WebAuthenticationDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
-        return "authsuccess";
     }
 
     @GetMapping("/profile")
