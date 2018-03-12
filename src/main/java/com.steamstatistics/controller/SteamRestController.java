@@ -366,11 +366,16 @@ public class SteamRestController {
     private Long getSteamid(String token, Principal principal) {
         Long steamid = null;
 
+        UserPrincipal usr = null;
+
         if (token != null && !token.isEmpty()) {
-            steamid = steamUserDetailsService.loadUserByUsername(token).getSteamId();
+            usr = steamUserDetailsService.loadUserByUsername(token);
         } else if (principal != null) {
-            steamid = steamUserDetailsService.loadUserByUsername(principal.getName()).getSteamId();
+            usr = steamUserDetailsService.loadUserByUsername(principal.getName());
         }
+
+        if(usr != null)
+            steamid = usr.getSteamId();
 
         return steamid;
     }

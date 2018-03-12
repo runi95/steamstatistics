@@ -26,9 +26,10 @@ public class SteamUserDetailsService implements UserDetailsService {
     @Override
     public UserPrincipal loadUserByUsername(String userToken) {
         User user = userRepository.findByUserToken(userToken);
-        if (user == null) {
-            throw new UsernameNotFoundException(userToken);
-        }
+
+        if(user == null)
+            return null;
+
         return new UserPrincipal(user);
     }
 
