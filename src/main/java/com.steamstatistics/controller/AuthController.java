@@ -21,6 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Controller
 public class AuthController {
@@ -39,14 +40,14 @@ public class AuthController {
 
     @GetMapping("/login")
     public String getLogin(HttpServletRequest request) {
-        String url = steamOpenId.login(steamOpenIdConfig.getClientId() + "/login/openid");
+        String url = steamOpenId.login(steamOpenIdConfig.getClientId() + "/openid");
 
         return "redirect:" + url;
     }
 
-    @GetMapping("/login/openid")
-    public String getCallback(HttpServletRequest request) {
-        String steamidString = steamOpenId.verify(steamOpenIdConfig.getClientId() + "/login/openid", request.getParameterMap());
+    @GetMapping("/openid")
+    public String getCallback(HttpServletRequest request, HttpServletResponse response) {
+        String steamidString = steamOpenId.verify(steamOpenIdConfig.getClientId() + "/openid", request.getParameterMap());
         Long steamid = Long.parseLong(steamidString);
 
         UserPrincipal userPrincipal = null;
@@ -60,13 +61,16 @@ public class AuthController {
             steamUserDetailsService.saveUser(user);
 
             userPrincipal = new UserPrincipal(user);
+
+            Cookie cookie = new Cookie("token", userPrincipal.getUserToken());
+            response.addCookie(cookie);
         }
 
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
         auth.setDetails(new WebAuthenticationDetails(request));
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        return "redirect:/";
+        return "authsuccess";
     }
 
     @GetMapping("/profile")

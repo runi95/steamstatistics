@@ -43,12 +43,15 @@ public class IndexController {
 
     @GetMapping(value = "/")
     public String getHomepage(@CookieValue(value = "token", required = false) String token, Principal principal, HttpServletResponse response) {
+
+        /*
         if (principal != null && (token == null || token.isEmpty())) {
             UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(principal.getName());
 
             Cookie cookie = new Cookie("token", userPrincipal.getUserToken());
             response.addCookie(cookie);
         }
+        */
 
         return "home";
     }

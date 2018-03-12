@@ -189,40 +189,6 @@ public class SteamRestController {
 
     @RequestMapping("/getfrontpage")
     public String getFrontpage() {
-        List<SteamProfileToFriendEntity> steamProfileToFriendOrderedByFriendsinceDate = steamProfileToFriendService.getSteamProfileToFriendOrderedByFriendsinceDate();
-
-        //LongestFriendship longestFriendship = steamProfileToFriendService.getLongestFriendship();
-        SteamProfileToFriendEntity longestFriends = steamProfileToFriendService.getLongestFriendship();
-        List<SteamProfileToFriendEntity> ruinedFriendshipsList = steamProfileToFriendService.findByRemoveDateGreaterThan(timeService.getLastMonthUnixTime());
-        List<SteamProfileToFriendEntity> bondedFriendshipsList = steamProfileToFriendService.findByFriendsinceGreaterThan(timeService.getLastMonthUnixTime());
-        List<SteamProfileEntity> steamProfileEntities = steamProfileService.findSortedDonationsList();
-        List<SteamFriendEntity> donationsList = new ArrayList<>();
-        List<Long> donatorSteamIDs = new ArrayList<>();
-        for(int i = 0; i < steamProfileEntities.size() && i < 5; i++) {
-            donatorSteamIDs.add(steamProfileEntities.get(i).getSteamid());
-        }
-
-        Map<Long, SteamFriendEntity> longestFriendshipMap = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), longestFriends.getSteamprofileid() + "," + longestFriends.getSteamfriendid()));
-
-        LocalDateTime localTimeDate = timeService.getLocalDateTimeFromUnix(longestFriends.getFriendsince());
-        LongestFriendship longestFriendship = new LongestFriendship(longestFriendshipMap.get(longestFriends.getSteamprofileid()), longestFriendshipMap.get(longestFriends.getSteamfriendid()), (localTimeDate.getDayOfMonth() <= 9 ? "0" + localTimeDate.getDayOfMonth() : localTimeDate.getDayOfMonth()) + "/" + (localTimeDate.getMonthValue() <= 9 ? "0" + localTimeDate.getMonthValue() : localTimeDate.getMonthValue()) + "/" + localTimeDate.getYear());
-
-        Map<Long, SteamFriendEntity> donatorMap = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), donatorSteamIDs));
-        for(Long key : donatorMap.keySet()) {
-            donationsList.add(donatorMap.get(key));
-        }
-
-        int registeredUsers = steamProfileService.findByCreationdateGreaterThanEpoch(timeService.getLastMonthUnixTime()).size();
-        //List<SteamProfileToFriendEntity> registeredUsersList = steamProfileToFriendService.getAll();
-        int ruinedFriendships = ruinedFriendshipsList.size(), bondedFriendships = bondedFriendshipsList.size();
-
-        Frontpage frontpage = new Frontpage(registeredUsers, ruinedFriendships, bondedFriendships, longestFriendship, donationsList);
-
-        return convertObjectToJson(new RestMessageModel("200", "getfrontpage", frontpage));
-    }
-
-    @RequestMapping("/getfrontpage2")
-    public String getFrontpageTwo() {
         List<Map<String, Object>> topthreelongestfriendships = new ArrayList();
 
         Object[][] longestFriendshipSortedArray = steamProfileToFriendService.getSteamProfileToFriendOrderedByFriendsinceDateTwo();
@@ -323,7 +289,7 @@ public class SteamRestController {
         map.put("monthlygain", totalHoardCount);
         map.put("monthlyloss", steamProfileToFriendService.findByRemoveDateGreaterThan(timeService.getLastMonthUnixTime()).size());
         map.put("joinedusers", steamProfileService.findByCreationdateGreaterThanEpoch(timeService.getLastMonthUnixTime()).size());
-        return convertObjectToJson(new RestMessageModel("200", "getfrontpage2", map));
+        return convertObjectToJson(new RestMessageModel("200", "getfrontpage", map));
     }
 
     @PostMapping("/suggestion")
