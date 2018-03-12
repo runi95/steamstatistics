@@ -42,55 +42,6 @@ function seemorebtn(btn) {
     
 }
 
-/*
-function getProfileInfo(message) {
-    var month = document.getElementById("month");
-    var week = document.getElementById("week");
-    month.setAttribute("class", message.monthIndex);
-    week.setAttribute("class", message.weekIndex);
-    month.innerHTML = message.friendsGainedLastMonth;
-    week.innerHTML = message.friendsGainedLastWeek;
-}
-
-function getTopFive(message) {
-    for (var i = 0; i < message.newest.length; i++) {
-        addFriend(message.newest[i], message.newest[i].personastate, switchPersonastate(message.newest[i].personastate), "newest");
-    }
-
-    for (var i = 0; i < message.oldest.length; i++) {
-        addFriend(message.oldest[i], message.oldest[i].personastate, switchPersonastate(message.oldest[i].personastate), "oldest");
-    }
-}
-
-function getGraph(message) {
-    var graphdiv = document.getElementById("graphdiv");
-    var dl = document.createElement("dl");
-    var dt = document.createElement("dt");
-    dt.innerHTML = "Your friends countries";
-    dl.appendChild(dt);
-    var countryKeys = Object.keys(message.countryMap);
-    for (var i = 0; i < countryKeys.length; i++) {
-        var width = message.countryMap[countryKeys[i]]*10;
-        var textY = String(9.5 + i*20);
-
-        var dd = document.createElement("dd");
-        var amount = document.createElement("span");
-        var desc = document.createElement("span");
-        dd.setAttribute("class", "percentage");
-        dd.setAttribute("style", "width: " + width + "px");
-        amount.setAttribute("class", "amount");
-        desc.setAttribute("class", "desc");
-
-        desc.innerHTML = countryKeys[i];
-        amount.innerHTML = message.countryMap[countryKeys[i]];
-        dd.appendChild(amount);
-        dd.appendChild(desc);
-        dl.appendChild(dd);
-    }
-    graphdiv.appendChild(dl);
-}
-*/
-
 function switchPersonastate(state) {
     switch (state) {
         case "offline":
