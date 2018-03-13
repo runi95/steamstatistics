@@ -77,12 +77,7 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/profile")
-    public String getProfile() {
-        return "test";
-    }
-
-    @GetMapping("logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session, HttpServletResponse response) {
         session.invalidate();
         Cookie cookie = new Cookie("token", null);
