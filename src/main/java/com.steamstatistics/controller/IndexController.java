@@ -61,14 +61,14 @@ public class IndexController {
         }
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/profile")
     public String getHomepage(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
         checkLogin(request, token, principal, model);
 
         return "home";
     }
 
-    @GetMapping(value = "/frontpage")
+    @GetMapping(value = "/")
     public String getFrontpage(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
         checkLogin(request, token, principal, model);
 

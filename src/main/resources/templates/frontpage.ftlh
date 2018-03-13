@@ -16,8 +16,8 @@
             </div>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/frontpage">Frontpage</a></li>
-                    <li><a href="/">Profile</a></li>
+                    <li class="active"><a href="/">Frontpage</a></li>
+                    <li><a href="/profile">Profile</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <#if steamid??>
