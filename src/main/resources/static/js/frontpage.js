@@ -117,6 +117,7 @@ function populateMedalContainer(medalname, medalcolor, link, imglink, title, tex
     var medalimg = document.getElementById(medalname + "_" + medalcolor + "img");
     medalimg.setAttribute("src", imglink);
     var medaltitle = document.getElementById(medalname + "_" + medalcolor + "title");
+    medaltitle.setAttribute("href", link);
     medaltitle.appendChild(document.createTextNode(title));
     var medaltext = document.getElementById(medalname + "_" + medalcolor + "text");
     medaltext.appendChild(document.createTextNode(text));

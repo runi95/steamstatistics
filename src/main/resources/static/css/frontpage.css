@@ -67,13 +67,22 @@
 }
 
 .medal-container-title {
+    display: block;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 1.2em;
 }
 
 .medal-container-text {
-    margin-left: 10px;
-    word-wrap: break-word;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 56px;
+
+    /* white-space: nowrap; */
+    /* word-wrap: break-word; */
+    /* margin-left: 10px; */
 }
 
 .box {
