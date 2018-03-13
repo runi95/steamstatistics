@@ -161,8 +161,35 @@ function loadFrontpage(data) {
     }
 }
 
+function getFullProfileSuccess(profile, jdate) {
+    document.getElementById("personaname").appendChild(document.createTextNode(profile.personaname));
+    document.getElementById("state").setAttribute("class", "profileAvatar profileHeaderSize " + profile.profilestate);
+    document.getElementById("avatar").setAttribute("src", profile.avatarfull);
+    if (profile.communityvisibilitystate != "3") {
+        document.getElementById("privacystate").setAttribute("class", "show");
+    }
+
+    document.getElementById("jdate").appendChild(document.createTextNode(jdate));
+}
+
+function getFullProfile(data) {
+    switch (data.status) {
+        case "200":
+            getFullProfileSuccess(data.message.profile, data.message.jdate);
+            getRemovedSuccessful(data.message.removed);
+            getAddedSuccessful(data.message.added);
+            break;
+        case "400":
+
+            break;
+    }
+}
+
 function processStatus(data) {
     switch (data.request) {
+        case "getfullprofile":
+            getFullProfile(data);
+            break;
         case "getprofile":
             getProfile(data);
             break;
@@ -184,6 +211,23 @@ function processStatus(data) {
     }
 }
 
+function requestProfile() {
+    document.getElementById("loader").setAttribute("class", "loader");
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "/getfullprofile",
+        success: function (data) {
+            processStatus(data);
+            document.getElementById("loader").setAttribute("class", "");
+        },
+        fail: function () {
+            document.getElementById("loader").setAttribute("class", "");
+        }
+    });
+}
+
+/*
 function requestProfile() {
     document.getElementById("loader").setAttribute("class", "loader");
     $.ajax({
@@ -222,6 +266,7 @@ function requestAddedFriends() {
         }
     });
 }
+*/
 
 function getFriends() {
     $.ajax({
