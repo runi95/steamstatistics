@@ -39,7 +39,7 @@
     </nav>
 </div>
 <div class="col-sm-3">
-    <div class="box" style="padding: 5px 30px 10px 30px; margin: 10px;">
+    <div class="box">
         <h3>Monthly Stats</h3>
         <div id="monthlygain">
             <span id="monthlygainvalue" style="color: #6ca0e0"></span><span id="monthlygaintext"></span>
