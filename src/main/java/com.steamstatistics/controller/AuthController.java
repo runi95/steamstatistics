@@ -62,10 +62,10 @@ public class AuthController {
                 steamUserDetailsService.saveUser(user);
 
                 userPrincipal = new UserPrincipal(user);
-
-                Cookie cookie = new Cookie("token", userPrincipal.getUserToken());
-                response.addCookie(cookie);
             }
+
+            Cookie cookie = new Cookie("token", userPrincipal.getUserToken());
+            response.addCookie(cookie);
 
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
             auth.setDetails(new WebAuthenticationDetails(request));
