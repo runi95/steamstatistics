@@ -264,38 +264,6 @@
     </form>
 </div>
 <div style="padding-bottom: 10px"></div>
-<!--
-<div class="medal gold" style="display: table;">
-    <div style="display: table-cell; vertical-align: middle;">
-        <div class="margin-left: auto; margin-right: auto;">
-            <a href="http://steamcommunity.com/profiles/76561198272426404/">
-                <img src="http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/b8/b867b64f01bfccd3fa69836e1a9ce0bba90f0a75_medium.jpg"
-                     style="border-radius: 50%">
-            </a>
-        </div>
-    </div>
-</div>
-<div class="medal silver" style="display: table;">
-    <div style="display: table-cell; vertical-align: middle;">
-        <div class="">
-            <a href="http://steamcommunity.com/profiles/76561198272426404/">
-                <img src="http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/b8/b867b64f01bfccd3fa69836e1a9ce0bba90f0a75_medium.jpg"
-                     style="border-radius: 50%">
-            </a>
-        </div>
-    </div>
-</div>
-<div class="medal bronze" style="display: table;">
-    <div style="display: table-cell; vertical-align: middle;">
-        <div class="margin-left: auto; margin-right: auto;">
-            <a href="http://steamcommunity.com/profiles/76561198272426404/">
-                <img src="http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/b8/b867b64f01bfccd3fa69836e1a9ce0bba90f0a75_medium.jpg"
-                     style="border-radius: 50%">
-            </a>
-        </div>
-    </div>
-</div>
--->
 <script src="js/steamstatistics.js"></script>
 <script src="js/frontpage.js"></script>
 </@m.master>
