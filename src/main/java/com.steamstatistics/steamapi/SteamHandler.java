@@ -89,9 +89,7 @@ public class SteamHandler {
         steamFriendEntity.setAvatarmedium((String) profile.get("avatarmedium"));
         steamFriendEntity.setAvatarfull((String) profile.get("avatarfull"));
         steamFriendEntity.setCommunityvisibilitystate(Integer.toString((int)profile.get("communityvisibilitystate")));
-        steamFriendEntity.setProfilestate(Integer.toString((int)profile.get("profilestate")));
         steamFriendEntity.setLastlogoff((Integer) profile.get("lastlogoff"));
-        steamFriendEntity.setRealname((String) profile.get("realname"));
         steamFriendEntity.setPrimaryclanid((String) profile.get("primaryclanid"));
         Object timeCreated = profile.get("timecreated");
         if(timeCreated != null)
@@ -99,8 +97,6 @@ public class SteamHandler {
         //steamFriendEntity.setGameid((long) profile.get("gameid"));
         //steamFriendEntity.setGameserverip((String) profile.get("gameserverip"));
         //steamFriendEntity.setGameextrainfo((String) profile.get("gameextrainfo"));
-        steamFriendEntity.setLoccountrycode((String) profile.get("loccountrycode"));
-        steamFriendEntity.setLocstatecode((String) profile.get("locstatecode"));
 
         String onlineState = null;
         switch((int)profile.get("personastate")) {
@@ -116,6 +112,24 @@ public class SteamHandler {
                 onlineState = "online";
                 break;
         }
+        Object profileState = profile.get("profilestate");
+        if(profileState != null) {
+            steamFriendEntity.setProfilestate(Integer.toString((int)profileState));
+        }
+        String realName = (String)profile.get("realname");
+        if(realName != null && !realName.isEmpty()) {
+            steamFriendEntity.setRealname(realName);
+        }
+        String loccountryCode = (String) profile.get("loccountrycode");
+        if(loccountryCode != null && !loccountryCode.isEmpty()) {
+            steamFriendEntity.setLoccountrycode(loccountryCode);
+        }
+
+        String locstateCode = (String) profile.get("locstatecode");
+        if(locstateCode != null && !locstateCode.isEmpty()) {
+            steamFriendEntity.setLocstatecode(locstateCode);
+        }
+
         steamFriendEntity.setPersonastate(onlineState);
         Object commentPermission = profile.get("commentpermission");
         steamFriendEntity.setCommentpermission(commentPermission != null);
