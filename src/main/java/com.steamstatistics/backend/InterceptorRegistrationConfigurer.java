@@ -21,7 +21,7 @@ public class InterceptorRegistrationConfigurer extends WebSecurityConfigurerAdap
                 .antMatchers("/profile/*")
                 .authenticated()
                 .antMatchers("/admin/*")
-                .hasRole("Admin")
+                .hasRole("ADMIN")
                 .and()
                 .formLogin().loginPage("/login");
     }

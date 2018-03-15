@@ -18,6 +18,9 @@ public class SteamOpenIdConfig {
     @Value("${auth.userAuthorizationUri}")
     private String userAuthorizationUri;
 
+    @Value("${auth.admins}")
+    private String[] adminList;
+
     public String getClientId() {
         return clientId;
     }
@@ -31,4 +34,6 @@ public class SteamOpenIdConfig {
     public String getUserAuthorizationUri() {
         return userAuthorizationUri;
     }
+
+    public String[] getAdminList() { return adminList; }
 }

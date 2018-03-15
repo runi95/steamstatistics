@@ -1,18 +1,21 @@
 package com.steamstatistics.userauth;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class UserPrincipal implements UserDetails {
     private User user;
 
-    private Collection<GrantedAuthority> authorities = new ArrayList<>();
+    final private Collection<? extends GrantedAuthority> authorities;
 
     public UserPrincipal(User user) {
         this.user = user;
+        this.authorities = getAuthorities(user);
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,4 +72,11 @@ public class UserPrincipal implements UserDetails {
         return true;
     }
 
+    private Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        user.getRoles().forEach((role) -> grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())));
+        //user.getRoles().forEach((role) -> role.getPrivileges().forEach((privilege) -> grantedAuthorities.add(new SimpleGrantedAuthority(privilege.getName()))));
+
+        return grantedAuthorities;
+    }
 }

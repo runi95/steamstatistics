@@ -6,12 +6,12 @@ import com.steamstatistics.backend.SteamOpenIdConfig;
 import com.steamstatistics.backend.SteamOpenIdMockup;
 import com.steamstatistics.data.SteamProfileEntity;
 import com.steamstatistics.data.SteamProfileService;
-import com.steamstatistics.userauth.SteamUserDetailsService;
-import com.steamstatistics.userauth.User;
-import com.steamstatistics.userauth.UserPrincipal;
+import com.steamstatistics.userauth.*;
 import org.openid4java.message.AuthRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
@@ -22,6 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @Controller
 public class AuthController {
@@ -37,6 +41,9 @@ public class AuthController {
 
     @Autowired
     SteamUserDetailsService steamUserDetailsService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping("/login")
     public String getLogin(HttpServletRequest request) {
@@ -59,6 +66,16 @@ public class AuthController {
                 User user = new User();
                 user.setSteamId(steamid);
                 user.setUserToken(userToken);
+                Role role = null;
+                boolean isAdmin = isAdmin(steamid);
+                if(isAdmin) {
+                    role = roleRepository.findByName("ROLE_ADMIN");
+
+                } else {
+                    role = roleRepository.findByName("ROLE_USER");
+                }
+                user.setRoles(Arrays.asList(role));
+
                 steamUserDetailsService.saveUser(user);
 
                 userPrincipal = new UserPrincipal(user);
@@ -85,5 +102,15 @@ public class AuthController {
         response.addCookie(cookie);
 
         return "redirect:/";
+    }
+
+    private boolean isAdmin(long steamid) {
+        for(int i = 0; i < steamOpenIdConfig.getAdminList().length; i++) {
+            if(steamOpenIdConfig.getAdminList()[i].equals(Long.toString(steamid))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
