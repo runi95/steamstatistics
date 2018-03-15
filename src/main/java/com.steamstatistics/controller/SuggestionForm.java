@@ -1,15 +1,10 @@
 package com.steamstatistics.controller;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class SuggestionForm {
-    @NotEmpty
     private String title;
 
-    @NotEmpty
     private String category;
 
-    @NotEmpty
     private String description;
 
     public String getTitle() { return title; }

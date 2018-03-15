@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @Service
 public class SteamProfileService {
@@ -24,7 +25,7 @@ public class SteamProfileService {
     }
 
     public SteamProfileEntity get(Long steamid) {
-        return steamProfileRepository.findOne(steamid);
+        return steamProfileRepository.findBySteamid(steamid);
     }
 
     public Iterable<SteamProfileEntity> getAll() {

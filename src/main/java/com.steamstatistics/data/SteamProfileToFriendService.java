@@ -49,7 +49,7 @@ public class SteamProfileToFriendService {
     }
 
     public void saveAll(Collection<SteamProfileToFriendEntity> steamProfileToFriendEntityCollection) {
-        steamProfileToFriendRepository.save(steamProfileToFriendEntityCollection);
+        steamProfileToFriendRepository.saveAll(steamProfileToFriendEntityCollection);
     }
 
     public List<SteamProfileToFriendEntity> findByRemoveDateGreaterThan(long epoch) {

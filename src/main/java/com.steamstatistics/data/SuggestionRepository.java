@@ -12,4 +12,6 @@ public interface SuggestionRepository extends CrudRepository<SuggestionEntity, L
     List<SuggestionEntity> findAllByCategory(String category);
 
     List<SuggestionEntity> findAllBySteamid(long steamid);
+
+    SuggestionEntity findById(long id);
 }

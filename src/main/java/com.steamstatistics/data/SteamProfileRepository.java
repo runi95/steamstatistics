@@ -11,4 +11,6 @@ public interface SteamProfileRepository extends CrudRepository<SteamProfileEntit
 
     @Query("SELECT s FROM SteamProfileEntity s WHERE NOT s.donationdate = 0 ORDER BY s.donationdate ASC")
     List<SteamProfileEntity> findSortedDonationList();
+
+    SteamProfileEntity findBySteamid(long steamid);
 }

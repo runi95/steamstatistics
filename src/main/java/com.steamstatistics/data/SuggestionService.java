@@ -20,6 +20,6 @@ public class SuggestionService {
     }
 
     public SuggestionEntity getSuggestion(long id) {
-        return suggestionRepository.findOne(id);
+        return suggestionRepository.findById(id);
     }
 }
