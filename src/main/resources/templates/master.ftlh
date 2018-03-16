@@ -11,12 +11,12 @@
     <title>Steam Users.info</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/steamstatistics.css" rel="stylesheet">
-    <link href="css/frontpage.css" rel="stylesheet">
-    <link href="css/graphs.css" rel="stylesheet">
+    <link href="/css/steamstatistics.css" rel="stylesheet">
+    <link href="/css/frontpage.css" rel="stylesheet">
+    <link href="/css/graphs.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -26,10 +26,10 @@
     <![endif]-->
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </head>
 <body>
 <noscript><h2 style="color: #ff0000">Javascript is required to view this website, please enable Javascript and refresh
