@@ -109,13 +109,6 @@ public class IndexController {
         return "home";
     }
 
-    @GetMapping("/suggestions")
-    public String getSuggestions(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
-        checkLogin(request, token, principal, model);
-
-        return "suggestions";
-    }
-
     /*
     @PostMapping(value = "/ipn")
     @ResponseStatus(value = HttpStatus.OK)
