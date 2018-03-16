@@ -82,6 +82,7 @@ public class AuthController {
             }
 
             Cookie cookie = new Cookie("token", userPrincipal.getUserToken());
+            cookie.setMaxAge(2600000); // Slightly above 30 days.
             response.addCookie(cookie);
 
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
