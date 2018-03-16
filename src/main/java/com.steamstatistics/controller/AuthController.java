@@ -69,11 +69,9 @@ public class AuthController {
                 Role role = null;
                 boolean isAdmin = isAdmin(steamid);
                 if(isAdmin) {
-                    System.out.println("isADMIN");
                     role = roleRepository.findByName("ROLE_ADMIN");
 
                 } else {
-                    System.out.println("isNOTAdmin");
                     role = roleRepository.findByName("ROLE_USER");
                 }
                 user.setRoles(Arrays.asList(role));
