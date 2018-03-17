@@ -37,6 +37,9 @@ public class IndexController {
     private final String userAgreement = "This website stores information about your steam profile and friends list to keep up to date, by clicking accept you agree to let us gather and store information from your steam profile. Users can delete the stored data at any given time by logging in through the Steam again and clicking the delete button. The information gathered will be public information from your steam profile which means this site can't function if your profile is on private. Click accept to continue";
 
     @Autowired
+    ControllerService controllerService;
+
+    @Autowired
     SteamUserDetailsService steamUserDetailsService;
 
     @Autowired
@@ -45,39 +48,23 @@ public class IndexController {
     @Autowired
     TimeService timeService;
 
-    public void checkLogin(HttpServletRequest request, String token, Principal principal, Model model) {
-        if(principal != null) {
-            model.addAttribute("steamid", principal.getName());
-        } else if(token != null && !token.isEmpty()) {
-            UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(token);
-
-            if(userPrincipal != null) {
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
-                auth.setDetails(new WebAuthenticationDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(auth);
-
-                model.addAttribute("steamid", userPrincipal.getSteamId());
-            }
-        }
-    }
-
     @GetMapping(value = "/profile")
     public String getHomepage(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
-        checkLogin(request, token, principal, model);
+        controllerService.checkLogin(request, token, principal, model);
 
         return "home";
     }
 
     @GetMapping(value = "/")
     public String getFrontpage(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
-        checkLogin(request, token, principal, model);
+        controllerService.checkLogin(request, token, principal, model);
 
         return "frontpage";
     }
 
     @GetMapping("/friends")
     public String getFriendslist(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
-        checkLogin(request, token, principal, model);
+        controllerService.checkLogin(request, token, principal, model);
 
         return "friendslist";
     }

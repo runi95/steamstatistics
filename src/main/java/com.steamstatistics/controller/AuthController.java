@@ -31,6 +31,9 @@ import java.util.List;
 public class AuthController {
 
     @Autowired
+    ControllerService controllerService;
+
+    @Autowired
     SteamOpenIdConfig steamOpenIdConfig;
 
     @Autowired
@@ -67,7 +70,7 @@ public class AuthController {
                 user.setSteamId(steamid);
                 user.setUserToken(userToken);
                 Role role = null;
-                boolean isAdmin = isAdmin(steamid);
+                boolean isAdmin = controllerService.isAdmin(steamid);
                 if(isAdmin) {
                     role = roleRepository.findByName("ROLE_ADMIN");
 
@@ -103,15 +106,5 @@ public class AuthController {
         response.addCookie(cookie);
 
         return "redirect:/";
-    }
-
-    private boolean isAdmin(long steamid) {
-        for(int i = 0; i < steamOpenIdConfig.getAdminList().length; i++) {
-            if(steamOpenIdConfig.getAdminList()[i].equals(Long.toString(steamid))) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

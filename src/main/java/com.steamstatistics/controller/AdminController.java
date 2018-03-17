@@ -23,6 +23,9 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
+    ControllerService controllerService;
+
+    @Autowired
     SteamUserDetailsService steamUserDetailsService;
 
     @Autowired
@@ -30,25 +33,9 @@ public class AdminController {
 
     @GetMapping("/suggestions")
     public String getSuggestions(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
-        checkLogin(request, token, principal, model);
+        controllerService.checkLogin(request, token, principal, model);
 
         return "suggestions";
-    }
-
-    public void checkLogin(HttpServletRequest request, String token, Principal principal, Model model) {
-        if(principal != null) {
-            model.addAttribute("steamid", principal.getName());
-        } else if(token != null && !token.isEmpty()) {
-            UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(token);
-
-            if(userPrincipal != null) {
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
-                auth.setDetails(new WebAuthenticationDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(auth);
-
-                model.addAttribute("steamid", userPrincipal.getSteamId());
-            }
-        }
     }
 
 }

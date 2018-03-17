@@ -23,6 +23,9 @@ import java.util.*;
 public class SteamRestController {
 
     @Autowired
+    ControllerService controllerService;
+
+    @Autowired
     SteamProfileService steamProfileService;
 
     @Autowired
@@ -51,10 +54,10 @@ public class SteamRestController {
 
     @RequestMapping("/getprofile")
     public String getProfile(@CookieValue(value = "token", required = false) String token, Principal principal) {
-        Long steamid = getSteamid(token, principal);
+        Long steamid = controllerService.getSteamid(token, principal);
 
         if(steamid == null) {
-            return convertObjectToJson(new RestMessageModel("200", "login"));
+            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
         }
 
         SteamProfileEntity steamProfile = steamProfileService.get(steamid);
@@ -98,15 +101,15 @@ public class SteamRestController {
         list.add(mappedSteamFriends);
 //        list.add(steamProfile);
 
-        return convertObjectToJson(new RestMessageModel("200", "getprofile", list));
+        return controllerService.convertObjectToJson(new RestMessageModel("200", "getprofile", list));
     }
 
     @RequestMapping("/getremoved")
     public String getRemoved(@CookieValue(value = "token", required = false) String token, Principal principal) {
-        Long steamid = getSteamid(token, principal);
+        Long steamid = controllerService.getSteamid(token, principal);
 
         if(steamid == null) {
-            return convertObjectToJson(new RestMessageModel("200", "login"));
+            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
         }
         List<SteamProfileToFriendEntity> steamProfileToFriendEntities = steamProfileToFriendService.getRemovedFriends(steamid);
         List<Long> steamidList = new ArrayList<>();
@@ -124,15 +127,15 @@ public class SteamRestController {
         list.add(removedFriendsWithDate);
         list.add(steamProfileToFriendService.findByRemoveDateGreaterThanAndProfileid(lastMonth, steamid).size());
 
-        return convertObjectToJson(new RestMessageModel("200", "getremoved", list));
+        return controllerService.convertObjectToJson(new RestMessageModel("200", "getremoved", list));
     }
 
     @RequestMapping("/getadded")
     public String getAdded(@CookieValue(value = "token", required = false) String token, Principal principal) {
-        Long steamid = getSteamid(token, principal);
+        Long steamid = controllerService.getSteamid(token, principal);
 
         if(steamid == null) {
-            return convertObjectToJson(new RestMessageModel("200", "login"));
+            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
         }
         List<SteamProfileToFriendEntity> steamProfileToFriendEntities = steamProfileToFriendService.findAllAddedFriendsDesc(steamid);
         List<Long> steamidList = new ArrayList<>();
@@ -150,15 +153,15 @@ public class SteamRestController {
         list.add(addedFriendsWithDate);
         list.add(steamProfileToFriendService.findByFriendsinceGreaterThanAndProfileid(lastMonth, steamid).size());
 
-        return convertObjectToJson(new RestMessageModel("200", "getadded", list));
+        return controllerService.convertObjectToJson(new RestMessageModel("200", "getadded", list));
     }
 
     @RequestMapping("/getfullprofile")
     public String getFullProfile(@CookieValue(value = "token", required = false) String token, Principal principal) {
-        Long steamid = getSteamid(token, principal);
+        Long steamid = controllerService.getSteamid(token, principal);
 
         if(steamid == null) {
-            return convertObjectToJson(new RestMessageModel("200", "login"));
+            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
         }
 
         Map<String, Object> map = new HashMap<>();
@@ -206,15 +209,15 @@ public class SteamRestController {
 
         map.put("removed", removedList);
 
-        return convertObjectToJson(new RestMessageModel("200", "getfullprofile", map));
+        return controllerService.convertObjectToJson(new RestMessageModel("200", "getfullprofile", map));
     }
 
     @RequestMapping("/getfriends")
     public String getFriends(@CookieValue(value = "token", required = false) String token, Principal principal) {
-        Long steamid = getSteamid(token, principal);
+        Long steamid = controllerService.getSteamid(token, principal);
 
         if(steamid == null) {
-            return convertObjectToJson(new RestMessageModel("200", "login"));
+            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
         }
 
         List<SteamProfileToFriendEntity> steamProfileToFriendEntities = steamProfileToFriendService.getUnremovedFriends(steamid);
@@ -240,7 +243,7 @@ public class SteamRestController {
         Map<String, Object> map = new HashMap<>();
         map.put("friends", friendsWithDate);
         map.put("length", friendsWithDate.size());
-        return convertObjectToJson(new RestMessageModel("200", "getfriends", map));
+        return controllerService.convertObjectToJson(new RestMessageModel("200", "getfriends", map));
     }
 
     @RequestMapping("/getfrontpage")
@@ -345,7 +348,7 @@ public class SteamRestController {
         map.put("monthlygain", totalHoardCount);
         map.put("monthlyloss", steamProfileToFriendService.findByRemoveDateGreaterThan(timeService.getLastMonthUnixTime()).size());
         map.put("joinedusers", steamProfileService.findByCreationdateGreaterThanEpoch(timeService.getLastMonthUnixTime()).size());
-        return convertObjectToJson(new RestMessageModel("200", "getfrontpage", map));
+        return controllerService.convertObjectToJson(new RestMessageModel("200", "getfrontpage", map));
     }
 
     @PostMapping("/suggestion")
@@ -371,48 +374,6 @@ public class SteamRestController {
             }
         }
 
-        return convertObjectToJson(restMessageModel);
-    }
-
-    @GetMapping("/getsuggestions")
-    public String getSuggestions() {
-        RestMessageModel restMessageModel;
-
-        List<SuggestionEntity> suggestionEntities = suggestionService.getAll();
-
-        restMessageModel = new RestMessageModel("200", "suggestion", suggestionEntities);
-
-        return convertObjectToJson(restMessageModel);
-    }
-
-    private Long getSteamid(String token, Principal principal) {
-        Long steamid = null;
-
-        UserPrincipal usr = null;
-
-        if (token != null && !token.isEmpty()) {
-            usr = steamUserDetailsService.loadUserByUsername(token);
-        } else if (principal != null) {
-            usr = steamUserDetailsService.loadUserByUsername(principal.getName());
-        }
-
-        if(usr != null)
-            steamid = usr.getSteamId();
-
-        return steamid;
-    }
-
-    private static String convertObjectToJson(Object message) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-        String objectToJson = null;
-        try {
-            objectToJson = objectMapper.writeValueAsString(message);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return objectToJson;
+        return controllerService.convertObjectToJson(restMessageModel);
     }
 }
