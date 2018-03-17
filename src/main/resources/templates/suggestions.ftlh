@@ -240,7 +240,7 @@
 
         function removesuggestion(id) {
             $.ajax({
-                url: '/removesuggestion',
+                url: '/admin/removesuggestion',
                 type: 'POST',
                 dataType: 'json',
                 data: id + "&_token=" + csrf_token,
@@ -252,7 +252,7 @@
 
         function approvesuggestion(id) {
             $.ajax({
-                url: '/approvesuggestion',
+                url: '/admin/approvesuggestion',
                 type: 'POST',
                 dataType: 'json',
                 data: id + "&_token=" + csrf_token,
