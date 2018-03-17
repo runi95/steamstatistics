@@ -19,9 +19,14 @@ public class SuggestionService {
         return suggestionRepository.findAll();
     }
 
+    public List<SuggestionEntity> getAllSuggestionsWhereApprovedIs(boolean approved) { return suggestionRepository.findAllByApproved(approved); }
+
+    public List<SuggestionEntity> getAllSuggestionsWhereApprovedIsNull() { return suggestionRepository.findAllByApprovedIsNull(); }
+
     public SuggestionEntity getSuggestion(long id) {
         return suggestionRepository.findById(id);
     }
 
     public void removeSuggestion(long id) { suggestionRepository.deleteById(id); }
+
 }

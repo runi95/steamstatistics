@@ -13,5 +13,9 @@ public interface SuggestionRepository extends CrudRepository<SuggestionEntity, L
 
     List<SuggestionEntity> findAllBySteamid(long steamid);
 
+    List<SuggestionEntity> findAllByApproved(boolean isApproved);
+
+    List<SuggestionEntity> findAllByApprovedIsNull();
+
     SuggestionEntity findById(long id);
 }
