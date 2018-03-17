@@ -161,6 +161,8 @@
         }
     </style>
     <script>
+        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+
         function loadSuggestions(data) {
             var div = document.getElementById("suggestionsdiv");
             var box = document.createElement("div");

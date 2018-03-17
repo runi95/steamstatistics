@@ -1,5 +1,3 @@
-var csrf_token = $('meta[name="csrf-token"]').attr('content');
-
 function getFrontpage() {
     $.ajax({
         type: "GET",

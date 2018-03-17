@@ -5,6 +5,7 @@ var friendshipsendedindex = 0;
 var friendshipsstarted = [];
 var friendshipsstartedindex = 0;
 
+var csrf_token = $('meta[name="csrf-token"]').attr('content');
 
 function getProfile(data) {
     switch (data.status) {
