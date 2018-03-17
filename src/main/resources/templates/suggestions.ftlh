@@ -161,7 +161,8 @@
         }
     </style>
     <script>
-        var csrf_token = $('meta[name="csrf-token"]').attr('content');
+        var csrf_name = $('meta[name="csrf_name"]').attr('content');
+        var csrf_value = $('meta[name="csrf_value"]').attr('content');
 
         function loadSuggestions(data) {
             var div = document.getElementById("suggestionsdiv");
@@ -243,7 +244,7 @@
                 url: '/admin/removesuggestion',
                 type: 'POST',
                 dataType: 'json',
-                data: id + "&_token=" + csrf_token,
+                data: csrf_name + "=" + csrf_value + "&id=" + id,
                 success: function(data) {
                     processStatus(data);
                 }
@@ -255,7 +256,7 @@
                 url: '/admin/approvesuggestion',
                 type: 'POST',
                 dataType: 'json',
-                data: id + "&_token=" + csrf_token,
+                data: csrf_name + "=" + csrf_value + "&id=" + id,
                 success: function(data) {
                     processStatus(data);
                 }
