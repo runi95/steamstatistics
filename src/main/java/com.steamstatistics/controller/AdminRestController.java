@@ -5,6 +5,7 @@ import com.steamstatistics.data.SuggestionEntity;
 import com.steamstatistics.data.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,5 +32,27 @@ public class AdminRestController {
         return controllerService.convertObjectToJson(restMessageModel);
     }
 
+    @PostMapping("/removesuggestion")
+    public String removeSuggestion(long id) {
+        RestMessageModel restMessageModel;
 
+        suggestionService.removeSuggestion(id);
+
+        restMessageModel = new RestMessageModel("200", "removed");
+
+        return controllerService.convertObjectToJson(restMessageModel);
+    }
+
+    @PostMapping("/approvesuggestion")
+    public String approveSuggestion(long id) {
+        RestMessageModel restMessageModel;
+
+        SuggestionEntity suggestionEntity = suggestionService.getSuggestion(id);
+        suggestionEntity.setApproved(true);
+        suggestionService.save(suggestionEntity);
+
+        restMessageModel = new RestMessageModel("200", "approved");
+
+        return controllerService.convertObjectToJson(restMessageModel);
+    }
 }
