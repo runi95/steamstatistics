@@ -235,6 +235,22 @@
                             loadSuggestions(data.message[i]);
                         }
                     }
+                    getApprovedSuggestions();
+                }
+            });
+        }
+
+        function getApprovedSuggestions() {
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "/admin/getapprovedsuggestions",
+                success: function (data) {
+                    if(data.status == "200") {
+                        for(var i = 0; i < data.message.length; i++) {
+                            loadSuggestions(data.message[i]);
+                        }
+                    }
                 }
             });
         }

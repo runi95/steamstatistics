@@ -25,7 +25,18 @@ public class AdminRestController {
     public String getSuggestions() {
         RestMessageModel restMessageModel;
 
-        List<SuggestionEntity> suggestionEntities = suggestionService.getAll();
+        List<SuggestionEntity> suggestionEntities = suggestionService.getAllSuggestionsWhereApprovedIsNull();
+
+        restMessageModel = new RestMessageModel("200", "suggestion", suggestionEntities);
+
+        return controllerService.convertObjectToJson(restMessageModel);
+    }
+
+    @GetMapping("/getapprovedsuggestions")
+    public String getApprovedSuggestions() {
+        RestMessageModel restMessageModel;
+
+        List<SuggestionEntity> suggestionEntities = suggestionService.getAllSuggestionsWhereApprovedIs(true);
 
         restMessageModel = new RestMessageModel("200", "suggestion", suggestionEntities);
 
