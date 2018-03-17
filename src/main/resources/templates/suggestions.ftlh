@@ -227,7 +227,7 @@
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "/getsuggestions",
+                url: "/admin/getsuggestions",
                 success: function (data) {
                     if(data.status == "200") {
                         for(var i = 0; i < data.message.length; i++) {
