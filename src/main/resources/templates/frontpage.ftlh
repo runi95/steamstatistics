@@ -63,7 +63,6 @@
                     <form id="suggestionForm" class="form-horizontal" action="javascript:submitSuggestion();"
                           name="suggestionForm"
                           method="POST">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         <div class="form-group">
                             <label for="category" class="control-label col-sm-3">Category:</label>
                             <div class="col-sm-9" style="color: #000000">

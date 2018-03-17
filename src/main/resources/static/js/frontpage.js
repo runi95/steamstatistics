@@ -186,7 +186,7 @@ function submitSuggestion() {
         url: '/suggestion',
         type: 'POST',
         dataType: 'json',
-        data: $('form#suggestionForm').serialize() + "&_token=" + csrf_token,
+        data: csrf_name + "=" + csrf_value + "&" + $('form#suggestionForm').serialize(),
         success: function(data) {
             processStatus(data);
         }

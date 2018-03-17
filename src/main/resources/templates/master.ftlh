@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf_name" content="${_csrf.parameterName}">
+    <meta name="csrf_value" content="${_csrf.token}">
 
     <title>Steam Users.info</title>
 
