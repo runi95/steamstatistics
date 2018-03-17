@@ -30,6 +30,9 @@ public class SuggestionEntity {
     @Column(name = "date", nullable = false)
     private String creationDate;
 
+    @Column(name = "approved", nullable = true)
+    private Boolean approved;
+
     public long getId() {
         return id;
     }
@@ -63,4 +66,8 @@ public class SuggestionEntity {
     public String getCreationDate() { return creationDate; }
 
     public void setCreationDate(String creationDate) { this.creationDate = creationDate; }
+
+    public Boolean isApproved() { return approved; }
+
+    public void setApproved(boolean approved) { this.approved = approved; }
 }

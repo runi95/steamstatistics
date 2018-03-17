@@ -22,4 +22,6 @@ public class SuggestionService {
     public SuggestionEntity getSuggestion(long id) {
         return suggestionRepository.findById(id);
     }
+
+    public void removeSuggestion(long id) { suggestionRepository.deleteById(id); }
 }
