@@ -68,7 +68,7 @@ public class ControllerService {
         return steamid;
     }
 
-    public static String convertObjectToJson(Object message) {
+    public String convertObjectToJson(Object message) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
