@@ -49,7 +49,7 @@ public class AdminRestController {
 
         suggestionService.removeSuggestion(id);
 
-        restMessageModel = new RestMessageModel("200", "removed");
+        restMessageModel = new RestMessageModel("200", "removed", id);
 
         return controllerService.convertObjectToJson(restMessageModel);
     }
@@ -62,7 +62,7 @@ public class AdminRestController {
         suggestionEntity.setApproved(true);
         suggestionService.save(suggestionEntity);
 
-        restMessageModel = new RestMessageModel("200", "approved");
+        restMessageModel = new RestMessageModel("200", "approved", suggestionEntity);
 
         return controllerService.convertObjectToJson(restMessageModel);
     }

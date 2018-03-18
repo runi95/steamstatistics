@@ -7,11 +7,19 @@
             position: relative;
             overflow: hidden;
             height: auto;
+            background: rgba(55, 55, 55, 0.5);
             margin-top: 20px;
             padding: 10px;
-            background: rgba(55,55,55, 0.5);
             border-radius: 15px;
             border: 2px solid #111111;
+
+            opacity: 1;
+            -webkit-transition: opacity 500ms linear;
+            transition: opacity 500ms linear;
+        }
+
+        .suggestionbox-approved {
+            background: rgba(55, 75, 55, 0.5);
         }
 
         .suggestiondate {
@@ -20,6 +28,13 @@
             right: 10px;
             /* float: right; */
             color: rgba(120, 120, 120, 0.7);
+        }
+
+        .suggestion-stamp {
+            position: absolute;
+            display: block;
+            left: 10px;
+            color: rgba(120, 155, 120, 0.7);
         }
 
         .suggestionsteamid {
@@ -159,12 +174,33 @@
             background-color: #169216;
             border-color: #255325;
         }
+
+        .approved {
+            border: 2px solid #3eb63e;
+            border-radius: 4px;
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+        }
     </style>
     <script>
         var csrf_name = $('meta[name="csrf_name"]').attr('content');
         var csrf_value = $('meta[name="csrf_value"]').attr('content');
 
-        function loadSuggestions(data) {
+        function loadSuggestions(data, isApproved) {
             var div = document.getElementById("suggestionsdiv");
             var box = document.createElement("div");
             var datediv = document.createElement("div");
@@ -178,9 +214,28 @@
 
             var btndiv = document.createElement("div");
             var removebtn = document.createElement("button");
-            var approvebtn = document.createElement("button");
 
-            box.setAttribute("class", "suggestionbox");
+            btndiv.setAttribute("style", "margin-top: 16px; margin-bottom: 4px;");
+            btndiv.appendChild(removebtn);
+
+            if(isApproved) {
+                approve = document.createElement("div");
+                approve.setAttribute("class", "suggestion-stamp");
+                approve.appendChild(document.createTextNode("Approved!"));
+                box.appendChild(approve);
+
+                box.setAttribute("class", "suggestionbox suggestionbox-approved");
+            } else {
+                approvebtn = document.createElement("button");
+                approvebtn.setAttribute("class", "btn btn-suggestion-green");
+                approvebtn.setAttribute("onclick", "approvesuggestion('" + data.id + "')");
+                approvebtn.innerHTML = "Approve";
+
+                btndiv.appendChild(approvebtn);
+
+                box.setAttribute("class", "suggestionbox");
+            }
+
             box.setAttribute("id", data.id)
             datediv.setAttribute("class", "suggestiondate");
             datediv.appendChild(document.createTextNode(data.creationDate));
@@ -202,12 +257,6 @@
             removebtn.setAttribute("class", "btn btn-suggestion-red");
             removebtn.setAttribute("onclick", "removesuggestion('" + data.id + "')");
             removebtn.innerHTML = "Remove";
-            approvebtn.setAttribute("class", "btn btn-suggestion-green");
-            approvebtn.setAttribute("onclick", "approvesuggestion('" + data.id + "')");
-            approvebtn.innerHTML = "Approve";
-            btndiv.setAttribute("style", "margin-top: 16px; margin-bottom: 4px;");
-            btndiv.appendChild(removebtn);
-            btndiv.appendChild(approvebtn);
 
             box.appendChild(datediv);
             box.appendChild(titlediv);
@@ -232,7 +281,7 @@
                 success: function (data) {
                     if(data.status == "200") {
                         for(var i = 0; i < data.message.length; i++) {
-                            loadSuggestions(data.message[i]);
+                            loadSuggestions(data.message[i], false);
                         }
                     }
                     getApprovedSuggestions();
@@ -248,11 +297,32 @@
                 success: function (data) {
                     if(data.status == "200") {
                         for(var i = 0; i < data.message.length; i++) {
-                            loadSuggestions(data.message[i]);
+                            loadSuggestions(data.message[i], true);
                         }
                     }
                 }
             });
+        }
+
+        function removeSuggestionSuccessful(data) {
+            if(data.status === "200") {
+                var suggestion = document.getElementById(data.message);
+                suggestion.style.opacity = '0';
+                setTimeout(function() {
+                    suggestion.parentNode.removeChild(suggestion);
+                }, 500);
+            }
+        }
+
+        function approveSuggestionSuccessful(data) {
+            if(data.status === "200") {
+                var suggestion = document.getElementById(data.message.id);
+                suggestion.style.opacity = '0';
+                setTimeout(function() {
+                    suggestion.parentNode.removeChild(suggestion);
+                    loadSuggestions(data.message, data.message.approved);
+                }, 500);
+            }
         }
 
         function removesuggestion(id) {
@@ -262,7 +332,7 @@
                 dataType: 'json',
                 data: csrf_name + "=" + csrf_value + "&id=" + id,
                 success: function(data) {
-                    processStatus(data);
+                    removeSuggestionSuccessful(data);
                 }
             });
         }
@@ -274,7 +344,7 @@
                 dataType: 'json',
                 data: csrf_name + "=" + csrf_value + "&id=" + id,
                 success: function(data) {
-                    processStatus(data);
+                    approveSuggestionSuccessful(data);
                 }
             });
         }
