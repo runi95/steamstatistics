@@ -188,7 +188,7 @@ function getFullProfile(data) {
             getAddedSuccessful(data.message.added);
             break;
         case "204":
-
+            banner("#b63e3e", "remove", "This user doesn't have a steamusers.info profile!");
             break;
         case "400":
 
