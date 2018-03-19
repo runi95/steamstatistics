@@ -38,6 +38,10 @@
 <body>
 <noscript><h2 style="color: #ff0000">Javascript is required to view this website, please enable Javascript and refresh
     the page</h2></noscript>
+<div style="position: fixed; left: 50%; z-index: 100; width: 50%">
+    <div id="infobanner" class="banner"></div>
+</div>
+
     <#nested/>
 <!-- /container -->
 
