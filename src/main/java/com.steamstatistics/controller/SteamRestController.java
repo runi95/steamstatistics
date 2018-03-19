@@ -142,7 +142,7 @@ public class SteamRestController {
         for(SteamProfileToFriendEntity steamProfileToFriendEntity : removedFriendsList) {
             Map<String, Object> friendWithDate = new HashMap<>();
             friendWithDate.put("steamFriendEntity", removedFriends.get(steamProfileToFriendEntity.getSteamfriendid()));
-            friendWithDate.put("localDateTimeString", prettifyDate(steamProfileToFriendEntity.getRemoveDate()));
+            friendWithDate.put("localDateTimeString", prettifyDate(steamProfileToFriendEntity.getFriendsince()) + " - " + prettifyDate(steamProfileToFriendEntity.getRemoveDate()));
             removedFriendsWithDate.add(friendWithDate);
         }
 
