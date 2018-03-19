@@ -80,9 +80,7 @@ public class DatabaseUpdater extends Thread {
             Iterator<SteamFriendEntity> friendIterator = getAllFriends.iterator();
 
             List<Long> steamFriendsToUpdate = new ArrayList<>();
-            int iterator = 0;
             while (friendIterator.hasNext()) {
-                iterator++;
                 SteamFriendEntity friend = friendIterator.next();
 
                 long lastUpdated = friend.getUpdatetime();
