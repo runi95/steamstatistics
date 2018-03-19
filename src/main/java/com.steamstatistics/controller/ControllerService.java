@@ -57,7 +57,7 @@ public class ControllerService {
         UserPrincipal usr = null;
 
         if (token != null && !token.isEmpty()) {
-            usr = steamUserDetailsService.loadUserByUsername(token);
+            usr = steamUserDetailsService.loadByToken(token);
         } else if (principal != null) {
             usr = steamUserDetailsService.loadUserByUsername(principal.getName());
         }

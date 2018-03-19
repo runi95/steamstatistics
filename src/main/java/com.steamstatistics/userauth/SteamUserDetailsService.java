@@ -40,7 +40,7 @@ public class SteamUserDetailsService implements UserDetailsService {
             return null;
         }
 
-        User user = userRepository.findBySteamId(lsteamid);
+        User user = userRepository.findBySteamid(lsteamid);
 
         if(user == null)
             return null;
@@ -48,7 +48,7 @@ public class SteamUserDetailsService implements UserDetailsService {
         return new UserPrincipal(user);
     }
 
-    public UserPrincipal findUserByToken(String userToken) {
+    public UserPrincipal loadByToken(String userToken) {
         User user = userRepository.findByUserToken(userToken);
 
         if (user == null)
@@ -57,8 +57,8 @@ public class SteamUserDetailsService implements UserDetailsService {
         return new UserPrincipal(user);
     }
 
-    public UserPrincipal findUserBySteamId(long steamId) {
-        User user = userRepository.findBySteamId(steamId);
+    public UserPrincipal loadBySteamid(long steamid) {
+        User user = userRepository.findBySteamid(steamid);
 
         if (user == null)
             return null;
@@ -69,7 +69,7 @@ public class SteamUserDetailsService implements UserDetailsService {
     public User registerNewUserAccount(long steamid) {
         User user = new User();
         String userToken = createUserToken();
-        user.setSteamId(steamid);
+        user.setSteamid(steamid);
         user.setUserToken(userToken);
 
         boolean isAdmin = false;

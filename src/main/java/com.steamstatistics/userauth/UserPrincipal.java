@@ -27,11 +27,11 @@ public class UserPrincipal implements UserDetails {
     }
 
     public String getUsername() {
-        return Long.toString(user.getSteamId());
+        return Long.toString(user.getSteamid());
     }
 
     public long getSteamId() {
-        return user.getSteamId();
+        return user.getSteamid();
     }
 
     public String getUserToken() { return user.getUserToken(); }

@@ -62,12 +62,12 @@ public class AuthController {
             Long steamid = Long.parseLong(steamidString);
 
             UserPrincipal userPrincipal = null;
-            userPrincipal = steamUserDetailsService.findUserBySteamId(steamid);
+            userPrincipal = steamUserDetailsService.loadBySteamid(steamid);
 
             if (userPrincipal == null) {
                 String userToken = steamUserDetailsService.createUserToken();
                 User user = new User();
-                user.setSteamId(steamid);
+                user.setSteamid(steamid);
                 user.setUserToken(userToken);
                 Role role = null;
                 boolean isAdmin = controllerService.isAdmin(steamid);
