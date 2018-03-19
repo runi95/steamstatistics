@@ -122,8 +122,8 @@ function populateApprovedSuggestions(suggestions) {
         var suggestiondesc = document.createElement("div");
 
         suggestion.setAttribute("id", suggestions[i].id);
-        suggestion.setAttribute("style", "width: 80%; padding: 10px; margin: 15px auto 15px auto; border: 2px solid #222222; border-radius: 10px; font-size: 1.15em;");
-        suggestiontitle.setAttribute("style", "font-size: 1.35em; color: #757575; margin-bottom: 5px;");
+        suggestion.setAttribute("style", "width: 80%; padding: 10px; margin: 15px auto 15px auto; border: 2px solid #444444; border-radius: 10px; font-size: 1.15em;");
+        suggestiontitle.setAttribute("style", "font-size: 1.35em; color: #6ca0e0; margin-bottom: 5px;");
         //suggestioncategorytitle.setAttribute("style", "display: block; clear: left; float: left; margin-right: 10px; color: #657090;");
         //suggestioncategory.setAttribute("style", "display: block; text-align: start; clear: right;");
         //suggestiondesctitle.setAttribute("style", "display: block; text-align: start; color: #485590;");
