@@ -39,7 +39,7 @@ function getProfileSuccess(message) {
 function seemorebtn(btn) {
     switch (btn) {
         case "started":
-            friendshipsstartedindex = loadFriends(friendshipsstarted.length, friendshipsstarted, friendshipsstartedindex, "golden", "added");
+            friendshipsstartedindex = loadFriends(friendshipsstarted.length, friendshipsstarted, friendshipsstartedindex, "yellow", "added");
             break;
         case "ended":
             friendshipsendedindex = loadFriends(friendshipsended.length, friendshipsended, friendshipsendedindex, "removed", "removed");
@@ -72,29 +72,53 @@ function switchPersonastate(state) {
 }
 
 function addFriend(profile, message, state, parentdiv) {
-    console.log(profile);
-    var div = document.createElement("div");
-    div.setAttribute("class", "profile persona " + state);
-    div.setAttribute("href", profile.profileurl);
-    var a = document.createElement("a");
-    a.setAttribute("class", "profileLink");
-    a.setAttribute("href", "/profile/" + profile.steamid);
-    div.appendChild(a);
-    var avatar = document.createElement("div");
-    avatar.setAttribute("class", "profileAvatar " + state);
-    var img = document.createElement("img");
-    img.setAttribute("src", profile.avatar);
-    avatar.appendChild(img);
-    div.appendChild(avatar);
-    var name = document.createElement("div");
-    name.appendChild(document.createTextNode(profile.personaname));
-    var namebr = document.createElement("br");
-    name.appendChild(namebr);
-    var span = document.createElement("span");
-    span.appendChild(document.createTextNode(message));;
-    name.appendChild(span);
-    div.appendChild(name);
-    document.getElementById(parentdiv).appendChild(div);
+    var medalcontainer = document.createElement("div");
+    var steamrefdiv = document.createElement("div");
+    var steamrefa = document.createElement("a");
+    var steamrefspan = document.createElement("span");
+    var medalavatar = document.createElement("div");
+    var avatarcolor = document.createElement("div");
+    var avatarouter = document.createElement("div");
+    var avatarinner = document.createElement("div");
+    var profilea = document.createElement("a");
+    var avatarimg = document.createElement("img");
+    var medaltitle = document.createElement("a");
+    var medaldate = document.createElement("div");
+
+    medalcontainer.setAttribute("class", "medal-container medal-container-small");
+
+    steamrefdiv.setAttribute("class", "medal-steamref");
+    steamrefa.setAttribute("href", profile.profileurl);
+    steamrefspan.setAttribute("class", "glyphicon glyphicon-share-alt");
+    medalavatar.setAttribute("class", "medal-avatar");
+    avatarcolor.setAttribute("class", "medal-small " + state);
+    avatarouter.setAttribute("class", "medal-outer");
+    avatarinner.setAttribute("class", "medal-inner");
+    profilea.setAttribute("href", "/profile/" + profile.steamid);
+    avatarimg.setAttribute("class", "medal-img");
+    avatarimg.setAttribute("src", profile.avatar);
+
+    medaltitle.setAttribute("class", "medal-container-title-small " + state + "-text");
+    medaltitle.setAttribute("href", "/profile/" + profile.steamid);
+    medaltitle.appendChild(document.createTextNode(profile.personaname));
+    medaldate.setAttribute("class", "medal-container-text");
+    medaldate.appendChild(document.createTextNode(message));
+
+    steamrefa.appendChild(steamrefspan);
+    steamrefdiv.appendChild(steamrefa);
+    medalcontainer.appendChild(steamrefdiv);
+
+    profilea.appendChild(avatarimg);
+    avatarinner.appendChild(profilea);
+    avatarouter.appendChild(avatarinner);
+    avatarcolor.appendChild(avatarouter);
+    medalavatar.appendChild(avatarcolor);
+    medalcontainer.appendChild(medalavatar);
+
+    medalcontainer.appendChild(medaltitle);
+    medalcontainer.appendChild(medaldate);
+
+    document.getElementById(parentdiv).appendChild(medalcontainer);
 }
 
 function requestlogin() {
@@ -107,7 +131,7 @@ function getRemovedSuccessful(message) {
         friendshipsended.push({ "steamid":message[0][i].steamFriendEntity.steamid, "date":message[0][i].localDateTimeString });
     }
 
-    friendshipsendedindex = loadFriends(5, friendshipsended, friendshipsendedindex, "removed", "removed");
+    friendshipsendedindex = loadFriends(5, friendshipsended, friendshipsendedindex, "red", "removed");
 
     var lmonth = document.getElementById("lmonth");
     lmonth.setAttribute("class", "negative");
@@ -120,7 +144,7 @@ function getAddedSuccessful(message) {
         friendshipsstarted.push({ "steamid":message[0][i].steamFriendEntity.steamid, "date":message[0][i].localDateTimeString });
     }
 
-    friendshipsstartedindex = loadFriends(5, friendshipsstarted, friendshipsstartedindex, "golden", "added");
+    friendshipsstartedindex = loadFriends(5, friendshipsstarted, friendshipsstartedindex, "yellow", "added");
 
     var gmonth = document.getElementById("gmonth");
     gmonth.setAttribute("class", "positive");

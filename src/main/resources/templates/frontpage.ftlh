@@ -60,7 +60,7 @@
     <div class="box">
         <h3>Longest Friendships</h3>
         <div id="topthreefriendships">
-            <div class="medal-container">
+            <div class="medal-container medal-container-medium">
                 <div class="medal-avatar">
                     <div class="medal gold">
                         <div class="medal-outer">
@@ -76,7 +76,7 @@
                 <a id="topthreefriendships_goldtitle" class="gold-text medal-container-title"></a>
                 <div id="topthreefriendships_goldtext" class="medal-container-text"></div>
             </div>
-            <div class="medal-container">
+            <div class="medal-container medal-container-medium">
                 <div class="medal-avatar">
                     <div class="medal silver">
                         <div class="medal-outer">
@@ -92,7 +92,7 @@
                 <a id="topthreefriendships_silvertitle" class="silver-text medal-container-title"></a>
                 <div id="topthreefriendships_silvertext" class="medal-container-text"></div>
             </div>
-            <div class="medal-container">
+            <div class="medal-container medal-container-medium">
                 <div class="medal-avatar">
                     <div class="medal bronze">
                         <div class="medal-outer">
@@ -113,7 +113,7 @@
     <div class="box">
         <h3>Friend Collectors</h3>
         <div id="topthreehoarders">
-            <div class="medal-container">
+            <div class="medal-container medal-container-medium">
                 <div class="medal-avatar">
                     <div class="medal gold">
                         <div class="medal-outer">
@@ -129,7 +129,7 @@
                 <a id="topthreehoarders_goldtitle" class="gold-text medal-container-title"></a>
                 <div id="topthreehoarders_goldtext" class="medal-container-text"></div>
             </div>
-            <div class="medal-container">
+            <div class="medal-container medal-container-medium">
                 <div class="medal-avatar">
                     <div class="medal silver">
                         <div class="medal-outer">
@@ -145,7 +145,7 @@
                 <a id="topthreehoarders_silvertitle" class="silver-text medal-container-title"></a>
                 <div id="topthreehoarders_silvertext" class="medal-container-text"></div>
             </div>
-            <div class="medal-container">
+            <div class="medal-container medal-container-medium">
                 <div class="medal-avatar">
                     <div class="medal bronze">
                         <div class="medal-outer">
@@ -166,7 +166,7 @@
     <div class="box">
         <h3>Monthly Collectors</h3>
         <div id="topthreemonthlyhoarders">
-            <div class="medal-container">
+            <div class="medal-container medal-container-medium">
                 <div class="medal-avatar">
                     <div class="medal gold">
                         <div class="medal-outer">
@@ -182,7 +182,7 @@
                 <a id="topthreemonthlyhoarders_goldtitle" class="gold-text medal-container-title"></a>
                 <div id="topthreemonthlyhoarders_goldtext" class="medal-container-text"></div>
             </div>
-            <div class="medal-container">
+            <div class="medal-container medal-container-medium">
                 <div class="medal-avatar">
                     <div class="medal silver">
                         <div class="medal-outer">
@@ -198,7 +198,7 @@
                 <a id="topthreemonthlyhoarders_silvertitle" class="silver-text medal-container-title"></a>
                 <div id="topthreemonthlyhoarders_silvertext" class="medal-container-text"></div>
             </div>
-            <div class="medal-container">
+            <div class="medal-container medal-container-medium">
                 <div class="medal-avatar">
                     <div class="medal bronze">
                         <div class="medal-outer">

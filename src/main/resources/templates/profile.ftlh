@@ -12,12 +12,16 @@
             <div class="profileHeaderBackground">
                 <div class="profileHeader">
                     <div class="profileHeaderContent">
+                        <div style="position: absolute; display: block; right: 10px;">
+                            <a href="http://steamcommunity.com/profiles/${request_steamid}" style="color: rgba(120, 120, 120, 0.7);">Steam profile</a>
+                        </div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-7" style="max-width: 184px;">
                                 <div id="state" class="profileAvatar profileHeaderSize offline">
                                     <div class="playerAvatarAutoSizeInner">
-                                        <img id="avatar"
-                                             src="/css/img/defaultImageLarge.jpg">
+                                        <a href="http://steamcommunity.com/profiles/${request_steamid}">
+                                            <img id="avatar" src="/css/img/defaultImageLarge.jpg">
+                                        </a>
                                     </div>
                                 </div>
                             </div>
