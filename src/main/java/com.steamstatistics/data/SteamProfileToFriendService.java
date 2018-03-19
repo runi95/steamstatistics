@@ -121,7 +121,6 @@ public class SteamProfileToFriendService {
 
         for (Long l : oldFriendsList.keySet()) {
             if (!updatedFriendsList.containsKey(l)) {
-                System.out.println("new list doesn't contain " + l);
                 SteamProfileToFriendEntity removedFriend = oldFriendsList.get(l);
                 removedFriend.setRemoveDate(timeService.getCurrentUnixTime());
                 maps[1].put(l, removedFriend);
