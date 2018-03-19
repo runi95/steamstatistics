@@ -1,5 +1,8 @@
 package com.steamstatistics.data;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,16 +12,20 @@ public class SteamProfileToFriendEntity {
 
     @Id
     @Column(name = "steamprofileid", nullable = false)
+    @JsonSerialize(using = ToStringSerializer.class)
     long steamprofileid;
 
     @Id
     @Column(name = "steamfriendid", nullable = false)
+    @JsonSerialize(using = ToStringSerializer.class)
     long steamfriendid;
 
     @Column(name = "friendsince")
+    @JsonSerialize(using = ToStringSerializer.class)
     long friendsince;
 
     @Column(name="removedate")
+    @JsonSerialize(using = ToStringSerializer.class)
     private long removeDate;
 
     public long getSteamprofileid() { return steamprofileid; }

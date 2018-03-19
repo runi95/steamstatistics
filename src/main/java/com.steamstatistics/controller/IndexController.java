@@ -52,7 +52,15 @@ public class IndexController {
     public String getHomepage(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
         controllerService.checkLogin(request, token, principal, model);
 
-        return "home";
+        return "profile";
+    }
+
+    @GetMapping(value = "/profile/{steamid}")
+    public String getUserProfile(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model, @PathVariable String steamid) {
+        controllerService.checkLogin(request, token, principal, model);
+        model.addAttribute("request_steamid", steamid);
+
+        return "profile";
     }
 
     @GetMapping(value = "/")

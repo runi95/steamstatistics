@@ -150,17 +150,14 @@ public class SteamRestController {
         return controllerService.convertObjectToJson(new RestMessageModel("200", "getadded", list));
     }
 
-    @RequestMapping("/getfullprofile")
-    public String getFullProfile(@CookieValue(value = "token", required = false) String token, Principal principal) {
-        Long steamid = controllerService.getSteamid(token, principal);
-
-        if(steamid == null) {
-            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
-        }
-
+    private String getFullProfileOfSteamid(long steamid) {
         Map<String, Object> map = new HashMap<>();
 
         SteamProfileEntity steamProfile = steamProfileService.get(steamid);
+        if(steamProfile == null) {
+            return controllerService.convertObjectToJson(new RestMessageModel("204", "getfullprofile", "nocontent"));
+        }
+
         SteamFriendEntity steamFriendProfile = steamFriendService.get(steamid);
 
         LocalDateTime localTimeDate = timeService.getLocalDateTimeFromUnix(steamProfile.getCreationdate());
@@ -206,6 +203,40 @@ public class SteamRestController {
         return controllerService.convertObjectToJson(new RestMessageModel("200", "getfullprofile", map));
     }
 
+    @RequestMapping("/getfullprofile/{steamid}")
+    public String getFullProfileOfTarget(@CookieValue(value = "token", required = false) String token, Principal principal, @PathVariable String steamid) {
+        Long principalSteamid = controllerService.getSteamid(token, principal);
+
+        if(principalSteamid == null) {
+            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
+        }
+
+        Long targetSteamid = null;
+        try {
+            targetSteamid = Long.parseLong(steamid);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        if(targetSteamid == null) {
+            targetSteamid = principalSteamid;
+        }
+
+        return getFullProfileOfSteamid(targetSteamid);
+    }
+
+    @RequestMapping("/getfullprofile")
+    public String getFullProfile(@CookieValue(value = "token", required = false) String token, Principal principal) {
+        Long steamid = controllerService.getSteamid(token, principal);
+
+        if(steamid == null) {
+            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
+        }
+
+        return getFullProfileOfSteamid(steamid);
+    }
+
+    /*
     @RequestMapping("/getfriends")
     public String getFriends(@CookieValue(value = "token", required = false) String token, Principal principal) {
         Long steamid = controllerService.getSteamid(token, principal);
@@ -228,7 +259,6 @@ public class SteamRestController {
             SteamFriendWithDate steamFriendWithDate = new SteamFriendWithDate(steamFriends.get(steamProfileToFriendEntity.getSteamfriendid()), steamProfileToFriendEntity.getFriendsince(), timeService);
             friendsWithDate.add(steamFriendWithDate);
         }
-        //System.out.println("unremoved: " + steamProfileToFriendEntities.size() + ", steamFriendidList: " + steamFriendidList.size() + ", steamFriendsList: " + steamFriendsList.size() + ", steamFriends: " + steamFriends.size() + ", friendsWithDate: " + friendsWithDate.size());
 
         Collections.sort(friendsWithDate);
 
@@ -239,6 +269,7 @@ public class SteamRestController {
         map.put("length", friendsWithDate.size());
         return controllerService.convertObjectToJson(new RestMessageModel("200", "getfriends", map));
     }
+    */
 
     @RequestMapping("/getfrontpage")
     public String getFrontpage() {
@@ -264,6 +295,7 @@ public class SteamRestController {
             Map<String, Object> javascriptObject = new HashMap<>();
             javascriptObject.put("steamfriend", steamFriendEntity);
             javascriptObject.put("friendshipdurationdate", prettifiedFriendshipLengthText);
+            javascriptObject.put("profilelink", "/profile/" + steamFriendEntity.getSteamid());
 
             topthreelongestfriendships.add(javascriptObject);
         }
@@ -283,6 +315,7 @@ public class SteamRestController {
             Map<String, Object> hoarderMap = new HashMap<>();
             hoarderMap.put("steamfriend", steamFriendEntity);
             hoarderMap.put("cnt", hoardcounter);
+            hoarderMap.put("profilelink", "/profile/" + steamFriendEntity.getSteamid());
 
             topThreeMonthlyHoardersList.add(hoarderMap);
 
@@ -301,6 +334,7 @@ public class SteamRestController {
             Map<String, Object> hoarderMap = new HashMap<>();
             hoarderMap.put("steamfriend", steamFriendEntity);
             hoarderMap.put("cnt", hoardcounter);
+            hoarderMap.put("profilelink", "/profile/" + steamFriendEntity.getSteamid());
 
             topThreeHoardersList.add(hoarderMap);
         }

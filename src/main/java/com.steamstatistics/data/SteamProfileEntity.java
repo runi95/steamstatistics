@@ -1,5 +1,8 @@
 package com.steamstatistics.data;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,15 +13,19 @@ import javax.persistence.Table;
 public class SteamProfileEntity {
     @Id
     @Column(name = "steamid", nullable = false, unique = true)
+    @JsonSerialize(using = ToStringSerializer.class)
     private long steamid;
 
     @Column(name = "updatedate")
+    @JsonSerialize(using = ToStringSerializer.class)
     private long lastupdate;
 
     @Column(name = "creationdate", nullable = false)
+    @JsonSerialize(using = ToStringSerializer.class)
     private long creationdate;
 
     @Column(name = "donationdate")
+    @JsonSerialize(using = ToStringSerializer.class)
     private long donationdate;
 
     public long getSteamid() {

@@ -1,5 +1,8 @@
 package com.steamstatistics.data;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,9 +11,11 @@ public class SteamFriendEntity {
 
     @Id
     @Column(name="steamid", nullable = false)
+    @JsonSerialize(using = ToStringSerializer.class)
     private long steamid;
 
     @Column(name = "updatetime", nullable = false)
+    @JsonSerialize(using = ToStringSerializer.class)
     private long updatetime;
 
     @Column(name="personname")
@@ -38,6 +43,7 @@ public class SteamFriendEntity {
     private String profilestate;
 
     @Column(name="lastlogoff")
+    @JsonSerialize(using = ToStringSerializer.class)
     private long lastlogoff;
 
     @Column(name="commentpermission")
@@ -50,9 +56,11 @@ public class SteamFriendEntity {
     private String primaryclanid;
 
     @Column(name="timecreated")
+    @JsonSerialize(using = ToStringSerializer.class)
     private long timecreated;
 
     @Column(name="gameid")
+    @JsonSerialize(using = ToStringSerializer.class)
     private long gameid; // Unused for now
 
     @Column(name="gameserverip")

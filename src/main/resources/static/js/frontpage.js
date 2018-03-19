@@ -39,7 +39,8 @@ function loadSuggestion(data) {
 
 function getFrontpageSuccess(message) {
     for (var i = 0; i < message.topthreefriendships.length; i++) {
-        var link = message.topthreefriendships[i].steamfriend.profileurl;
+        //var link = message.topthreefriendships[i].steamfriend.profileurl;
+        var link = message.topthreefriendships[i].profilelink;
         var imglink = message.topthreefriendships[i].steamfriend.avatarmedium;
         var medal = "";
 
@@ -59,7 +60,7 @@ function getFrontpageSuccess(message) {
     }
 
     for (var i = 0; i < message.topthreehoarders.length; i++) {
-        var link = message.topthreehoarders[i].steamfriend.profileurl;
+        var link = message.topthreehoarders[i].profilelink;
         var imglink = message.topthreehoarders[i].steamfriend.avatarmedium;
         var medal = "";
 
@@ -80,7 +81,7 @@ function getFrontpageSuccess(message) {
     }
 
     for (var i = 0; i < message.topthreemonthlyhoarders.length; i++) {
-        var link = message.topthreemonthlyhoarders[i].steamfriend.profileurl;
+        var link = message.topthreemonthlyhoarders[i].profilelink;
         var imglink = message.topthreemonthlyhoarders[i].steamfriend.avatarmedium;
         var medal = "";
 

@@ -7,7 +7,10 @@ var friendshipsstartedindex = 0;
 
 var csrf_name = $('meta[name="csrf_name"]').attr('content');
 var csrf_value = $('meta[name="csrf_value"]').attr('content');
+var steamid = $('meta[name="steamid"]').attr('content');
+var request_steamid = $('meta[name="request_steamid"]').attr('content');
 
+/*
 function getProfile(data) {
     switch (data.status) {
         case "200":
@@ -29,6 +32,7 @@ function getProfileSuccess(message) {
 
     document.getElementById("jdate").appendChild(document.createTextNode(message[1]));
 }
+*/
 
 function seemorebtn(btn) {
     switch (btn) {
@@ -72,7 +76,7 @@ function addFriend(profile, message, state, parentdiv) {
     div.setAttribute("href", profile.profileurl);
     var a = document.createElement("a");
     a.setAttribute("class", "profileLink");
-    a.setAttribute("href", profile.profileurl);
+    a.setAttribute("href", "/profile/" + profile.steamid);
     div.appendChild(a);
     var avatar = document.createElement("div");
     avatar.setAttribute("class", "profileAvatar " + state);
@@ -181,6 +185,9 @@ function getFullProfile(data) {
             getRemovedSuccessful(data.message.removed);
             getAddedSuccessful(data.message.added);
             break;
+        case "204":
+            
+            break;
         case "400":
 
             break;
@@ -191,9 +198,6 @@ function processStatus(data) {
     switch (data.request) {
         case "getfullprofile":
             getFullProfile(data);
-            break;
-        case "getprofile":
-            getProfile(data);
             break;
         case "login":
             requestlogin();
@@ -218,7 +222,7 @@ function requestProfile() {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "/getfullprofile",
+        url: "/getfullprofile/" + request_steamid,
         success: function (data) {
             processStatus(data);
             document.getElementById("loader").setAttribute("class", "");
@@ -230,46 +234,6 @@ function requestProfile() {
 }
 
 /*
-function requestProfile() {
-    document.getElementById("loader").setAttribute("class", "loader");
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/getprofile",
-        success: function (data) {
-            processStatus(data);
-            requestRemovedFriends();
-            requestAddedFriends();
-        },
-        complete: function () {
-            document.getElementById("loader").setAttribute("class", "");
-        }
-    });
-}
-
-function requestRemovedFriends() {
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/getremoved",
-        success: function (data) {
-            processStatus(data);
-        }
-    });
-}
-
-function requestAddedFriends() {
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "/getadded",
-        success: function (data) {
-            processStatus(data);
-        }
-    });
-}
-*/
-
 function getFriends() {
     $.ajax({
         type: "GET",
@@ -288,3 +252,4 @@ function updateFriends(message) {
 
     document.getElementById("friendcount").appendChild(document.createTextNode(message.length));
 }
+*/

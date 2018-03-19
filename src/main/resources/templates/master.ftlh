@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="steamid" content="<#if steamid??>${steamid}</#if>">
+    <meta name="request_steamid" content="<#if request_steamid??>${request_steamid}</#if>">
     <meta name="csrf_name" content="${_csrf.parameterName}">
     <meta name="csrf_value" content="${_csrf.token}">
 
