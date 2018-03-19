@@ -207,8 +207,6 @@ public class SteamRestController {
     public String getFullProfileOfTarget(@CookieValue(value = "token", required = false) String token, Principal principal, @PathVariable String steamid) {
         Long principalSteamid = controllerService.getSteamid(token, principal);
 
-        System.out.println("token(" + token + "), principal(" + principal + ")");
-
         if(principalSteamid == null) {
             return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
         }
