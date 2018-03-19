@@ -11,7 +11,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String userToken;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "steam_id", nullable = false, unique = true)
     private long steamid;
 
     public String getUserToken() {
