@@ -16,14 +16,6 @@
     animation-duration: 8s;
 }
 
-.banner-success {
-    background: #3eb63e;
-}
-
-.banner-failure {
-    background: #b63e3e;
-}
-
 @keyframes banner-anim {
     0% {
         top: 0;

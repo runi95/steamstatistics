@@ -186,7 +186,7 @@ function getFullProfile(data) {
             getAddedSuccessful(data.message.added);
             break;
         case "204":
-            
+
             break;
         case "400":
 
@@ -215,6 +215,21 @@ function processStatus(data) {
             loadSuggestion(data);
             break;
     }
+}
+
+function banner(color, glyphicon, message) {
+    var oldbanner = document.getElementById("infobanner");
+    var newbanner = oldbanner.cloneNode(false);
+
+    newbanner.setAttribute("class", "banner banner-move");
+    newbanner.setAttribute("style", "background: " + color + ";");
+    var glyph = document.createElement("span");
+    glyph.setAttribute("class", "glyphicon glyphicon-" + glyphicon);
+    glyph.setAttribute("style", "margin-right: 5px;");
+    newbanner.appendChild(glyph);
+    newbanner.appendChild(document.createTextNode(message));
+
+    oldbanner.parentNode.replaceChild(newbanner, oldbanner);
 }
 
 function requestProfile() {

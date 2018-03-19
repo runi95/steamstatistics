@@ -17,21 +17,12 @@ function loadSuggestion(data) {
         case "200":
             document.getElementById("suggestionText").value = "";
             document.getElementById("suggestionTitle").value = "";
-            newbanner.setAttribute("class", "banner banner-move banner-success");
-            var glyph = document.createElement("span");
-            glyph.setAttribute("class", "glyphicon glyphicon-ok");
-            glyph.setAttribute("style", "margin-right: 5px;");
-            newbanner.appendChild(glyph);
-            newbanner.appendChild(document.createTextNode("Suggestion successfully sent out!"));
+
+            banner("#3eb63e", "ok", "Suggestion successfully sent out!");
             break;
         case "408":
         default:
-            newbanner.setAttribute("class", "banner banner-move banner-failure");
-            var glyph = document.createElement("span");
-            glyph.setAttribute("class", "glyphicon glyphicon-remove");
-            glyph.setAttribute("style", "margin-right: 5px;");
-            newbanner.appendChild(glyph);
-            newbanner.appendChild(document.createTextNode("Please try again..."));
+            banner("#b63e3e", "remove", "Please try again...");
             break;
     }
     oldbanner.parentNode.replaceChild(newbanner, oldbanner);
