@@ -72,7 +72,7 @@ public class DatabaseUpdater extends Thread {
                     Map<Long, SteamProfileToFriendEntity> processedFriendsList = steamHandler.processFriendsList(friendsList, profile.getSteamid());
                     profile.setLastupdate(timeService.getCurrentUnixTime());
                     steamProfileService.save(profile);
-                    steamProfileToFriendService.saveAll(processedFriendsList.values());
+                    steamProfileToFriendService.updateFriendsList(processedFriendsList, profile.getSteamid());
                 }
             }
 
