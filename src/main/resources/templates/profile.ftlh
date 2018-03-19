@@ -1,40 +1,5 @@
 <#import "master.ftlh" as m/>
 <@m.master>
-<div style="padding-bottom: 60px;">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNav">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">SteamUsers.info</a>
-            </div>
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="nav navbar-nav">
-                    <li><a href="/ ">Frontpage</a></li>
-                    <li class="active"><a href="/profile">Profile</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <#if steamid??>
-                        <ul class="nav navbar-nav">
-                            <li id="steamlogout"><a href="/logout">Logout</a></li>
-                        </ul>
-                    <#else>
-                        <div id="steamhref">
-                            <div style="padding: 7px 5px;">
-                                <a href="/login">
-                                    <img src="/css/img/sits_01.png" alt="Steam Login">
-                                </a>
-                            </div>
-                        </div>
-                    </#if>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
 <div class="container">
     <div class="row">
         <div id="privacystate" class="hide">

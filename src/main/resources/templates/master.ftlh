@@ -41,7 +41,45 @@
 <div style="position: fixed; left: 50%; z-index: 100; width: 50%">
     <div id="infobanner" class="banner"></div>
 </div>
-
+<div style="padding-bottom: 60px;">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNav">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">SteamUsers.info</a>
+            </div>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="nav navbar-nav">
+                    <li id="frontpagenav"><a href="/">Frontpage</a></li>
+                    <#if steamid??>
+                        <li id="profilenav"><a href="/profile/${steamid}">Profile</a></li>
+                    <#else>
+                        <li id="profilenav"><a href="/login">Profile</a></li>
+                    </#if>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <#if steamid??>
+                        <ul class="nav navbar-nav">
+                            <li id="steamlogout"><a href="/logout">Logout</a></li>
+                        </ul>
+                    <#else>
+                        <div id="steamhref">
+                            <div style="padding: 7px 5px;">
+                                <a href="/login">
+                                    <img src="/css/img/sits_01.png" alt="Steam Login">
+                                </a>
+                            </div>
+                        </div>
+                    </#if>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
     <#nested/>
 <!-- /container -->
 
