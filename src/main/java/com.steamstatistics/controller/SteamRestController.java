@@ -98,58 +98,6 @@ public class SteamRestController {
         return controllerService.convertObjectToJson(new RestMessageModel("200", "getprofile", list));
     }
 
-    @RequestMapping("/getremoved")
-    public String getRemoved(@CookieValue(value = "token", required = false) String token, Principal principal) {
-        Long steamid = controllerService.getSteamid(token, principal);
-
-        if(steamid == null) {
-            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
-        }
-        List<SteamProfileToFriendEntity> steamProfileToFriendEntities = steamProfileToFriendService.getRemovedFriends(steamid);
-        List<Long> steamidList = new ArrayList<>();
-        steamProfileToFriendEntities.forEach((s) -> steamidList.add(s.getSteamfriendid()));
-        Map<Long, SteamFriendEntity> removedFriends = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamidList));
-        List<SteamFriendWithDate> removedFriendsWithDate = new ArrayList<>();
-        for(SteamProfileToFriendEntity steamProfileToFriendEntity : steamProfileToFriendEntities) {
-            SteamFriendWithDate steamFriendWithDate = new SteamFriendWithDate(removedFriends.get(steamProfileToFriendEntity.getSteamfriendid()), steamProfileToFriendEntity.getRemoveDate(), timeService);
-            removedFriendsWithDate.add(steamFriendWithDate);
-        }
-
-        long lastMonth = timeService.getLastMonthUnixTime();
-
-        List<Object> list = new ArrayList<>();
-        list.add(removedFriendsWithDate);
-        list.add(steamProfileToFriendService.findByRemoveDateGreaterThanAndProfileid(lastMonth, steamid).size());
-
-        return controllerService.convertObjectToJson(new RestMessageModel("200", "getremoved", list));
-    }
-
-    @RequestMapping("/getadded")
-    public String getAdded(@CookieValue(value = "token", required = false) String token, Principal principal) {
-        Long steamid = controllerService.getSteamid(token, principal);
-
-        if(steamid == null) {
-            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
-        }
-        List<SteamProfileToFriendEntity> steamProfileToFriendEntities = steamProfileToFriendService.findAllAddedFriendsDesc(steamid);
-        List<Long> steamidList = new ArrayList<>();
-        steamProfileToFriendEntities.forEach((s) -> steamidList.add(s.getSteamfriendid()));
-        Map<Long, SteamFriendEntity> addedFriends = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamidList));
-        List<SteamFriendWithDate> addedFriendsWithDate = new ArrayList<>();
-        for(SteamProfileToFriendEntity steamProfileToFriendEntity : steamProfileToFriendEntities) {
-            SteamFriendWithDate steamFriendWithDate = new SteamFriendWithDate(addedFriends.get(steamProfileToFriendEntity.getSteamfriendid()), steamProfileToFriendEntity.getFriendsince(), timeService);
-            addedFriendsWithDate.add(steamFriendWithDate);
-        }
-
-        long lastMonth = timeService.getLastMonthUnixTime();
-
-        List<Object> list = new ArrayList<>();
-        list.add(addedFriendsWithDate);
-        list.add(steamProfileToFriendService.findByFriendsinceGreaterThanAndProfileid(lastMonth, steamid).size());
-
-        return controllerService.convertObjectToJson(new RestMessageModel("200", "getadded", list));
-    }
-
     private String getFullProfileOfSteamid(long steamid) {
         Map<String, Object> map = new HashMap<>();
 
@@ -170,10 +118,12 @@ public class SteamRestController {
         List<Long> addedSteamidList = new ArrayList<>();
         addedFriendsList.forEach((s) -> addedSteamidList.add(s.getSteamfriendid()));
         Map<Long, SteamFriendEntity> addedFriends = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), addedSteamidList));
-        List<SteamFriendWithDate> addedFriendsWithDate = new ArrayList<>();
+        List<Map<String, Object>> addedFriendsWithDate = new ArrayList<>();
         for(SteamProfileToFriendEntity steamProfileToFriendEntity : addedFriendsList) {
-            SteamFriendWithDate steamFriendWithDate = new SteamFriendWithDate(addedFriends.get(steamProfileToFriendEntity.getSteamfriendid()), steamProfileToFriendEntity.getFriendsince(), timeService);
-            addedFriendsWithDate.add(steamFriendWithDate);
+            Map<String, Object> friendWithDate = new HashMap<>();
+            friendWithDate.put("steamFriendEntity", addedFriends.get(steamProfileToFriendEntity.getSteamfriendid()));
+            friendWithDate.put("localDateTimeString", prettifyDate(steamProfileToFriendEntity.getFriendsince()));
+            addedFriendsWithDate.add(friendWithDate);
         }
 
         long lastMonth = timeService.getLastMonthUnixTime();
@@ -188,10 +138,12 @@ public class SteamRestController {
         List<Long> removedSteamidList = new ArrayList<>();
         removedFriendsList.forEach((s) -> removedSteamidList.add(s.getSteamfriendid()));
         Map<Long, SteamFriendEntity> removedFriends = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), removedSteamidList));
-        List<SteamFriendWithDate> removedFriendsWithDate = new ArrayList<>();
+        List<Map<String, Object>> removedFriendsWithDate = new ArrayList<>();
         for(SteamProfileToFriendEntity steamProfileToFriendEntity : removedFriendsList) {
-            SteamFriendWithDate steamFriendWithDate = new SteamFriendWithDate(removedFriends.get(steamProfileToFriendEntity.getSteamfriendid()), steamProfileToFriendEntity.getRemoveDate(), timeService);
-            removedFriendsWithDate.add(steamFriendWithDate);
+            Map<String, Object> friendWithDate = new HashMap<>();
+            friendWithDate.put("steamFriendEntity", removedFriends.get(steamProfileToFriendEntity.getSteamfriendid()));
+            friendWithDate.put("localDateTimeString", prettifyDate(steamProfileToFriendEntity.getRemoveDate()));
+            removedFriendsWithDate.add(friendWithDate);
         }
 
         List<Object> removedList = new ArrayList<>();
@@ -235,41 +187,6 @@ public class SteamRestController {
 
         return getFullProfileOfSteamid(steamid);
     }
-
-    /*
-    @RequestMapping("/getfriends")
-    public String getFriends(@CookieValue(value = "token", required = false) String token, Principal principal) {
-        Long steamid = controllerService.getSteamid(token, principal);
-
-        if(steamid == null) {
-            return controllerService.convertObjectToJson(new RestMessageModel("200", "login"));
-        }
-
-        List<SteamProfileToFriendEntity> steamProfileToFriendEntities = steamProfileToFriendService.getUnremovedFriends(steamid);
-        List<Long> steamFriendidList = new ArrayList<>();
-        steamProfileToFriendEntities.forEach((k) -> steamFriendidList.add(k.getSteamfriendid()));
-        List<SteamFriendEntity> steamFriendsList = steamFriendService.getAllInList(steamFriendidList);
-        Map<Long, SteamFriendEntity> steamFriends = new HashMap<>();
-        steamFriendsList.forEach((f) -> steamFriends.put(f.getSteamid(), f));
-//        List<SteamFriendWithDate> friendsWithDate = new ArrayList<>();
-        List<SteamFriendWithDate> friendsWithDate = new ArrayList<>();
-        for(SteamProfileToFriendEntity steamProfileToFriendEntity : steamProfileToFriendEntities) {
-            //LocalDateTime localDateTime = timeService.getLocalDateTimeFromUnix(steamProfileToFriendEntity.getRemoveDate());
-            //String localDateTimeString = (localDateTime.getDayOfMonth() <= 9 ? "0" + localDateTime.getDayOfMonth() : localDateTime.getDayOfMonth()) + "/" + (localDateTime.getMonthValue() <= 9 ? "0" + localDateTime.getMonthValue() : localDateTime.getMonthValue()) + "/" + localDateTime.getYear();
-            SteamFriendWithDate steamFriendWithDate = new SteamFriendWithDate(steamFriends.get(steamProfileToFriendEntity.getSteamfriendid()), steamProfileToFriendEntity.getFriendsince(), timeService);
-            friendsWithDate.add(steamFriendWithDate);
-        }
-
-        Collections.sort(friendsWithDate);
-
-//        Map<Long, SteamFriendEntity> steamFriends = steamHandler.getProfile(steamOpenIdConfig.getClientSecret(), steamid);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("friends", friendsWithDate);
-        map.put("length", friendsWithDate.size());
-        return controllerService.convertObjectToJson(new RestMessageModel("200", "getfriends", map));
-    }
-    */
 
     @RequestMapping("/getfrontpage")
     public String getFrontpage() {
@@ -376,5 +293,17 @@ public class SteamRestController {
         }
 
         return controllerService.convertObjectToJson(restMessageModel);
+    }
+
+    private String prettifyDate(long epochSeconds) {
+        LocalDateTime localDateTime = timeService.getLocalDateTimeFromUnix(epochSeconds);
+
+        String month = Integer.toString(localDateTime.getMonthValue()), day = Integer.toString(localDateTime.getDayOfMonth());
+        if(month.length() == 1)
+            month = "0" + month;
+        if(day.length() == 1)
+            day = "0" + day;
+
+        return day + "." + month + "." + localDateTime.getYear();
     }
 }
