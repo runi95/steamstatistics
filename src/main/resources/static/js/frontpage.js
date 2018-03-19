@@ -56,7 +56,6 @@ function getFrontpageSuccess(message) {
         }
 
         populateMedalContainer("topthreefriendships", medal, link, imglink, message.topthreefriendships[i].steamfriend.personaname, "has had a friend for " + message.topthreefriendships[i].friendshipdurationdate);
-        //topThreeFriendshipsDiv.appendChild(createMedalContainer(medal, link, imglink, message.topthreefriendships[i].steamfriend.personaname, "has had a friend for " + message.topthreefriendships[i].friendshipdurationdate));
     }
 
     for (var i = 0; i < message.topthreehoarders.length; i++) {
@@ -107,6 +106,43 @@ function getFrontpageSuccess(message) {
     document.getElementById("monthlylosstext").appendChild(document.createTextNode(" friendships ruined"));
     document.getElementById("joinedusersvalue").appendChild(document.createTextNode(message.joinedusers));
     document.getElementById("joineduserstext").appendChild(document.createTextNode(" new accounts"));
+
+    populateApprovedSuggestions(message.approvedsuggestions);
+}
+
+function populateApprovedSuggestions(suggestions) {
+    var sugggestionsdiv = document.getElementById("approvedsuggestions");
+
+    for(var i = 0; i < suggestions.length; i++) {
+        var suggestion = document.createElement("div");
+        var suggestiontitle = document.createElement("div");
+        //var suggestioncategorytitle = document.createElement("div");
+        //var suggestioncategory = document.createElement("div");
+        //var suggestiondesctitle = document.createElement("div");
+        var suggestiondesc = document.createElement("div");
+
+        suggestion.setAttribute("id", suggestions[i].id);
+        suggestion.setAttribute("style", "width: 80%; padding: 10px; margin: 15px auto 15px auto; border: 2px solid #222222; border-radius: 10px; font-size: 1.15em;");
+        suggestiontitle.setAttribute("style", "font-size: 1.35em; color: #757575; margin-bottom: 5px;");
+        //suggestioncategorytitle.setAttribute("style", "display: block; clear: left; float: left; margin-right: 10px; color: #657090;");
+        //suggestioncategory.setAttribute("style", "display: block; text-align: start; clear: right;");
+        //suggestiondesctitle.setAttribute("style", "display: block; text-align: start; color: #485590;");
+        suggestiondesc.setAttribute("style", "display: block; text-align: start; clear: right;");
+
+        suggestiontitle.appendChild(document.createTextNode(suggestions[i].title));
+        //suggestioncategorytitle.appendChild(document.createTextNode("Category:"));
+        //suggestioncategory.appendChild(document.createTextNode(suggestions[i].category.substr(0, 1).toUpperCase() + suggestions[i].category.substr(1)));
+        //suggestiondesctitle.appendChild(document.createTextNode("Description:"));
+        suggestiondesc.appendChild(document.createTextNode(suggestions[i].description));
+
+        suggestion.appendChild(suggestiontitle);
+        //suggestion.appendChild(suggestioncategorytitle);
+        //suggestion.appendChild(suggestioncategory);
+        //suggestion.appendChild(suggestiondesctitle);
+        suggestion.appendChild(suggestiondesc);
+
+        sugggestionsdiv.appendChild(suggestion);
+    }
 }
 
 function populateMedalContainer(medalname, medalcolor, link, imglink, title, text) {

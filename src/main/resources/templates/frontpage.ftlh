@@ -263,6 +263,12 @@
     </form>
 
 </div>
+<div class="col-sm-3">
+    <div class="box">
+        <h3>Approved Suggestions</h3>
+        <div id="approvedsuggestions"></div>
+    </div>
+</div>
 <div style="padding-bottom: 10px"></div>
 <script src="js/steamstatistics.js"></script>
 <script src="js/frontpage.js"></script>

@@ -1,10 +1,5 @@
 package com.steamstatistics.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.steamstatistics.backend.Frontpage;
-import com.steamstatistics.backend.LongestFriendship;
 import com.steamstatistics.backend.SteamOpenIdConfig;
 import com.steamstatistics.data.*;
 import com.steamstatistics.steamapi.*;
@@ -15,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -276,36 +270,6 @@ public class SteamRestController {
 
         long lastMonth = timeService.getLastMonthUnixTime();
 
-        /*
-        List<SteamProfileToFriendEntity> lastMonthGainedFriendsList = steamProfileToFriendService.findByFriendsinceGreaterThan(lastMonth);
-        Map<Long, Integer> lastMonthGainedFriendsCounterMap = new HashMap<>();
-        long biggestFriendHoarderSteamId = 0;
-        int biggestFriendHoarderCount = 0;
-        for(SteamProfileToFriendEntity sptfe : lastMonthGainedFriendsList) {
-            long steamprofileid = sptfe.getSteamprofileid();
-            int currentCount;
-            Integer count = lastMonthGainedFriendsCounterMap.get(steamprofileid);
-            if(count == null)
-                currentCount = 0;
-            else
-                currentCount = count;
-
-            currentCount++;
-
-            if(currentCount > biggestFriendHoarderCount) {
-                biggestFriendHoarderCount = currentCount;
-                biggestFriendHoarderSteamId = steamprofileid;
-            }
-
-            lastMonthGainedFriendsCounterMap.put(steamprofileid, currentCount);
-        }
-
-        SteamFriendEntity biggestHoarderFriendEntity = steamFriendService.get(biggestFriendHoarderSteamId);
-        Map<String, Object> hoarderMap = new HashMap<>();
-        hoarderMap.put("steamfriend", biggestHoarderFriendEntity);
-        hoarderMap.put("count", biggestFriendHoarderCount);
-        */
-
         List<Map<String, Object>> topThreeMonthlyHoardersList = new ArrayList<>();
         int totalHoardCount = 0;
 
@@ -341,6 +305,8 @@ public class SteamRestController {
             topThreeHoardersList.add(hoarderMap);
         }
 
+        List<SuggestionEntity> approvedSuggestionEntities = suggestionService.getAllSuggestionsWhereApprovedIs(true);
+
         Map<String, Object> map = new HashMap<>();
         map.put("topthreefriendships", topthreelongestfriendships);
         map.put("topthreehoarders", topThreeHoardersList);
@@ -348,6 +314,7 @@ public class SteamRestController {
         map.put("monthlygain", totalHoardCount);
         map.put("monthlyloss", steamProfileToFriendService.findByRemoveDateGreaterThan(timeService.getLastMonthUnixTime()).size());
         map.put("joinedusers", steamProfileService.findByCreationdateGreaterThanEpoch(timeService.getLastMonthUnixTime()).size());
+        map.put("approvedsuggestions", approvedSuggestionEntities);
         return controllerService.convertObjectToJson(new RestMessageModel("200", "getfrontpage", map));
     }
 
