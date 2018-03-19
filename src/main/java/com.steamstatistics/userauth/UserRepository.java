@@ -7,5 +7,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, String> {
 
     User findByUserToken(String userToken);
-    Optional<User> findBySteamId(long steamId);
+    User findBySteamId(long steamId);
 }

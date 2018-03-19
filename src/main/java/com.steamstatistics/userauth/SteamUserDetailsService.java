@@ -29,8 +29,18 @@ public class SteamUserDetailsService implements UserDetailsService {
     SecureRandom rng = new SecureRandom();
 
     @Override
-    public UserPrincipal loadUserByUsername(String userToken) {
-        User user = userRepository.findByUserToken(userToken);
+    public UserPrincipal loadUserByUsername(String steamid) {
+        if(steamid == null || steamid.isEmpty())
+            return null;
+
+        Long lsteamid = null;
+        try {
+            lsteamid = Long.parseLong(steamid);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+
+        User user = userRepository.findBySteamId(lsteamid);
 
         if(user == null)
             return null;
@@ -48,7 +58,8 @@ public class SteamUserDetailsService implements UserDetailsService {
     }
 
     public UserPrincipal findUserBySteamId(long steamId) {
-        User user = userRepository.findBySteamId(steamId).orElse(null);
+        User user = userRepository.findBySteamId(steamId);
+
         if (user == null)
             return null;
 
