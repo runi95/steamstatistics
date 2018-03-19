@@ -166,7 +166,7 @@ public class SteamRestController {
         map.put("profile", steamFriendProfile);
         map.put("jdate", jdate);
 
-        List<SteamProfileToFriendEntity> addedFriendsList = steamProfileToFriendService.findAllAddedFriendsDesc(steamid);
+        List<SteamProfileToFriendEntity> addedFriendsList = steamProfileToFriendService.findAllAddedFriendsDescWhereRemoveDateIsNull(steamid);
         List<Long> addedSteamidList = new ArrayList<>();
         addedFriendsList.forEach((s) -> addedSteamidList.add(s.getSteamfriendid()));
         Map<Long, SteamFriendEntity> addedFriends = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), addedSteamidList));

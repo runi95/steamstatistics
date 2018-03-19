@@ -141,6 +141,9 @@ public class SteamProfileToFriendService {
         return steamProfileToFriendRepository.findAllAddedFriendsDesc(steamid);
     }
 
+    public List<SteamProfileToFriendEntity> findAllAddedFriendsDescWhereRemoveDateIsNull(long steamid) {
+        return steamProfileToFriendRepository.findAllAddedFriendsDescAndRemoveDateIsNull(steamid);
+    }
 
     public List<SteamProfileToFriendEntity> getSteamProfileToFriendOrderedByFriendsinceDate() {
         List<SteamProfileToFriendEntity> orderedList = steamProfileToFriendRepository.findByFriendsinceNotNullOrderByFriendsince();
