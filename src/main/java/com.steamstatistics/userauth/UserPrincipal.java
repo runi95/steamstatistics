@@ -27,7 +27,7 @@ public class UserPrincipal implements UserDetails {
     }
 
     public String getUsername() {
-        return user.getUserToken();
+        return Long.toString(user.getSteamId());
     }
 
     public long getSteamId() {
