@@ -9,8 +9,8 @@
     <meta name="author" content="">
     <meta name="steamid" content="<#if steamid??>${steamid}</#if>">
     <meta name="request_steamid" content="<#if request_steamid??>${request_steamid}</#if>">
-    <meta name="csrf_name" content="${_csrf.parameterName}">
-    <meta name="csrf_value" content="${_csrf.token}">
+    <meta name="csrf_name" content="<#if _csrf.parameterName??>${_csrf.parameterName}</#if>">
+    <meta name="csrf_value" content="<#if _csrf.token??>${_csrf.token}</#if>">
 
     <title>Steam Users.info</title>
 
