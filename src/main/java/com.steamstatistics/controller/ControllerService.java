@@ -39,14 +39,14 @@ public class ControllerService {
         if(principal != null) {
             model.addAttribute("steamid", principal.getName());
         } else if(token != null && !token.isEmpty()) {
-            UserPrincipal userPrincipal = steamUserDetailsService.loadUserByUsername(token);
+            UserPrincipal userPrincipal = steamUserDetailsService.loadByToken(token);
 
             if(userPrincipal != null) {
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userPrincipal, null, userPrincipal.getAuthorities());
                 auth.setDetails(new WebAuthenticationDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
-                model.addAttribute("steamid", userPrincipal.getSteamId());
+                model.addAttribute("steamid", Long.toString(userPrincipal.getSteamId()));
             }
         }
     }
