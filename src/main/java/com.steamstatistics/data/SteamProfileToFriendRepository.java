@@ -27,19 +27,19 @@ public interface SteamProfileToFriendRepository  extends CrudRepository<SteamPro
     @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE NOT s.friendsince = 0 ORDER BY s.friendsince")
     List<SteamProfileToFriendEntity> findByFriendsinceNotNullOrderByFriendsince();
 
-    @Query("SELECT DISTINCT(s.steamprofileid), MIN(s.friendsince) FROM SteamProfileToFriendEntity s GROUP BY s.steamprofileid ORDER BY MIN(s.friendsince)")
+    @Query("SELECT DISTINCT(s.steamprofileid), MIN(s.friendsince) FROM SteamProfileToFriendEntity s WHERE NOT s.friendsince = 0 GROUP BY s.steamprofileid ORDER BY MIN(s.friendsince)")
     Object[][] findByFriendsinceNotNullOrderByFriendsinceTwo();
 
-    @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND NOT s.friendsince = 0 ORDER BY s.friendsince ASC")
+    @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND NOT s.removeDate = 0 ORDER BY s.friendsince ASC")
     List<SteamProfileToFriendEntity> findAllAddedFriends(long steamprofileid);
 
     @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND NOT s.friendsince = 0 ORDER BY s.friendsince DESC")
     List<SteamProfileToFriendEntity> findAllAddedFriendsDesc(long steamprofileid);
 
-    @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND NOT s.friendsince = 0 AND s.removeDate = 0 ORDER BY s.friendsince DESC")
+    @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND s.removeDate = 0 ORDER BY s.friendsince DESC")
     List<SteamProfileToFriendEntity> findAllAddedFriendsDescAndRemoveDateIsNull(long steamprofileid);
 
-    @Query("SELECT DISTINCT(s.steamprofileid), COUNT(s) FROM SteamProfileToFriendEntity s WHERE s.friendsince > ?1 AND NOT s.removeDate > 0 GROUP BY s.steamprofileid ORDER BY COUNT(s) DESC")
+    @Query("SELECT DISTINCT(s.steamprofileid), COUNT(s) FROM SteamProfileToFriendEntity s WHERE s.friendsince >= ?1 AND s.removeDate = 0 GROUP BY s.steamprofileid ORDER BY COUNT(s) DESC")
     Object[][] findByFriendsinceGreaterThanTwo(long epoch);
 
     List<SteamProfileToFriendEntity> findByFriendsinceGreaterThan(long epoch);

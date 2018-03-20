@@ -119,6 +119,7 @@ public class SteamRestController {
         addedFriendsList.forEach((s) -> addedSteamidList.add(s.getSteamfriendid()));
         Map<Long, SteamFriendEntity> addedFriends = steamHandler.processSteamProfiles(steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), addedSteamidList));
         List<Map<String, Object>> addedFriendsWithDate = new ArrayList<>();
+        System.out.println("addedFriendsList.size(" + addedFriendsList.size() + ")");
         for(SteamProfileToFriendEntity steamProfileToFriendEntity : addedFriendsList) {
             Map<String, Object> friendWithDate = new HashMap<>();
             friendWithDate.put("steamFriendEntity", addedFriends.get(steamProfileToFriendEntity.getSteamfriendid()));
@@ -296,6 +297,9 @@ public class SteamRestController {
     }
 
     private String prettifyDate(long epochSeconds) {
+        if(epochSeconds == 0)
+            return "";
+
         LocalDateTime localDateTime = timeService.getLocalDateTimeFromUnix(epochSeconds);
 
         String month = Integer.toString(localDateTime.getMonthValue()), day = Integer.toString(localDateTime.getDayOfMonth());
