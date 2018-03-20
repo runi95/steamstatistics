@@ -27,7 +27,6 @@ public interface SteamProfileToFriendRepository  extends CrudRepository<SteamPro
     @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE NOT s.friendsince = 0 ORDER BY s.friendsince")
     List<SteamProfileToFriendEntity> findByFriendsinceNotNullOrderByFriendsince();
 
-    // TODO: Find out if this Query works as intended and is consistent.
     @Query("SELECT DISTINCT(s.steamprofileid), MIN(s.friendsince) FROM SteamProfileToFriendEntity s GROUP BY s.steamprofileid ORDER BY MIN(s.friendsince)")
     Object[][] findByFriendsinceNotNullOrderByFriendsinceTwo();
 
