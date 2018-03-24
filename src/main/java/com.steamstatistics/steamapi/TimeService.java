@@ -23,21 +23,25 @@ public class TimeService {
 
     public long getLastMonthUnixTime() {
         LocalDateTime localDateTime = LocalDateTime.now(ZoneOffset.UTC).minusMonths(1);
-        localDateTime.toEpochSecond(ZoneOffset.UTC);
+
+        return localDateTime.toEpochSecond(ZoneOffset.UTC);
+    }
+
+    public long getStartOfCurrentMonthInUnixTime() {
+        LocalDateTime localDateTime = LocalDateTime.now(ZoneOffset.UTC);
+        localDateTime = localDateTime.minusDays(localDateTime.getDayOfMonth() - 1);
 
         return localDateTime.toEpochSecond(ZoneOffset.UTC);
     }
 
     public long getLastWeekUnixTime() {
         LocalDateTime localDateTime = LocalDateTime.now(ZoneOffset.UTC).minusWeeks(1);
-        localDateTime.toEpochSecond(ZoneOffset.UTC);
 
         return localDateTime.toEpochSecond(ZoneOffset.UTC);
     }
 
     public long getYesterdayUnixTime() {
         LocalDateTime localDateTime = LocalDateTime.now(ZoneOffset.UTC).minusDays(1);
-        localDateTime.toEpochSecond(ZoneOffset.UTC);
 
         return localDateTime.toEpochSecond(ZoneOffset.UTC);
     }

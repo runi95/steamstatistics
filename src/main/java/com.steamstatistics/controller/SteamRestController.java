@@ -290,11 +290,11 @@ public class SteamRestController {
             topthreelongestfriendships.add(javascriptObject);
         }
 
-        long lastMonth = timeService.getLastMonthUnixTime();
+        long startOfCurrentMonth = timeService.getStartOfCurrentMonthInUnixTime();
 
         List<Map<String, Object>> topThreeMonthlyHoardersList = new ArrayList<>();
 
-        Object[][] lastMonthGainedFriendsList = steamProfileToFriendService.findByFriendsinceGreaterThanTwo(lastMonth);
+        Object[][] lastMonthGainedFriendsList = steamProfileToFriendService.findByFriendsinceGreaterThanTwo(startOfCurrentMonth);
         for(int i = 0; i < 3 && i < lastMonthGainedFriendsList.length; i++) {
             long steamprofileid = (long)lastMonthGainedFriendsList[i][0];
             long hoardcounter = (long)lastMonthGainedFriendsList[i][1];
