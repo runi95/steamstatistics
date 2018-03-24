@@ -44,6 +44,16 @@ public interface SteamProfileToFriendRepository  extends CrudRepository<SteamPro
 
     List<SteamProfileToFriendEntity> findByFriendsinceGreaterThan(long epoch);
 
+    List<SteamProfileToFriendEntity> findByFriendsinceGreaterThanAndFriendsinceLessThan(long from, long to);
+
+    Long countAllByFriendsinceGreaterThanAndFriendsinceLessThanAndRemoveDateEquals(long from, long to, long removdate);
+
+    Long countAllByFriendsinceGreaterThanAndFriendsinceLessThanAndAndRemoveDateEqualsAndAndSteamprofileidEquals(long from, long to, long removedate, long steamprofileid);
+
+    Long countAllByRemoveDateGreaterThanAndRemoveDateLessThan(long from, long to);
+
+    Long countAllByRemoveDateGreaterThanAndRemoveDateLessThanAndSteamprofileidEquals(long from, long to, long steamprofileid);
+
     List<SteamProfileToFriendEntity> findByFriendsinceGreaterThanAndSteamprofileid(long epoch, long profileid);
 
     List<SteamProfileToFriendEntity> findByRemoveDateGreaterThan(long epoch);

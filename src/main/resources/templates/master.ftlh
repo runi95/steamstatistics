@@ -58,6 +58,7 @@
                     <#else>
                         <li id="profilenav"><a href="/login">Profile</a></li>
                     </#if>
+                    <li id="statisticsnav"><a href="/statistics">Statistics</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <#if steamid??>

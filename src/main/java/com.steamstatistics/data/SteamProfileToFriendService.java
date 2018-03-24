@@ -60,6 +60,26 @@ public class SteamProfileToFriendService {
         return steamProfileToFriendRepository.findByFriendsinceGreaterThan(epoch);
     }
 
+    public List<SteamProfileToFriendEntity> findByFriendSinceBetweenFromAndTo(long epochFrom, long epochTo) {
+        return steamProfileToFriendRepository.findByFriendsinceGreaterThanAndFriendsinceLessThan(epochFrom, epochTo);
+    }
+
+    public Long countFriendsRemovedBetweenFromAndTo(long epochFrom, long epochTo) {
+        return steamProfileToFriendRepository.countAllByRemoveDateGreaterThanAndRemoveDateLessThan(epochFrom, epochTo);
+    }
+
+    public Long countFriendsRemovedBetweenFromAndToForUser(long epochFrom, long epochTo, long steamid) {
+        return steamProfileToFriendRepository.countAllByRemoveDateGreaterThanAndRemoveDateLessThanAndSteamprofileidEquals(epochFrom, epochTo, steamid);
+    }
+
+    public Long countFriendSinceBetweenFromAndTo(long epochFrom, long epochTo) {
+        return steamProfileToFriendRepository.countAllByFriendsinceGreaterThanAndFriendsinceLessThanAndRemoveDateEquals(epochFrom, epochTo, 0);
+    }
+
+    public Long countFriendsSinceBetweenFromAndToForUser(long epochFrom, long epochTo, long steamid) {
+        return steamProfileToFriendRepository.countAllByFriendsinceGreaterThanAndFriendsinceLessThanAndAndRemoveDateEqualsAndAndSteamprofileidEquals(epochFrom, epochTo, 0, steamid);
+    }
+
     public Object[][] findByFriendsinceGreaterThanTwo(long epoch) {
         return steamProfileToFriendRepository.findByFriendsinceGreaterThanTwo(epoch);
     }

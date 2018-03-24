@@ -54,4 +54,20 @@ public class TimeService {
         int year = localDateTime.getYear();
         return (day > 9 ? day : "0" + day) + "/" + (month > 9 ? month : "0" + month) + "/" + year;
     }
+
+    public long[] getEveryMonthOfAYear() {
+        long current = getCurrentUnixTime();
+        LocalDateTime currentDateTime = LocalDateTime.now(ZoneOffset.UTC);
+        long[] times = new long[13];
+        times[0] = currentDateTime.toEpochSecond(ZoneOffset.UTC);
+        currentDateTime = currentDateTime.minusDays(currentDateTime.getDayOfMonth() - 1);
+        times[1] = currentDateTime.toEpochSecond(ZoneOffset.UTC);
+
+        for(int i = 2; i < 13; i++) {
+            currentDateTime = currentDateTime.minusMonths(1);
+            times[i] = currentDateTime.toEpochSecond(ZoneOffset.UTC);
+        }
+
+        return times;
+    }
 }

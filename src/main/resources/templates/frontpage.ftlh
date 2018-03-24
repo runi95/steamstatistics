@@ -1,21 +1,7 @@
 <#import "master.ftlh" as m/>
 <@m.master>
-<div class="col-sm-3">
-    <div class="box">
-        <h3>Monthly Stats</h3>
-        <div id="monthlygain">
-            <span id="monthlygainvalue" style="color: #6ca0e0"></span><span id="monthlygaintext"></span>
-        </div>
-        <div id="monthlyloss">
-            <span id="monthlylossvalue" style="color: #6ca0e0"></span><span id="monthlylosstext"></span>
-        </div>
-        <div id="joinedusers">
-            <span id="joinedusersvalue" style="color: #6ca0e0"></span><span id="joineduserstext"></span>
-        </div>
-    </div>
-</div>
 <div id="alertdiv" class="alert-div"></div>
-<div class="col-sm-6">
+<div class="col-sm-6 col-sm-offset-3">
     <div class="box" style="padding-left: 10px; padding-right: 10px;">
         <h3>Got any suggestions?</h3>
         <h4>post them below!</h4>

@@ -1,5 +1,7 @@
 package com.steamstatistics.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.steamstatistics.backend.SteamOpenIdConfig;
 import com.steamstatistics.data.*;
 import com.steamstatistics.steamapi.*;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.format.TextStyle;
 import java.util.*;
 
 @RestController
@@ -195,6 +198,69 @@ public class SteamRestController {
         return getFullProfileOfSteamid(steamid);
     }
 
+    @RequestMapping("/monthlygraph")
+    public String getMonthlyGraph(@CookieValue(value = "token", required = false) String token, Principal principal) {
+        Long steamid = controllerService.getSteamid(token, principal);
+
+        long[] times = timeService.getEveryMonthOfAYear();
+        Map<String, Object> map = new HashMap<>();
+
+        List<List<Object>> gainedFriends = new ArrayList<>();
+        List<List<Object>> lostFriends = new ArrayList<>();
+        List<List<Object>> personalGain = new ArrayList<>();
+        List<List<Object>> personalLoss = new ArrayList<>();
+
+        Long usersCount = Math.max(1, steamProfileService.getProfileCount());
+        for(int i = times.length - 1; i > 0; i--) {
+            LocalDateTime dateTime = timeService.getLocalDateTimeFromUnix(times[i]);
+            String displayName = dateTime.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+
+            Long monthlyGain = steamProfileToFriendService.countFriendSinceBetweenFromAndTo(times[i], times[i - 1]);
+            List<Object> gainArray = new ArrayList<>();
+            gainArray.add(displayName);
+            gainArray.add(monthlyGain / usersCount);
+            gainedFriends.add(gainArray);
+
+            Long monthlyLoss = steamProfileToFriendService.countFriendsRemovedBetweenFromAndTo(times[i], times[i - 1]);
+            List<Object> lossArray = new ArrayList<>();
+            lossArray.add(displayName);
+            lossArray.add(monthlyLoss / usersCount);
+            lostFriends.add(lossArray);
+
+            if(i == 1) {
+                map.put("monthlygain", monthlyGain);
+                map.put("monthlyloss", monthlyLoss);
+
+                int newAccounts = steamProfileService.findByCreationdateGreaterThanEpoch(times[i]).size();
+                map.put("joinedusers", newAccounts);
+            }
+
+            if(steamid != null) {
+                Long personalGainCount = steamProfileToFriendService.countFriendsSinceBetweenFromAndToForUser(times[i], times[i - 1], steamid);
+                Long personalLossCount = steamProfileToFriendService.countFriendsRemovedBetweenFromAndToForUser(times[i], times[i - 1], steamid);
+
+                List<Object> personalGainArray = new ArrayList<>();
+                List<Object> personalLossArray = new ArrayList<>();
+
+                personalGainArray.add(displayName);
+                personalGainArray.add(personalGainCount);
+                personalLossArray.add(displayName);
+                personalLossArray.add(personalLossCount);
+                personalGain.add(personalGainArray);
+                personalLoss.add(personalLossArray);
+            }
+        }
+
+        map.put("averagegained", gainedFriends);
+        map.put("averagelost", lostFriends);
+        if(steamid != null) {
+            map.put("personalgained", personalGain);
+            map.put("personallost", personalLoss);
+        }
+
+        return controllerService.convertObjectToJson(new RestMessageModel("200", "monthlygraph", map));
+    }
+
     @RequestMapping("/getfrontpage")
     public String getFrontpage() {
         List<Map<String, Object>> topthreelongestfriendships = new ArrayList();
@@ -227,7 +293,6 @@ public class SteamRestController {
         long lastMonth = timeService.getLastMonthUnixTime();
 
         List<Map<String, Object>> topThreeMonthlyHoardersList = new ArrayList<>();
-        int totalHoardCount = 0;
 
         Object[][] lastMonthGainedFriendsList = steamProfileToFriendService.findByFriendsinceGreaterThanTwo(lastMonth);
         for(int i = 0; i < 3 && i < lastMonthGainedFriendsList.length; i++) {
@@ -242,8 +307,6 @@ public class SteamRestController {
             hoarderMap.put("profilelink", "/profile/" + steamFriendEntity.getSteamid());
 
             topThreeMonthlyHoardersList.add(hoarderMap);
-
-            totalHoardCount += hoardcounter;
         }
 
         List<Map<String, Object>> topThreeHoardersList = new ArrayList<>();
@@ -269,9 +332,6 @@ public class SteamRestController {
         map.put("topthreefriendships", topthreelongestfriendships);
         map.put("topthreehoarders", topThreeHoardersList);
         map.put("topthreemonthlyhoarders", topThreeMonthlyHoardersList);
-        map.put("monthlygain", totalHoardCount);
-        map.put("monthlyloss", steamProfileToFriendService.findByRemoveDateGreaterThan(timeService.getLastMonthUnixTime()).size());
-        map.put("joinedusers", steamProfileService.findByCreationdateGreaterThanEpoch(timeService.getLastMonthUnixTime()).size());
         map.put("approvedsuggestions", approvedSuggestionEntities);
         return controllerService.convertObjectToJson(new RestMessageModel("200", "getfrontpage", map));
     }

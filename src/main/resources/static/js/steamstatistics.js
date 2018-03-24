@@ -380,13 +380,6 @@ function getFrontpageSuccess(message) {
         //topThreeMonthlyHoardersDiv.appendChild(createMedalContainer(medal, link, imglink, message.topthreemonthlyhoarders[i].steamfriend.personaname, "has gained " + message.topthreemonthlyhoarders[i].cnt + " friends this month"));
     }
 
-    document.getElementById("monthlygainvalue").appendChild(document.createTextNode(message.monthlygain));
-    document.getElementById("monthlygaintext").appendChild(document.createTextNode(" friendships bonded"));
-    document.getElementById("monthlylossvalue").appendChild(document.createTextNode(message.monthlyloss));
-    document.getElementById("monthlylosstext").appendChild(document.createTextNode(" friendships ruined"));
-    document.getElementById("joinedusersvalue").appendChild(document.createTextNode(message.joinedusers));
-    document.getElementById("joineduserstext").appendChild(document.createTextNode(" new accounts"));
-
     populateApprovedSuggestions(message.approvedsuggestions);
 }
 

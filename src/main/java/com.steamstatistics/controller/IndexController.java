@@ -48,6 +48,13 @@ public class IndexController {
     @Autowired
     TimeService timeService;
 
+    @GetMapping("/statistics")
+    public String getStatistics(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
+        controllerService.checkLogin(request, token, principal, model);
+
+        return "stats";
+    }
+
     @GetMapping(value = "/profile")
     public String getHomepage(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
         controllerService.checkLogin(request, token, principal, model);

@@ -1,53 +1,153 @@
-dl {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    position: relative;
-    padding: 20px;
+.graph-container,
+.graph-container div,
+.graph-container a,
+.graph-container span {
+    margin: 0;
+    padding: 0;
 }
 
-dt {
-    align-self: flex-start;
-    width: 100%;
-    font-weight: 700;
-    display: block;
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: 700;
-    margin-bottom: 20px;
-    margin-left: 130px;
+.test-disabled div {
+    background: none !important;
 }
 
-.desc {
-    font-weight: 600;
-    align-items: center;
-    height: 19px;
-    width: 130px;
+.inner-test {
+    border: 2px solid #707070;
     position: absolute;
-    left: 60px;
+    top: 0;
+    left: 4px;
+    bottom: 0;
+    margin: auto;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
 }
 
-.amount {
-    visibility: hidden;
+.graph-container > div {
+    position: absolute;
+    width: inherit;
+    height: inherit;
 }
 
-.percentage:hover .amount {
-    visibility: visible;
+.graph-container, #tooltip, .graph-info a {
+    background: #ffffff;
+    background: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f9f9f9));
+    background: -webkit-linear-gradient(top, #ffffff 0%,#f9f9f9 100%);
+    background: -o-linear-gradient(top, #ffffff 0%,#f9f9f9 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%,#f9f9f9 100%);
+    background: linear-gradient(to bottom, #ffffff 0%,#f9f9f9 100%);
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
 }
 
-.percentage {
-    font-size: .8em;
-    line-height: 1;
-    text-transform: uppercase;
-    height: 19px;
-    margin: 2px 2px 2px 130px;
-    background: #555;
-    -webkit-transition: background-color 0.5s linear;
-    -moz-transition: background-color 0.5s linear;
-    -o-transition: background-color 0.5s linear;
-    transition: background-color 0.5s linear;
+.graph-container {
+    position: relative;
+    width: 550px;
+    height: 300px;
+    padding: 20px;
+
+    -webkit-box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+    -moz-box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+    box-shadow: 0px 1px 2px rgba(0,0,0,.1);
 }
 
-.percentage:hover {
-    background: red;
+.flot-y-axis > .tickLabel {
+    left: 5px !important;
+}
+
+.flot-x-axis > .tickLabel {
+    top: 275px !important;
+}
+
+.graph-info {
+    width: 550px;
+    margin-bottom: 10px;
+}
+
+.graph-info a {
+    position: relative;
+    display: inline-block;
+    float: left;
+    padding: 7px 10px 5px 30px;
+    margin-right: 10px;
+    text-decoration: none;
+    cursor: default;
+}
+
+#graph-wrapper {
+    width: 640px;
+    margin: 0 auto;
+    text-shadow: none;
+    padding-bottom: 20px;
+}
+
+#lines, #bars {
+    width: 34px;
+    height: 32px;
+    padding: 0;
+    margin-right: 0;
+    margin-left: 10px;
+    border-bottom: 2px solid #71c73e;
+    float: right;
+    cursor: pointer;
+}
+
+#lines.active, #bars.active {
+    background: #82d344;
+    background: -moz-linear-gradient(top, #82d344 0%, #71c73e 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#82d344), color-stop(100%,#71c73e));
+    background: -webkit-linear-gradient(top, #82d344 0%,#71c73e 100%);
+    background: -o-linear-gradient(top, #82d344 0%,#71c73e 100%);
+    background: -ms-linear-gradient(top, #82d344 0%,#71c73e 100%);
+    background: linear-gradient(to bottom, #82d344 0%,#71c73e 100%);
+}
+
+#lines span, #bars span {
+    display: block;
+    width: 34px;
+    height: 32px;
+}
+
+.graph-info:before, .graph-info:after,
+.graph-container:before, .graph-container:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.graph-test {
+    box-sizing: inherit;
+}
+
+#tooltip {
+    position: absolute;
+    display: none;
+    padding: 5px 10px;
+    border: 1px solid #e1e1e1;
+}
+
+#tooltip, .graph-info a {
+    height: 20px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 20px;
+    color: #646464;
+
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.tickLabel {
+    font-weight: bold;
+    font-size: 12px;
+    color: #666;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

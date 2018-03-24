@@ -20,6 +20,10 @@ public class SteamProfileService {
         return steamProfileRepository.findSortedDonationList();
     }
 
+    public Long getProfileCount() {
+        return steamProfileRepository.count();
+    }
+
     public void save(SteamProfileEntity steamProfileEntity) {
         steamProfileRepository.save(steamProfileEntity);
     }
