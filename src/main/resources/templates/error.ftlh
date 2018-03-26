@@ -10,6 +10,13 @@
     2. Go back to the <a href="/">frontpage</a>.
 </div>
 <script>
+    removeLogin();
+    function removeLogin() {
+        var href = document.getElementById("steamhref");
+        if(href) {
+            href.parentNode.removeChild(href);
+        }
+    }
     function refresh() {
         location.reload();
     }
