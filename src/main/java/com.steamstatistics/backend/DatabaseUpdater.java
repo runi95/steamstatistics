@@ -56,39 +56,36 @@ public class DatabaseUpdater extends Thread {
     @Override
     public void run() {
         while(updating) {
+            //updateDB();
+
             LocalDateTime localDateTime = timeService.getLocalDateTimeFromUnix(timeService.getCurrentUnixTime());
             System.out.println(localDateTime.getYear() + "-" + localDateTime.getMonthValue() + "-" + localDateTime.getDayOfMonth() + " " + localDateTime.getHour() + ":" + localDateTime.getMinute() + ":" + localDateTime.getSecond() + " INFO --- [\tDatabaseUpdater");
             Iterable<SteamProfileEntity> getAllProfiles = steamProfileService.getAll();
             Iterator<SteamProfileEntity> profileIterator = getAllProfiles.iterator();
 
+            List<SteamProfileToFriendEntity> steamFriendsToCheck = new ArrayList<>();
+            long yesterday = timeService.getYesterdayUnixTime();
+            List<Long> steamFriendsToUpdate = steamFriendService.findAllByUpdatetimeLessThanEpochAndReturnAsId(yesterday);
+
             while(profileIterator.hasNext()) {
                 SteamProfileEntity profile = profileIterator.next();
 
                 long lastUpdated = profile.getLastupdate();
-                long yesterday = timeService.getYesterdayUnixTime();
 
                 if(lastUpdated < yesterday) {
                     List<Map<String, Object>> friendsList = steamAPICaller.getFriendList(steamOpenIdConfig.getClientSecret(), profile.getSteamid());
                     Map<Long, SteamProfileToFriendEntity> processedFriendsList = steamHandler.processFriendsList(friendsList, profile.getSteamid());
                     profile.setLastupdate(timeService.getCurrentUnixTime());
                     steamProfileService.save(profile);
-                    steamProfileToFriendService.updateFriendsList(processedFriendsList, profile.getSteamid());
+                    Map<Long, SteamProfileToFriendEntity> updateFriendsList = steamProfileToFriendService.updateFriendsList(processedFriendsList, profile.getSteamid())[0];
+                    updateFriendsList.values().forEach((x) -> steamFriendsToCheck.add(x));
                 }
             }
 
-            Iterable<SteamFriendEntity> getAllFriends = steamFriendService.getAll();
-            Iterator<SteamFriendEntity> friendIterator = getAllFriends.iterator();
-
-            List<Long> steamFriendsToUpdate = new ArrayList<>();
-            while (friendIterator.hasNext()) {
-                SteamFriendEntity friend = friendIterator.next();
-
-                long lastUpdated = friend.getUpdatetime();
-                long yesterday = timeService.getYesterdayUnixTime();
-
-                if (lastUpdated < yesterday) {
-                    steamFriendsToUpdate.add(friend.getSteamid());
-                }
+            for(SteamProfileToFriendEntity s : steamFriendsToCheck) {
+                SteamFriendEntity steamFriendEntity = steamFriendService.get(s.getSteamfriendid());
+                if(steamFriendEntity == null)
+                    steamFriendsToUpdate.add(s.getSteamfriendid());
             }
 
             List<Map<String, Object>> list = steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), steamFriendsToUpdate);
@@ -102,4 +99,22 @@ public class DatabaseUpdater extends Thread {
             }
         }
     }
+
+    // TODO: Figure out if DatabaseUpdater finally works so this method can be safely removed.
+    /*
+    private void updateDB() {
+        List<SteamProfileToFriendEntity> templist = steamProfileToFriendService.getAll();
+        List<Long> update = new ArrayList<>();
+        for(SteamProfileToFriendEntity s : templist) {
+            SteamFriendEntity test = steamFriendService.get(s.getSteamfriendid());
+            if(test == null) {
+                update.add(s.getSteamfriendid());
+            }
+        }
+
+        List<Map<String, Object>> list = steamAPICaller.getPlayerSummaries(steamOpenIdConfig.getClientSecret(), update);
+        Map<Long, SteamFriendEntity> mappedProfiles = steamHandler.processSteamProfiles(list);
+        steamFriendService.saveAll(mappedProfiles.values());
+    }
+    */
 }
