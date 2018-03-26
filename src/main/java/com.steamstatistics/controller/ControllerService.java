@@ -35,9 +35,12 @@ public class ControllerService {
         return false;
     }
 
-    public void checkLogin(HttpServletRequest request, String token, Principal principal, Model model) {
+    public String checkLogin(HttpServletRequest request, String token, Principal principal, Model model) {
+        String steamid = null;
+
         if(principal != null) {
             model.addAttribute("steamid", principal.getName());
+            steamid = principal.getName();
         } else if(token != null && !token.isEmpty()) {
             UserPrincipal userPrincipal = steamUserDetailsService.loadByToken(token);
 
@@ -46,9 +49,14 @@ public class ControllerService {
                 auth.setDetails(new WebAuthenticationDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
-                model.addAttribute("steamid", Long.toString(userPrincipal.getSteamId()));
+                String parsedSteamid = Long.toString(userPrincipal.getSteamId());
+                model.addAttribute("steamid", parsedSteamid);
+
+                steamid = parsedSteamid;
             }
         }
+
+        return steamid;
     }
 
     public Long getSteamid(String token, Principal principal) {
