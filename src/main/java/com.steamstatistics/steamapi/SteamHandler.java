@@ -89,8 +89,12 @@ public class SteamHandler {
         steamFriendEntity.setAvatarmedium((String) profile.get("avatarmedium"));
         steamFriendEntity.setAvatarfull((String) profile.get("avatarfull"));
         steamFriendEntity.setCommunityvisibilitystate(Integer.toString((int)profile.get("communityvisibilitystate")));
-        steamFriendEntity.setLastlogoff((Integer) profile.get("lastlogoff"));
-        steamFriendEntity.setPrimaryclanid((String) profile.get("primaryclanid"));
+        Object lastlogoff = profile.get("lastlogoff");
+        if(lastlogoff != null)
+            steamFriendEntity.setLastlogoff((int)lastlogoff);
+        Object primaryclanid = profile.get("primaryclanid");
+        if(primaryclanid != null)
+            steamFriendEntity.setPrimaryclanid((String)primaryclanid);
         Object timeCreated = profile.get("timecreated");
         if(timeCreated != null)
             steamFriendEntity.setTimecreated((int)timeCreated);
