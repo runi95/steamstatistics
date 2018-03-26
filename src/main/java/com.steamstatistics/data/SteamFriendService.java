@@ -40,6 +40,14 @@ public class SteamFriendService {
         return steamFriendRepository.findBySteamidIsIn(steamidList);
     }
 
+    public List<SteamFriendEntity> findAllByUpdatetimeLessThan(long epoch) {
+        return steamFriendRepository.findAllByUpdatetimeLessThan(epoch);
+    }
+
+    public List<Long> findAllByUpdatetimeLessThanEpochAndReturnAsId(long epoch) {
+        return steamFriendRepository.findAllByUpdatetimeGreaterThanAndReturnId(epoch);
+    }
+
     public Iterable<SteamFriendEntity> getAll() {
         return steamFriendRepository.findAll();
     }
