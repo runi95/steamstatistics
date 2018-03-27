@@ -188,11 +188,6 @@ public class SteamRestController {
 
         search.forEach((x) -> list.add(x));
 
-        System.out.println("search for " + srch + " resulted in:");
-        for(SteamFriendEntity s : list) {
-            System.out.println(s.getSteamid());
-        }
-
         return controllerService.convertObjectToJson(new RestMessageModel("", "", list));
     }
 
