@@ -218,6 +218,5 @@
     </div>
 </div>
 <div style="padding-bottom: 10px"></div>
-<script src="js/steamstatistics.js"></script>
 <script src="js/frontpage.js"></script>
 </@m.master>

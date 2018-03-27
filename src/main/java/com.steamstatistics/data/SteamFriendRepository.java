@@ -17,4 +17,7 @@ public interface SteamFriendRepository extends CrudRepository<SteamFriendEntity,
 
     @Query("SELECT s.steamid FROM SteamFriendEntity s WHERE s.updatetime > ?1")
     List<Long> findAllByUpdatetimeGreaterThanAndReturnId(long updatetime);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM steamfriend WHERE personname ~* ?1")
+    List<SteamFriendEntity> findByPersonanameMatchesRegex(String match);
 }

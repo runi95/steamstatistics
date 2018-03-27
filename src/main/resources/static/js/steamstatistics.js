@@ -275,6 +275,11 @@ function requestProfile() {
     });
 }
 
+function search() {
+    var srch = document.getElementById("srchinput").value;
+    $(location).attr('href', '/search/' + srch);
+}
+
 function setActiveNav(navid) {
     document.getElementById(navid).setAttribute("class", "active");
 

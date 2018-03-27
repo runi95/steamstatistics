@@ -165,6 +165,37 @@ public class SteamRestController {
         return controllerService.convertObjectToJson(new RestMessageModel("200", "getfullprofile", map));
     }
 
+    @RequestMapping("/getsearch/{srch}")
+    public String getSearch(@PathVariable String srch) {
+        Long srchParsed = null;
+        try {
+            srchParsed = Long.parseLong(srch);
+        } catch (NumberFormatException e) {
+            //e.printStackTrace();
+        }
+
+        SteamFriendEntity temp = null;
+        if(srchParsed != null) {
+            temp = steamFriendService.get(srchParsed);
+        }
+
+        List<SteamFriendEntity> list = new ArrayList<>();
+
+        if(temp != null)
+            list.add(temp);
+
+        List<SteamFriendEntity> search = steamFriendService.search(srch);
+
+        search.forEach((x) -> list.add(x));
+
+        System.out.println("search for " + srch + " resulted in:");
+        for(SteamFriendEntity s : list) {
+            System.out.println(s.getSteamid());
+        }
+
+        return controllerService.convertObjectToJson(new RestMessageModel("", "", list));
+    }
+
     @RequestMapping("/getfullprofile/{steamid}")
     public String getFullProfileOfTarget(@CookieValue(value = "token", required = false) String token, Principal principal, @PathVariable String steamid) {
         Long principalSteamid = controllerService.getSteamid(token, principal);

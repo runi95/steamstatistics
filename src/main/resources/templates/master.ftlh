@@ -9,8 +9,10 @@
     <meta name="author" content="">
     <meta name="steamid" content="<#if steamid??>${steamid}</#if>">
     <meta name="request_steamid" content="<#if request_steamid??>${request_steamid}</#if>">
-    <meta name="csrf_name" content="<#if _csrf.parameterName??>${_csrf.parameterName}</#if>">
-    <meta name="csrf_value" content="<#if _csrf.token??>${_csrf.token}</#if>">
+    <#if _csrf??>
+        <meta name="csrf_name" content="<#if _csrf.parameterName??>${_csrf.parameterName}</#if>">
+        <meta name="csrf_value" content="<#if _csrf.token??>${_csrf.token}</#if>">
+    </#if>
 
     <title>Steam Users.info</title>
 
@@ -32,6 +34,8 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/js/steamstatistics.js"></script>
 </head>
 <body>
 <noscript><h2 style="color: #ff0000">Javascript is required to view this website, please enable Javascript and refresh
@@ -59,6 +63,16 @@
                         <li id="profilenav"><a href="/login">Profile</a></li>
                     </#if>
                     <li id="statisticsnav"><a href="/statistics">Statistics</a></li>
+                    <div class="navbar-form navbar-left">
+                    <form class="input-group" onsubmit="search(); return false;">
+                        <input id="srchinput" type="text" class="form-control" placeholder="Search">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    </div>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <#if steamid??>

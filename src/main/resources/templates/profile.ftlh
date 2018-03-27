@@ -63,6 +63,5 @@
 <div class="footer" style="color: rgb(100,100,100)">
     *All data is cached and updates once every hour
 </div>
-<script src="/js/steamstatistics.js"></script>
 <script src="/js/profile.js"></script>
 </@m.master>

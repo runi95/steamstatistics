@@ -51,4 +51,8 @@ public class SteamFriendService {
     public Iterable<SteamFriendEntity> getAll() {
         return steamFriendRepository.findAll();
     }
+
+    public List<SteamFriendEntity> search(String expr) {
+        return steamFriendRepository.findByPersonanameMatchesRegex(expr);
+    }
 }

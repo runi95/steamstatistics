@@ -1,5 +1,7 @@
 package com.steamstatistics.controller;
 
+import com.steamstatistics.data.SteamFriendEntity;
+import com.steamstatistics.data.SteamFriendService;
 import com.steamstatistics.data.SuggestionEntity;
 import com.steamstatistics.data.SuggestionService;
 import com.steamstatistics.steamapi.TimeService;
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +50,16 @@ public class IndexController {
 
     @Autowired
     TimeService timeService;
+
+    @Autowired
+    SteamFriendService steamFriendService;
+
+    @GetMapping("/search/{srch}")
+    public String test(Model model, @PathVariable String srch) {
+        model.addAttribute("srch", srch);
+
+        return "search";
+    }
 
     @GetMapping("/statistics")
     public String getStatistics(HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
