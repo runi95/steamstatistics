@@ -1,17 +1,11 @@
 package com.steamstatistics.controller;
 
-import com.steamstatistics.backend.OpenIdSession;
 import com.steamstatistics.backend.SteamOpenId;
 import com.steamstatistics.backend.SteamOpenIdConfig;
-import com.steamstatistics.backend.SteamOpenIdMockup;
-import com.steamstatistics.data.SteamProfileEntity;
 import com.steamstatistics.data.SteamProfileService;
 import com.steamstatistics.userauth.*;
-import org.openid4java.message.AuthRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
@@ -21,11 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 @Controller
 public class AuthController {

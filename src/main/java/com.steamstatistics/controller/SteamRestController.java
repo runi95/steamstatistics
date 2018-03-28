@@ -1,10 +1,10 @@
 package com.steamstatistics.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.steamstatistics.backend.SteamOpenIdConfig;
 import com.steamstatistics.data.*;
-import com.steamstatistics.steamapi.*;
+import com.steamstatistics.steamapi.SteamAPICaller;
+import com.steamstatistics.steamapi.SteamHandler;
+import com.steamstatistics.steamapi.TimeService;
 import com.steamstatistics.userauth.SteamUserDetailsService;
 import com.steamstatistics.userauth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;

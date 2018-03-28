@@ -1,8 +1,6 @@
 package com.steamstatistics.steamapi;
 
-import com.steamstatistics.data.SteamFriendEntity;
 import org.springframework.boot.json.JacksonJsonParser;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -10,7 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SteamAPICaller {

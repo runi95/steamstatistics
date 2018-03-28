@@ -1,12 +1,10 @@
 package com.steamstatistics.data;
 
-import com.steamstatistics.backend.LongestFriendship;
 import com.steamstatistics.backend.SteamProfileToFriendsEntityComparator;
 import com.steamstatistics.steamapi.TimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service

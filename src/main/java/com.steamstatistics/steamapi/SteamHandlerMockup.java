@@ -1,12 +1,6 @@
 package com.steamstatistics.steamapi;
 
-import com.steamstatistics.backend.SteamOpenIdConfig;
-import com.steamstatistics.data.SteamFriendEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
 
 @Service
 public class SteamHandlerMockup {

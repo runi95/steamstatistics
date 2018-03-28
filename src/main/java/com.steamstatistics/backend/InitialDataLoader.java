@@ -1,6 +1,8 @@
 package com.steamstatistics.backend;
 
-import com.steamstatistics.userauth.*;
+import com.steamstatistics.userauth.Role;
+import com.steamstatistics.userauth.RoleRepository;
+import com.steamstatistics.userauth.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
