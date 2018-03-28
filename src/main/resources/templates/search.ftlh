@@ -3,6 +3,8 @@
 <h3>Search is still under development!</h3>
 <div id="divdiv"></div>
 <script>
+    var searchList = {};
+
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -15,7 +17,10 @@
     load();
     function load(list) {
         for(var i in list) {
-            addFriend(list[i], "", "yellow", "divdiv");
+            if(!searchList.hasOwnProperty(list[i].steamid)) {
+                searchList[list[i].steamid] = list[i];
+                addFriend(list[i], "", "yellow", "divdiv");
+            }
         }
     }
 </script>

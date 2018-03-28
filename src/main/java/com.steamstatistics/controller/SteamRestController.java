@@ -166,7 +166,9 @@ public class SteamRestController {
     }
 
     @RequestMapping("/getsearch/{srch}")
-    public String getSearch(@PathVariable String srch) {
+    public String getSearch(@PathVariable String srch, @CookieValue(value = "token", required = false) String token, Principal principal) {
+        Long steamid = controllerService.getSteamid(token, principal);
+
         Long srchParsed = null;
         try {
             srchParsed = Long.parseLong(srch);
@@ -185,7 +187,28 @@ public class SteamRestController {
             list.add(temp);
 
         List<SteamFriendEntity> search = steamFriendService.search(srch);
+        Map<Long, SteamProfileToFriendEntity> friends = steamProfileToFriendService.getAllFriends(steamid);
 
+        List<SteamFriendEntity> matchedFriends = new ArrayList<>();
+        List<SteamFriendEntity> matchedFriendFriends = new ArrayList<>();
+        for(Long i : friends.keySet()) {
+            for(int j = 0; j < search.size(); j++) {
+                if(friends.containsKey(search.get(j).getSteamid())) {
+                    matchedFriends.add(search.get(j));
+                    //System.out.println(friends.get(search.get(j).getSteamid()).getSteamfriendid() + " is your friend!");
+                }
+            }
+            Map<Long, SteamProfileToFriendEntity> friendfriend = steamProfileToFriendService.getAllFriends(i);
+            for(int k = 0; k < search.size(); k++) {
+                if(friendfriend.containsKey(search.get(k).getSteamid())) {
+                    matchedFriendFriends.add(search.get(k));
+                    //System.out.println(friendfriend.get(search.get(k).getSteamid()).getSteamfriendid() + " is your friend's friend!");
+                }
+            }
+        }
+
+        matchedFriends.forEach((x) -> list.add(x));
+        matchedFriendFriends.forEach((x) -> list.add(x));
         search.forEach((x) -> list.add(x));
 
         return controllerService.convertObjectToJson(new RestMessageModel("", "", list));
