@@ -36,7 +36,8 @@ public class IndexController {
     SteamFriendService steamFriendService;
 
     @GetMapping("/search/{srch}")
-    public String test(Model model, @PathVariable String srch) {
+    public String test(@PathVariable String srch, HttpServletRequest request, @CookieValue(value = "token", required = false) String token, Principal principal, Model model) {
+        controllerService.checkLogin(request, token, principal, model);
         model.addAttribute("srch", srch);
 
         return "search";
