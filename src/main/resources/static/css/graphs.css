@@ -10,7 +10,7 @@
     background: none !important;
 }
 
-.inner-test {
+.inner-toggle {
     border: 2px solid #707070;
     position: absolute;
     top: 0;
@@ -80,7 +80,7 @@
     cursor: default;
 }
 
-#graph-wrapper {
+.graph-wrapper {
     width: 640px;
     margin: 0 auto;
     text-shadow: none;

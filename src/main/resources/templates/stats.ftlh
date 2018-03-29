@@ -20,36 +20,10 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-6">
+    <div class="col-sm-6">
         <div class="box">
             <h3>Average User Friendships</h3>
-            <div id="graph-wrapper">
-                <div class="graph-info">
-                    <a id="datatoggle0" href="javascript:datatoggle('0')">
-                        <div class="inner-test" style="background: #66afaf;"></div>
-                        Average Gained
-                    </a>
-                    <a id="datatoggle1" href="javascript:datatoggle('1')">
-                        <div class="inner-test" style="background: #ffa076;"></div>
-                        Average Lost
-                    </a>
-                    <a id="datatoggle2" href="javascript:datatoggle('2')">
-                        <div class="inner-test" style="background: #76df76;"></div>
-                        Personal Gained
-                    </a>
-                    <a id="datatoggle3" href="javascript:datatoggle('3')">
-                        <div class="inner-test" style="background: #df5656;"></div>
-                        Personal Lost
-                    </a>
-                </div>
-                <div class="graph-container">
-                    <div id="graph-lines">
-                        <canvas class="base" width="550" height="300"></canvas>
-                        <canvas class="overlay" width="550" height="300"
-                                style="position: absolute; left: 0px; top: 0px;"></canvas>
-                    </div>
-                </div>
-            </div>
+            <div id="graphdiv"></div>
         </div>
     </div>
 </div>
