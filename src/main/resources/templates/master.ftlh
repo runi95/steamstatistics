@@ -63,7 +63,7 @@
                         <li id="profilenav"><a href="/login">Profile</a></li>
                     </#if>
                     <li id="statisticsnav"><a href="/statistics">Statistics</a></li>
-                    <div class="navbar-form navbar-left">
+                    <div class="navbar-form navbar-left" style="margin-left: 16px; margin-right: 16px;">
                     <form class="input-group" onsubmit="search(); return false;">
                         <input id="srchinput" type="text" class="form-control" placeholder="Search">
                         <div class="input-group-btn">
