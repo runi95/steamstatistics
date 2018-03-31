@@ -112,6 +112,24 @@ public class SteamAPICaller {
         return players;
     }
 
+    // TODO: Make this work properly
+    public String getPlayerInventory(String steamid) {
+        if(steamid == null)
+            return null;
+
+        String appid = "753"; // appid for Steam
+        String itemsearchid = "6";
+        /**
+         * 1 is for coupons and 6 is for everything else
+         * as far as I understood it, can't find any API documentation on it,
+         * Valve really doesn't want to document stuff.
+         */
+        String count = "5000"; // maximum amount you can get at a time.
+        String read = readUrl("http://steamcommunity.com/inventory/" + steamid + "/" + appid + "/" + itemsearchid + "?l=english&count=" + count);
+
+        return read;
+    }
+
     public Map<String, Object> parseJson(String json) {
         return jacksonJsonParser.parseMap(json);
     }
