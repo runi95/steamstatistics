@@ -5,7 +5,6 @@
 .banner {
     border-radius: 5px;
     position: relative;
-    left: -50%;
     padding: 10px 0 10px 0;
     font-size: 1.25em;
 }
