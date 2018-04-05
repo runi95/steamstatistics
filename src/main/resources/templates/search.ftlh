@@ -1,6 +1,7 @@
 <#import "master.ftlh" as m/>
 <@m.master>
 <h3>Search is still under development!</h3>
+<div id="loader" class="loader" style="position: relative; margin: 0 auto;"></div>
 <div id="divdiv"></div>
 <script>
     var searchList = {};
@@ -11,10 +12,12 @@
         url: "/getsearch/${srch}",
         success: function (data) {
             load(data.message);
+        },
+        complete: function () {
+            document.getElementById("loader").setAttribute("class", "");
         }
     });
 
-    load();
     function load(list) {
         for(var i in list) {
             if(!searchList.hasOwnProperty(list[i].steamid)) {
