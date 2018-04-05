@@ -13,7 +13,7 @@
             <div class="profileHeaderBackground">
                 <div class="profileHeader">
                     <div class="profileHeaderContent">
-                        <div style="position: absolute; display: block; right: 10px;">
+                        <div style="position: absolute; display: block; right: 0;">
                             <a href="http://steamcommunity.com/profiles/${request_steamid}" style="color: rgba(120, 120, 120, 0.7);">Steam profile</a>
                         </div>
                         <div class="row">
