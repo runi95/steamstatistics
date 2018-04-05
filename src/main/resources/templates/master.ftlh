@@ -40,7 +40,7 @@
 <body>
 <noscript><h2 style="color: #ff0000">Javascript is required to view this website, please enable Javascript and refresh
     the page</h2></noscript>
-<div style="position: fixed; left: 0; right: 0;">
+<div style="position: fixed; left: 0; right: 0; z-index: 100;">
     <div id="infobanner" class="banner"></div>
 </div>
 <div style="padding-bottom: 60px;">
