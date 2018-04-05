@@ -15,7 +15,7 @@ public interface SteamProfileToFriendRepository  extends CrudRepository<SteamPro
     @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND s.removeDate = 0 AND s IN :steamidList ORDER BY s.friendsince DESC")
     List<SteamProfileToFriendEntity> compareFriendsList(List<SteamProfileToFriendEntity> steamidList);
 
-    @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND NOT s.removeDate = 0")
+    @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE s.steamprofileid = ?1 AND NOT s.removeDate = 0 ORDER BY s.removeDate DESC")
     List<SteamProfileToFriendEntity> findByRemoveDateNotNullAndSteamidOrderByRemoveDateDesc(long steamprofileid);
 
     @Query("SELECT s FROM SteamProfileToFriendEntity s WHERE NOT s.steamprofileid = 0 AND s.removeDate = 0 ORDER BY s.friendsince ASC")
