@@ -267,9 +267,8 @@ function requestProfile() {
         url: "/getfullprofile/" + request_steamid,
         success: function (data) {
             processStatus(data);
-            document.getElementById("loader").setAttribute("class", "");
         },
-        fail: function () {
+        complete: function () {
             document.getElementById("loader").setAttribute("class", "");
         }
     });
