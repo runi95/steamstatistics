@@ -1,8 +1,12 @@
 <#import "master.ftlh" as m/>
 <@m.master>
 <h3>Search is still under development!</h3>
-<div id="loader" class="loader" style="position: relative; margin: 0 auto;"></div>
-<div id="divdiv"></div>
+<div class="col-sm-6 col-sm-offset-3 col-xs-12">
+    <div class="box">
+        <div id="loader" class="loader" style="position: relative; margin: 0 auto;"></div>
+        <div id="divdiv"></div>
+    </div>
+</div>
 <script>
     var searchList = {};
 
@@ -19,8 +23,8 @@
     });
 
     function load(list) {
-        for(var i in list) {
-            if(!searchList.hasOwnProperty(list[i].steamid)) {
+        for (var i in list) {
+            if (!searchList.hasOwnProperty(list[i].steamid)) {
                 searchList[list[i].steamid] = list[i];
                 addFriend(list[i], "", "yellow", "divdiv");
             }
