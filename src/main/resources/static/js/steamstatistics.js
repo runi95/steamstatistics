@@ -42,7 +42,7 @@ function seemorebtn(btn) {
             friendshipsstartedindex = loadFriends(friendshipsstarted.length, friendshipsstarted, friendshipsstartedindex, "yellow", "added");
             break;
         case "ended":
-            friendshipsendedindex = loadFriends(friendshipsended.length, friendshipsended, friendshipsendedindex, "removed", "removed");
+            friendshipsendedindex = loadFriends(friendshipsended.length, friendshipsended, friendshipsendedindex, "red", "removed");
             break;
     }
     
