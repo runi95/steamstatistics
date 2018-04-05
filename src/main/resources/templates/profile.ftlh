@@ -9,7 +9,7 @@
             </dd>
         </div>
         <div class="col-xs-12" style="padding-right: auto;">
-            <div id="loader" class="loader" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto; height: 68px; width: 68px;"></div>
+            <div id="loader" class="loader" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto; height: 68px; width: 68px; z-index: 100;"></div>
             <div class="profileHeaderBackground">
                 <div class="profileHeader">
                     <div class="profileHeaderContent">
