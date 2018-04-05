@@ -110,7 +110,7 @@ $.ajax({
 
             plotMyData(datalist);
         } else {
-            graphdiv.setAttribute("class", "container");
+            graphdiv.setAttribute("style", "padding-left: 10px; padding-right: 10px;");
             var table = document.createElement("table");
             var thead = document.createElement("thead");
             var theadTr = document.createElement("tr");
