@@ -8,7 +8,7 @@
     </div>
 </div>
 <script>
-    var searchList = [];
+    var searchList = {};
 
     $.ajax({
         type: "GET",
@@ -23,14 +23,16 @@
     });
 
     function load(list) {
+        var isEmpty = true;
         for (var i in list) {
+            isEmpty = false;
             if (!searchList.hasOwnProperty(list[i].steamid)) {
                 searchList[list[i].steamid] = list[i];
                 addFriend(list[i], "", "yellow", "divdiv");
             }
         }
 
-        if(!searchList.length > 0) {
+        if(isEmpty) {
             banner("#b63e3e", "remove", "No users found!");
         }
     }
